@@ -115,7 +115,17 @@
             <a class="btn btn-primary btn-lg" href="#contact">Get your site for $499 <svg class="btn-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="btn btn-ghost btn-lg" href="#examples">See example sites</a>
           </div>
-          <p class="hero-trust"><span>First design in days</span><span>You own everything</span><span>Real humans, plain English</span></p>
+          <div class="voice hero-voice" data-voice>
+            <button class="voice-btn" type="button" aria-label="Play a message from Marv" aria-pressed="false">
+              <svg class="voice-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+              <svg class="voice-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+            </button>
+            <div class="voice-body">
+              <p class="voice-label">Hear it from Marv <span class="voice-time"><span data-voice-current>0:00</span> / <span data-voice-total>2:03</span></span></p>
+              <div class="voice-track" role="slider" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><i></i></div>
+            </div>
+            <audio preload="metadata" src="assets/marv.mp3"></audio>
+          </div>
         </div>
 
       </div>
@@ -606,17 +616,6 @@
         <div class="who-grid">
           <figure class="card founder" data-reveal style="--i:0">
             <blockquote><p>&ldquo;I started Digital Doorway Marketing after watching too many good local businesses get talked into websites that cost a fortune and took months, or give up and make do with a Facebook page. One fair price, one real front door, done properly. That's the whole idea.&rdquo;</p></blockquote>
-            <div class="voice" data-voice>
-              <button class="voice-btn" type="button" aria-label="Play a message from Marv" aria-pressed="false">
-                <svg class="voice-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
-                <svg class="voice-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
-              </button>
-              <div class="voice-body">
-                <p class="voice-label">Hear it from Marv <span class="voice-time"><span data-voice-current>0:00</span> / <span data-voice-total>2:03</span></span></p>
-                <div class="voice-track" role="slider" aria-label="Playback position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><i></i></div>
-              </div>
-              <audio preload="metadata" src="assets/marv.mp3"></audio>
-            </div>
             <figcaption>
               <span class="medallion" aria-hidden="true">MR</span>
               <span class="who"><span class="name">Marv Reeves<svg class="name-swash" aria-hidden="true"><use href="#i-swash"/></svg></span><span class="role">Founder, Digital Doorway Marketing &middot; Seattle, WA</span></span>
