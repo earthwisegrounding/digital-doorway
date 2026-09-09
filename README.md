@@ -7,6 +7,7 @@ Static site, no build step. Files:
 - `script.js` — nav, scroll reveals, FAQ accordion, contact form validation
 - `showpiece.js` — the scroll-driven 3D doorway section (uses Three.js r128 from cdnjs; falls back to a static frame under reduced motion and to a plain gradient without WebGL)
 - `assets/marv.mp3` — the founder's voice note, played by the custom player in the "Who's behind the door" section
+- `marv.js` + `assets/marv.glb` — the animated Marv character (strut in, dance while the voice note plays, strut out)
 - `assets/door.glb` — the scanned front door used in that section (2 MB, loaded only when the section is near). It is a single mesh, so the script splits leaf from frame with GPU clipping planes and hinges the leaf on the left.
 
 ## Preview locally
