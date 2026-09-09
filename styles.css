@@ -930,3 +930,12 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .showpiece.is-static .sp-progress, .showpiece.is-static .sp-hint { display: none; }
 .showpiece.is-static .showpiece-canvas { background: radial-gradient(70% 60% at 50% 45%, rgba(224,165,38,.35), transparent 70%), #1E1712; }
 @media (prefers-reduced-motion: reduce) { .sp-hint::after { animation: none; } .sp-step { transition: none; } }
+
+/* phones: keep the wordmark and menu button inside the screen */
+@media (max-width: 479px) {
+  .nav-inner { gap: .5rem; }
+  .logo { gap: .4rem; }
+  .logo-word { font-size: clamp(.95rem, 4.6vw, 1.2rem); }
+  .logo-mark { width: 28px; height: 28px; flex: none; }
+}
+html { overflow-x: clip; }
