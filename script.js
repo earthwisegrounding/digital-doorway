@@ -352,4 +352,31 @@
   /* ---------- Footer year ---------- */
   var year = document.querySelector('[data-year]');
   if (year) year.textContent = String(new Date().getFullYear());
+
+  /* ---------- Voice note player ---------- */
+  document.querySelectorAll('[data-voice]').forEach(function (box) {
+    var audio = box.querySelector('audio'), btn = box.querySelector('.voice-btn'), track = box.querySelector('.voice-track');
+    var cur = box.querySelector('[data-voice-current]'), tot = box.querySelector('[data-voice-total]');
+    if (!audio || !btn || !track) return;
+    function fmt(s) { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2); }
+    function paint() {
+      var d = audio.duration || 0, p = d ? (audio.currentTime / d) * 100 : 0;
+      track.style.setProperty('--p', p.toFixed(2) + '%'); track.setAttribute('aria-valuenow', Math.round(p));
+      cur.textContent = fmt(audio.currentTime);
+    }
+    audio.addEventListener('loadedmetadata', function () { if (audio.duration) tot.textContent = fmt(audio.duration); });
+    audio.addEventListener('timeupdate', paint);
+    audio.addEventListener('play', function () { box.classList.add('is-playing'); btn.setAttribute('aria-pressed', 'true'); btn.setAttribute('aria-label', 'Pause the message from Marv'); });
+    audio.addEventListener('pause', function () { box.classList.remove('is-playing'); btn.setAttribute('aria-pressed', 'false'); btn.setAttribute('aria-label', 'Play a message from Marv'); });
+    audio.addEventListener('ended', function () { audio.currentTime = 0; paint(); });
+    btn.addEventListener('click', function () { if (audio.paused) { audio.play(); } else { audio.pause(); } });
+    function seekTo(clientX) { var r = track.getBoundingClientRect(); var f = Math.min(1, Math.max(0, (clientX - r.left) / r.width)); if (audio.duration) { audio.currentTime = f * audio.duration; paint(); } }
+    track.addEventListener('click', function (e) { seekTo(e.clientX); });
+    track.addEventListener('keydown', function (e) {
+      if (!audio.duration) return;
+      if (e.key === 'ArrowRight') { audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); paint(); e.preventDefault(); }
+      else if (e.key === 'ArrowLeft') { audio.currentTime = Math.max(0, audio.currentTime - 5); paint(); e.preventDefault(); }
+      else if (e.key === ' ' || e.key === 'Enter') { btn.click(); e.preventDefault(); }
+    });
+  });
 })();

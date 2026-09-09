@@ -939,3 +939,20 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .logo-mark { width: 28px; height: 28px; flex: none; }
 }
 html { overflow-x: clip; }
+
+/* ---------- Voice note from the founder ---------- */
+.voice { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.1rem; border: 1.5px solid var(--rule); border-radius: var(--radius); background: var(--surface-2); }
+.voice-btn { flex: none; width: 52px; height: 52px; border-radius: 50%; border: 0; background: var(--grad-terracotta); color: #FFFDF8; display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow-sm); transition: transform .25s var(--ease-out), box-shadow .25s; }
+.voice-btn:hover { transform: translateY(-1px); box-shadow: 3px 3px 0 var(--mustard), var(--shadow-sm); }
+.voice-btn:focus-visible { outline: 3px solid var(--mustard); outline-offset: 3px; }
+.voice-btn svg { width: 22px; height: 22px; fill: currentColor; }
+.voice-btn .voice-pause, .voice.is-playing .voice-btn .voice-play { display: none; }
+.voice.is-playing .voice-btn .voice-pause { display: block; }
+.voice-body { flex: 1; min-width: 0; }
+.voice-label { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font: 600 .9375rem/1.2 var(--sans); color: var(--ink); margin-bottom: .55rem; }
+.voice-time { font-weight: 500; font-size: .8125rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.voice-track { position: relative; height: 8px; border-radius: 4px; background: var(--bg-2); cursor: pointer; }
+.voice-track:focus-visible { outline: 2px solid var(--mustard); outline-offset: 3px; }
+.voice-track i { position: absolute; left: 0; top: 0; bottom: 0; width: var(--p, 0%); border-radius: 4px; background: var(--mustard); }
+.voice-track::after { content: ""; position: absolute; top: 50%; left: var(--p, 0%); width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 2px solid var(--surface-2); transform: translate(-50%, -50%); box-shadow: var(--shadow-sm); }
+.voice.is-playing .voice-track i { background: linear-gradient(90deg, var(--mustard), var(--accent)); }
