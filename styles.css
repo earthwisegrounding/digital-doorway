@@ -960,3 +960,20 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 /* keep decorative overflow from widening the page on phones */
 #pricing { overflow-x: clip; }
 @media (max-width: 639px) { .cta-door { margin-left: 0; } }
+
+/* ---------- What's included: a numbered build sheet ---------- */
+.included-grid { display: grid; gap: clamp(2rem, 4vw, 3.5rem) clamp(2.5rem, 6vw, 6rem); align-items: start; }
+.included-head { margin-bottom: 0; }
+@media (min-width: 900px) {
+  .included-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
+  .included-head { position: sticky; top: calc(var(--nav-h) + 1.5rem); }
+  .included-grid .addons { grid-column: 2; }
+}
+.included-list { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--rule-strong); }
+.included-list li { display: grid; grid-template-columns: 3.25rem 1fr; gap: 1rem; align-items: start; padding: clamp(1.1rem, 2.2vw, 1.6rem) 0; border-bottom: 1.5px solid var(--rule); }
+.inc-num { font: 500 clamp(1.5rem, 2.2vw, 1.9rem)/1 var(--serif); font-variation-settings: "opsz" 72, "SOFT" 40; color: var(--accent); letter-spacing: -.02em; padding-top: .15rem; transition: transform .3s var(--ease-out); }
+.included-list li:hover .inc-num { transform: translateX(4px); }
+.inc-body h3 { font-size: clamp(1.25rem, 1.7vw, 1.55rem); margin-bottom: .35rem; }
+.inc-body p { color: var(--muted); font-size: 1rem; line-height: 1.55; max-width: 44ch; }
+.included-grid .addons { margin-top: clamp(1.25rem, 2.5vw, 2rem); }
+@media (max-width: 479px) { .included-list li { grid-template-columns: 2.6rem 1fr; gap: .7rem; } }
