@@ -59,6 +59,7 @@
       </a>
 
       <nav class="nav-links" aria-label="Primary">
+        <a href="#showcase">Showcase</a>
         <a href="#why">Why a website</a>
         <a href="#included">What's included</a>
         <a href="#examples">Examples</a>
@@ -81,6 +82,7 @@
 
   <div class="mobile-menu" id="mobile-menu" hidden>
     <nav class="mobile-links" aria-label="Mobile">
+      <a href="#showcase" style="--i:0">Showcase</a>
       <a href="#why" style="--i:0">Why a website</a>
       <a href="#included" style="--i:1">What's included</a>
       <a href="#examples" style="--i:2">Examples</a>
@@ -116,126 +118,38 @@
           <p class="hero-trust"><span>First design in days</span><span>You own everything</span><span>Real humans, plain English</span></p>
         </div>
 
-        <div class="hero-visual-wrap">
-          <div class="hero-visual" aria-hidden="true">
-            <svg class="door-scene" viewBox="0 0 520 640">
-              <defs>
-                <pattern id="brick" width="60" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M0 39.5H60" stroke="#D9CBB3" stroke-width="1" opacity=".35"/>
-                  <path d="M30 0v39.5M0 20h60" stroke="#D9CBB3" stroke-width="1" opacity=".18"/>
-                </pattern>
-                <clipPath id="archClip"><path d="M140 600V200a120 120 0 0 1 240 0v400z"/></clipPath>
-                <radialGradient id="doorLight" cx="50%" cy="45%" r="60%">
-                  <stop offset="0" stop-color="#E0A526" stop-opacity=".6"/>
-                  <stop offset=".45" stop-color="#E0A526" stop-opacity=".2"/>
-                  <stop offset="1" stop-color="#E0A526" stop-opacity="0"/>
-                </radialGradient>
-                <filter id="soft" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="8"/></filter>
-                <clipPath id="wallClip"><rect width="520" height="640" rx="24"/></clipPath>
-              </defs>
+      </div>
+    </section>
 
-              <!-- wall -->
-              <rect width="520" height="640" rx="24" fill="#EFE4D2"/>
-              <rect width="520" height="640" rx="24" fill="url(#brick)"/>
-
-              <!-- light spilling out -->
-              <g class="door-glow" clip-path="url(#wallClip)">
-                <rect x="-40" y="60" width="600" height="600" fill="url(#doorLight)"/>
-              </g>
-
-              <!-- shadow on floor -->
-              <ellipse cx="262" cy="606" rx="150" ry="12" fill="#1F1A14" opacity=".08" filter="url(#soft)"/>
-
-              <!-- casing (outer) -->
-              <path d="M128 606V200a132 132 0 0 1 264 0v406" fill="none" stroke="#D9CBB3" stroke-width="2" stroke-linecap="round"/>
-              <!-- doorway interior -->
-              <g clip-path="url(#archClip)">
-                <rect x="140" y="80" width="240" height="520" fill="#FDFAF3"/>
-                <rect x="140" y="80" width="240" height="520" fill="url(#doorLight)" opacity=".7"/>
-                <g class="door-site">
-                  <rect x="196" y="238" width="170" height="300" rx="10" fill="#FFFDF8" stroke="#D9CBB3" stroke-width="1.5"/>
-                  <path d="M196 248a10 10 0 0 1 10-10h150a10 10 0 0 1 10 10v26H196z" fill="#2E5B3E"/>
-                  <circle cx="210" cy="256" r="3" fill="#F6EFE3"/>
-                  <rect x="220" y="253" width="40" height="6" rx="3" fill="#F6EFE3" opacity=".9"/>
-                  <rect x="330" y="253" width="26" height="6" rx="3" fill="#F6EFE3" opacity=".5"/>
-                  <text x="234" y="316" font-family="Fraunces, Georgia, serif" font-size="24" font-weight="600" fill="#1F1A14" letter-spacing="-.5">Open</text>
-                  <text x="234" y="346" font-family="Fraunces, Georgia, serif" font-size="24" font-weight="600" fill="#1F1A14" letter-spacing="-.5">Tue&#8211;Sun</text>
-                  <rect x="212" y="366" width="136" height="7" rx="3.5" fill="#D9CBB3"/>
-                  <rect x="212" y="382" width="112" height="7" rx="3.5" fill="#D9CBB3"/>
-                  <rect x="212" y="398" width="88" height="7" rx="3.5" fill="#D9CBB3"/>
-                  <rect x="212" y="430" width="92" height="32" rx="16" fill="#C4552D"/>
-                  <rect x="228" y="443" width="60" height="6" rx="3" fill="#F6EFE3"/>
-                  <path d="M334 434c8 0 14 6 14 14 0 10-14 22-14 22s-14-12-14-22c0-8 6-14 14-14z" fill="none" stroke="#2E5B3E" stroke-width="2"/>
-                  <circle cx="334" cy="447" r="4" fill="#2E5B3E"/>
-                  <rect x="212" y="492" width="136" height="6" rx="3" fill="#EFE4D2"/>
-                  <rect x="212" y="506" width="100" height="6" rx="3" fill="#EFE4D2"/>
-                </g>
-              </g>
-              <!-- door frame -->
-              <path d="M140 600V200a120 120 0 0 1 240 0v400" fill="none" stroke="#1F1A14" stroke-width="3" stroke-linecap="round"/>
-              <!-- threshold / floor line -->
-              <path d="M40 602c70-2 140-1 210-1 90 0 160-1 240 1" fill="none" stroke="#1F1A14" stroke-width="2" stroke-linecap="round" opacity=".5"/>
-
-              <!-- welcome mat -->
-              <g transform="rotate(-1 262 610)">
-                <rect x="172" y="592" width="180" height="36" rx="6" fill="#E0A526" stroke="#1F1A14" stroke-width="2"/>
-                <rect x="180" y="599" width="164" height="22" rx="3" fill="none" stroke="#1F1A14" stroke-width="1.2" stroke-dasharray="3 4" opacity=".6"/>
-                <text x="262" y="616" text-anchor="middle" font-family="'Inter Tight', system-ui, sans-serif" font-size="12" font-weight="600" letter-spacing="3.5" fill="#1F1A14">WELCOME</text>
-              </g>
-
-              <!-- plant -->
-              <g class="hand plant" fill="none" stroke="#2E5B3E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M448 546c-3-22 3-40 16-56-7 16-11 32-10 52" pathLength="1"/>
-                <path d="M448 548c-14-8-22-24-20-46 12 10 20 24 22 44" pathLength="1"/>
-                <path d="M452 550c8-12 22-18 38-16-10 8-22 14-36 16" pathLength="1"/>
-                <path d="M450 538c-2-16-1-30 6-44" pathLength="1"/>
-              </g>
-              <g class="hand pot" fill="#C4552D" stroke="#1F1A14" stroke-width="2" stroke-linejoin="round">
-                <path d="M424 552h52l-5 46h-42z" pathLength="1"/>
-                <path d="M420 548c19-1 39-1 60 0v10c-20-1-40-1-60 0z" pathLength="1"/>
-              </g>
-
-              <!-- hanging sign -->
-              <g class="hand sign" fill="none" stroke="#1F1A14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M92 6c-2 34 0 66-10 100M92 6c12 40 10 70 18 100" pathLength="1" stroke="#6B5D4D" stroke-width="1.5"/>
-                <path d="M46 104c30-2 60-2 90 0 1 14 1 28-1 42-30 2-60 1-90-1-1-14-1-27 1-41z" pathLength="1" fill="#FDFAF3"/>
-              </g>
-              <text class="sign-text" x="91" y="133" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="22" fill="#1F1A14">open</text>
-
-              <!-- sparkles -->
-              <g class="hand sparkles" fill="none" stroke="#E0A526" stroke-width="2.5" stroke-linecap="round">
-                <path d="M262 30v16M252 40h20" pathLength="1"/>
-                <path d="M318 52l4 6M336 44l-6 5" pathLength="1"/>
-                <path d="M200 58l5-4M188 42l4 7" pathLength="1"/>
-              </g>
-            </svg>
-
-            <!-- door leaf, separate element so it can swing in 3D -->
-            <svg class="door-leaf" viewBox="140 80 240 520">
-              <path d="M140 600V200a120 120 0 0 1 240 0v400z" fill="#C4552D" stroke="#A8441F" stroke-width="2"/>
-              <path d="M148 592V200a112 112 0 0 1 224 0v392z" fill="none" stroke="#D2643A" stroke-width="1.5" opacity=".7"/>
-              <g fill="#CB5F36" stroke="#A8441F" stroke-width="2" stroke-linejoin="round">
-                <rect x="164" y="228" width="82" height="154" rx="6"/>
-                <rect x="258" y="228" width="82" height="154" rx="6"/>
-                <rect x="164" y="414" width="82" height="160" rx="6"/>
-                <rect x="258" y="414" width="82" height="160" rx="6"/>
-              </g>
-              <g fill="none" stroke="#B94C27" stroke-width="1.2" opacity=".8">
-                <rect x="172" y="236" width="66" height="138" rx="4"/>
-                <rect x="266" y="236" width="66" height="138" rx="4"/>
-                <rect x="172" y="422" width="66" height="144" rx="4"/>
-                <rect x="266" y="422" width="66" height="144" rx="4"/>
-              </g>
-              <rect x="228" y="392" width="56" height="11" rx="5" fill="#E0A526" stroke="#A8441F" stroke-width="1.5"/>
-              <circle cx="360" cy="418" r="9" fill="#E0A526" stroke="#1F1A14" stroke-width="1.5"/>
-              <circle cx="357" cy="415" r="2" fill="#1F1A14" opacity=".7"/>
-              <circle cx="360" cy="418" r="14" fill="none" stroke="#A8441F" stroke-width="1.2" opacity=".6"/>
-              <!-- hinges -->
-              <rect x="141" y="240" width="8" height="22" rx="2" fill="#1F1A14" opacity=".6"/>
-              <rect x="141" y="540" width="8" height="22" rx="2" fill="#1F1A14" opacity=".6"/>
-            </svg>
+    <!-- ============================== SHOWPIECE (scroll-driven 3D) ============================== -->
+    <section class="showpiece" id="showcase" aria-labelledby="showcase-title">
+      <div class="showpiece-stage">
+        <canvas class="showpiece-canvas" aria-hidden="true"></canvas>
+        <div class="showpiece-vignette" aria-hidden="true"></div>
+        <div class="showpiece-copy">
+          <div class="sp-step is-on">
+            <p class="eyebrow">What we can do</p>
+            <h2 id="showcase-title">Some doors deserve a grand entrance.</h2>
+            <p>Scroll to walk through one.</p>
+          </div>
+          <div class="sp-step">
+            <h2>Motion, depth, and light, built for the browser.</h2>
+            <p>Not a template. Not a plugin. Drawn by hand for your business, and it runs on a phone.</p>
+          </div>
+          <div class="sp-step">
+            <h2>And when a page should be simple, we make it simple.</h2>
+            <p>Everything else on this site is the quiet kind. That&rsquo;s the range.</p>
+          </div>
+          <div class="sp-step">
+            <h2>Now imagine yours.</h2>
+            <div class="sp-actions">
+              <a class="btn btn-primary btn-lg" href="#contact">Get your site for $499</a>
+              <a class="btn btn-ghost btn-lg" href="#examples">See the simple ones</a>
+            </div>
           </div>
         </div>
+        <div class="sp-progress" aria-hidden="true"><i></i></div>
+        <p class="sp-hint" aria-hidden="true">Scroll</p>
       </div>
     </section>
 
@@ -318,8 +232,8 @@
             <p class="stat-claim">Your website answers the phone at 2 a.m. when you can't.</p>
           </div>
           <div class="card stat" role="listitem" data-reveal style="--i:3">
-            <p class="stat-figure">Phone<svg class="stat-underline" aria-hidden="true"><use href="#i-swash"/></svg></p>
-            <p class="stat-claim">Most local searches happen on one, usually while standing somewhere nearby.</p>
+            <p class="stat-figure">Mobile<svg class="stat-underline" aria-hidden="true"><use href="#i-swash"/></svg></p>
+            <p class="stat-claim">Most visitors arrive on a phone. We build for the thumb first: quick to load, easy to read, one tap to call or get directions.</p>
           </div>
         </div>
 
@@ -574,36 +488,28 @@
               <div class="screen" role="img" aria-label="Example website for a landscaper: Greenway Landscaping, with an illustrated yard, a before-and-after slider, and an estimate button">
                 <div class="site m-lawn">
                   <div class="m-nav"><span class="m-brand"><svg viewBox="0 0 48 48" aria-hidden="true"><use href="#i-leaf"/></svg>Greenway</span><span class="m-chip">Free estimate</span></div>
-                  <div class="m-scene">
-                    <svg viewBox="0 0 300 150" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-                      <defs><pattern id="lawnStripes" width="28" height="60" patternUnits="userSpaceOnUse" patternTransform="skewX(-22)"><rect width="14" height="60" fill="#4F9A47"/><rect x="14" width="14" height="60" fill="#5FAE55"/></pattern></defs>
-                      <circle cx="238" cy="40" r="17" fill="#F5D66B"/>
-                      <path d="M0 98Q60 72 120 94T300 90V150H0z" fill="#9CC7A0"/>
-                      <path d="M104 64L150 30l46 34z" fill="#8A5A3C"/>
-                      <rect x="112" y="62" width="76" height="46" fill="#F6EFE3"/>
-                      <rect x="142" y="82" width="16" height="26" fill="#2E5B3E"/>
-                      <rect x="120" y="72" width="14" height="12" fill="#BFE3F2" stroke="#8A5A3C" stroke-width="1.5"/>
-                      <rect x="166" y="72" width="14" height="12" fill="#BFE3F2" stroke="#8A5A3C" stroke-width="1.5"/>
-                      <rect x="58" y="86" width="6" height="24" fill="#7A4A22"/><circle cx="61" cy="78" r="18" fill="#3C8A3E"/><circle cx="52" cy="84" r="11" fill="#4F9A47"/>
-                      <rect x="236" y="90" width="6" height="20" fill="#7A4A22"/><circle cx="239" cy="82" r="15" fill="#3C8A3E"/>
-                      <rect x="0" y="106" width="300" height="44" fill="url(#lawnStripes)"/>
-                      <path d="M150 108q-30 20-70 42h60q10-22 22-42z" fill="#E4D6B8"/>
-                      <ellipse cx="200" cy="112" rx="14" ry="7" fill="#2E6B34"/><ellipse cx="228" cy="114" rx="12" ry="6" fill="#3C8A3E"/>
-                      <circle cx="90" cy="118" r="2.4" fill="#E0A526"/><circle cx="100" cy="124" r="2.4" fill="#D7412F"/><circle cx="82" cy="127" r="2.4" fill="#F0C75E"/><circle cx="262" cy="124" r="2.4" fill="#D7412F"/><circle cx="272" cy="118" r="2.4" fill="#E0A526"/>
+                  <div class="m-hero">
+                    <svg class="m-leaves" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                      <g fill="#3C8A3E" opacity=".55" transform="translate(20 190) rotate(-55)"><path d="M0 0Q60-40 120 0Q60 40 0 0z"/><path d="M8 0H112" stroke="rgba(246,239,227,.35)" stroke-width="1.5"/></g>
+                      <g fill="#4F9A47" opacity=".4" transform="translate(120 210) rotate(-35)"><path d="M0 0Q70-46 140 0Q70 46 0 0z"/><path d="M8 0H132" stroke="rgba(246,239,227,.35)" stroke-width="1.5"/></g>
+                      <g fill="#8CCB6F" opacity=".3" transform="translate(250 200) rotate(-75)"><path d="M0 0Q55-36 110 0Q55 36 0 0z"/><path d="M8 0H102" stroke="rgba(246,239,227,.35)" stroke-width="1.5"/></g>
+                      <g fill="#2E6B34" opacity=".5" transform="translate(-30 80) rotate(-8)"><path d="M0 0Q75-50 150 0Q75 50 0 0z"/><path d="M8 0H142" stroke="rgba(246,239,227,.3)" stroke-width="1.5"/></g>
                     </svg>
-                    <div class="m-scene-copy"><p class="m-h">The yard you actually wanted.</p></div>
+                    <p class="m-kicker">Design &middot; Install &middot; Weekly care</p>
+                    <p class="m-h">Lawns, patios, and gardens, done properly.</p>
+                    <span class="m-btn">Book a free estimate</span>
                   </div>
-                  <div class="m-hero"><p class="m-p">Design, install, and weekly care for homes in the valley.</p></div>
-                  <div class="m-split">
-                    <div class="m-before"><span>Before</span></div>
-                    <div class="m-after"><span>After</span></div>
-                    <i class="m-handle"></i>
+                  <div class="m-services">
+                    <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M8 20v-9M12 20V6M16 20v-8"/></svg>Lawn care</div>
+                    <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM4 12h16M12 4v16"/></svg>Patios &amp; paths</div>
+                    <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 10 11 5 20 5c0 9-5 15-15 14zM5 19l9-9"/></svg>Planting</div>
                   </div>
+                  <div class="m-quote"><span class="m-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><p>&ldquo;They turned a mud patch into the best yard on the street.&rdquo;</p><small>Dana K., Elm Street</small></div>
                   <div class="m-stats"><span><b>12</b>years</span><span><b>300+</b>yards</span><span><b>4.9&#9733;</b>rating</span></div>
                 </div>
               </div>
             </div>
-            <figcaption><span class="eyebrow">Landscaper<span class="swatches" aria-label="Custom palette" role="img"><i style="--c:#2E5B3E"></i><i style="--c:#E0A526"></i><i style="--c:#8CCB6F"></i></span></span><span>An illustrated yard, a before-and-after slider that does the selling, and the estimate button that closes.</span></figcaption>
+            <figcaption><span class="eyebrow">Landscaper<span class="swatches" aria-label="Custom palette" role="img"><i style="--c:#2E5B3E"></i><i style="--c:#E0A526"></i><i style="--c:#8CCB6F"></i></span></span><span>A deep green hero, services at a glance, and a review that does the selling before the estimate button closes.</span></figcaption>
           </figure>
 
         </div>
@@ -698,12 +604,11 @@
           <h2 id="who-title">Who's behind the door.</h2>
         </div>
         <div class="who-grid">
-          <!-- REPLACE: founder name, initials, town, and note. Keep it to two or three plain sentences. -->
           <figure class="card founder" data-reveal style="--i:0">
             <blockquote><p>&ldquo;I started Digital Doorway Marketing after watching too many good local businesses get talked into websites that cost a fortune and took months, or give up and make do with a Facebook page. One fair price, one real front door, done properly. That's the whole idea.&rdquo;</p></blockquote>
             <figcaption>
-              <span class="medallion" aria-hidden="true">DD</span>
-              <span class="who"><span class="name">Founder name<svg class="name-swash" aria-hidden="true"><use href="#i-swash"/></svg></span><span class="role">Founder, Digital Doorway Marketing &middot; Your town, ST</span></span>
+              <span class="medallion" aria-hidden="true">MR</span>
+              <span class="who"><span class="name">Marv Reeves<svg class="name-swash" aria-hidden="true"><use href="#i-swash"/></svg></span><span class="role">Founder, Digital Doorway Marketing &middot; Seattle, WA</span></span>
             </figcaption>
           </figure>
           <ul class="house-rules" role="list" data-reveal style="--i:1">
@@ -943,6 +848,9 @@
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js" defer></script>
+  <script src="showpiece.js" defer></script>
   <script src="script.js"></script>
 </body>
 </html>
