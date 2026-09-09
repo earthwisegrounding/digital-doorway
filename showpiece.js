@@ -356,7 +356,7 @@
   scene.add(points);
 
   /* ---------- layout (depends on aspect) ---------- */
-  var portrait = false, camEnd = -10, camStart = 13.5;
+  var portrait = false, camEnd = -10, camStart = 11.5;
   function layout() {
     panels.forEach(function (o, i) {
       var side = i % 2 ? 1 : -1;
