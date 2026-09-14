@@ -379,4 +379,15 @@
       else if (e.key === ' ' || e.key === 'Enter') { btn.click(); e.preventDefault(); }
     });
   });
+
+  /* ---------- Hero video: swap the poster for the YouTube player on click ---------- */
+  document.querySelectorAll('[data-video]').forEach(function (box) {
+    var poster = box.querySelector('.hero-video-poster'); if (!poster) return;
+    poster.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = 'https://www.youtube-nocookie.com/embed/' + box.getAttribute('data-video') + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+      f.title = 'Digital Doorway Marketing intro video'; f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; f.allowFullscreen = true; f.setAttribute('loading', 'eager');
+      box.replaceChild(f, poster); f.focus();
+    });
+  });
 })();
