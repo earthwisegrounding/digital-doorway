@@ -274,7 +274,7 @@ body.menu-open { overflow: hidden; }
 .hero-eyebrow span:first-child::before, .hero-trust span:first-child::before { display: none; }
 @media (max-width: 639px) { .hero-eyebrow, .hero-trust { flex-direction: column; row-gap: .3em; } .hero-eyebrow span::before, .hero-trust span::before { display: none; } }
 
-.hero-eyebrow { animation: fadeUp .5s var(--ease-out) both; }
+.hero-eyebrow { animation: fadeUp .5s var(--ease-out) both; max-width: none; margin-inline: auto; }
 /* items never break internally; the middot lives in the gap and is clipped away when an item starts a line */
 .hero-eyebrow, .hero-trust { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 1.2em; row-gap: .15em; overflow-x: clip; }
 .hero-eyebrow span, .hero-trust span { white-space: nowrap; position: relative; }
