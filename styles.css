@@ -170,7 +170,7 @@ section[id], .band[id] { scroll-margin-top: 80px; }
 .nav.is-scrolled .nav-inner { padding-block: 12px; }
 
 .logo { display: inline-flex; align-items: center; gap: .6rem; color: var(--ink); min-height: 44px; }
-.logo-mark { width: 34px; height: 34px; flex: none; }
+.logo-mark { width: auto; height: 40px; flex: none; display: block; }
 .logo-word { font: 600 1.375rem/1 var(--serif); letter-spacing: -.01em; font-variation-settings: "opsz" 48, "SOFT" 40; white-space: nowrap; }
 .logo-leaf { transform-origin: 8px 18px; transition: transform .35s var(--ease-out); }
 .nav.is-scrolled .logo-leaf { transform: scaleX(.82) skewY(-7deg); }
@@ -250,8 +250,9 @@ body.menu-open { overflow: hidden; }
   .nav-inner { gap: .75rem; }
   .logo-word { font-size: 1.2rem; }
 }
-@media (min-width: 1024px) and (max-width: 1199px) {
+@media (min-width: 1024px) and (max-width: 1499px) {
   .nav-links a[href="#showcase"] { display: none; }
+  .logo-word { font-size: 1.25rem; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .btn-nav { display: inline-flex; }
@@ -936,7 +937,7 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .nav-inner { gap: .5rem; }
   .logo { gap: .4rem; }
   .logo-word { font-size: clamp(.95rem, 4.6vw, 1.2rem); }
-  .logo-mark { width: 28px; height: 28px; flex: none; }
+  .logo-mark { height: 32px; }
 }
 
 /* ---------- Voice note from the founder ---------- */
@@ -995,3 +996,6 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .hero-video-poster:focus-visible { outline: 3px solid var(--mustard); outline-offset: -4px; }
 @media (max-width: 639px) { .hero-video-frame { border-radius: var(--radius); box-shadow: 5px 5px 0 var(--mustard), var(--shadow); } .hero-video-label { display: none; } }
 @media (prefers-reduced-motion: reduce) { .hero-video { animation: none; } .hero-video-frame, .hero-video-poster img, .hero-video-play { transition: none; } }
+.logo-light .logo-mark { filter: drop-shadow(0 0 6px rgba(255,255,255,.35)); }
+
+@media (min-width: 1024px) and (max-width: 1199px) { .logo-word { font-size: 1.05rem; } .logo { gap: .45rem; } .logo-mark { height: 34px; } }
