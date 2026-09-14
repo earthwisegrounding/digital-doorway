@@ -1,5 +1,7 @@
 # Digital Doorway Marketing website
 
+Live at https://digitaldoorwaymarketing.com (GitHub Pages, custom domain via the CNAME file).
+
 Static site, no build step. Files:
 
 - `index.html` — the page
