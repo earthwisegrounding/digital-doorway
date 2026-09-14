@@ -387,7 +387,7 @@
       var f = document.createElement('iframe');
       f.src = 'https://www.youtube-nocookie.com/embed/' + box.getAttribute('data-video') + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
       f.title = 'Digital Doorway Marketing intro video'; f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; f.allowFullscreen = true; f.setAttribute('loading', 'eager');
-      box.replaceChild(f, poster); f.focus();
+      poster.parentNode.replaceChild(f, poster); f.focus();
     });
   });
 })();
