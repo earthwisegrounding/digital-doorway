@@ -250,7 +250,7 @@ body.menu-open { overflow: hidden; }
   .nav-inner { gap: .75rem; }
   .logo-word { font-size: 1.2rem; }
 }
-@media (min-width: 1024px) and (max-width: 1499px) {
+@media (min-width: 1024px) {
   .nav-links a[href="#showcase"] { display: none; }
   .logo-word { font-size: 1.25rem; }
 }
@@ -276,7 +276,7 @@ body.menu-open { overflow: hidden; }
 
 .hero-eyebrow { animation: fadeUp .5s var(--ease-out) both; }
 /* items never break internally; the middot lives in the gap and is clipped away when an item starts a line */
-.hero-eyebrow, .hero-trust { display: flex; flex-wrap: wrap; column-gap: 1.2em; row-gap: .15em; overflow-x: clip; }
+.hero-eyebrow, .hero-trust { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 1.2em; row-gap: .15em; overflow-x: clip; }
 .hero-eyebrow span, .hero-trust span { white-space: nowrap; position: relative; }
 .hero-eyebrow span::before, .hero-trust span::before { content: "\00B7"; position: absolute; left: -.6em; transform: translateX(-50%); opacity: .6; }
 .hero-title { max-width: 14ch; margin-bottom: 1.5rem; }
