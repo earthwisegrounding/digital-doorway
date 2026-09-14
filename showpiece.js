@@ -214,18 +214,18 @@
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1 : 1.5));
 
-  scene.add(new THREE.AmbientLight(0xFFE3B8, 0.25));
-  var doorLight = new THREE.PointLight(0xE0A526, 1.0, 18, 1); doorLight.position.set(0, 3.0, -5.5); scene.add(doorLight);
-  var farLight = new THREE.PointLight(0xFFE3B8, 1.5, 24, 1); farLight.position.set(0, 3.2, -20); scene.add(farLight);
+  scene.add(new THREE.AmbientLight(0xD8EEF8, 0.28));
+  var doorLight = new THREE.PointLight(0x22D3E6, 1.0, 18, 1); doorLight.position.set(0, 3.0, -5.5); scene.add(doorLight);
+  var farLight = new THREE.PointLight(0xCFF4FF, 1.5, 24, 1); farLight.position.set(0, 3.2, -20); scene.add(farLight);
   var camLight = new THREE.PointLight(0xFFF1DA, 0.15, 10, 1); scene.add(camLight);
-  var spot = new THREE.SpotLight(0xFFE3B8, 1.3, 40, 0.42, 0.7, 1); spot.position.set(1.5, 8, 7); spot.target.position.set(0, 1.6, 0); scene.add(spot); scene.add(spot.target);
+  var spot = new THREE.SpotLight(0xE6F7FF, 1.3, 40, 0.42, 0.7, 1); spot.position.set(1.5, 8, 7); spot.target.position.set(0, 1.6, 0); scene.add(spot); scene.add(spot.target);
 
   // floor
-  var floor = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.MeshStandardMaterial({ color: 0x2A211A, roughness: .9 }));
+  var floor = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.MeshStandardMaterial({ color: 0x0F1D38, roughness: .9 }));
   floor.rotation.x = -Math.PI / 2; floor.position.y = -1.6; scene.add(floor);
 
   // wall with an opening (arched for the procedural door, rectangular once the real door model loads)
-  var wallMat = new THREE.MeshStandardMaterial({ color: 0x3B2B21, roughness: .95 });
+  var wallMat = new THREE.MeshStandardMaterial({ color: 0x142647, roughness: .95 });
   function buildWall(rect) {
     var shape = new THREE.Shape();
     shape.moveTo(-16, -1.6); shape.lineTo(16, -1.6); shape.lineTo(16, 10); shape.lineTo(-16, 10); shape.lineTo(-16, -1.6);
@@ -250,14 +250,14 @@
   // the door leaf, hinged on the left jamb
   var leafShape = new THREE.Shape();
   leafShape.moveTo(0, -1.58); leafShape.lineTo(0, 3.2); leafShape.absarc(1.64, 3.2, 1.64, Math.PI, 0, true); leafShape.lineTo(3.28, -1.58); leafShape.lineTo(0, -1.58);
-  var leafMat = new THREE.MeshStandardMaterial({ color: 0xB84E28, roughness: .92 });
+  var leafMat = new THREE.MeshStandardMaterial({ color: 0x1553A8, roughness: .92 });
   var leaf = new THREE.Mesh(new THREE.ExtrudeGeometry(leafShape, { depth: 0.14, bevelEnabled: false }), leafMat);
   var pivot = new THREE.Group(); pivot.position.set(-1.64, 0, -0.02); pivot.add(leaf); scene.add(pivot);
-  var insetMat = new THREE.MeshStandardMaterial({ color: 0xA8441F, roughness: .8 });
+  var insetMat = new THREE.MeshStandardMaterial({ color: 0x0E3F86, roughness: .8 });
   [[0.86, 2.0], [2.42, 2.0], [0.86, -0.1], [2.42, -0.1]].forEach(function (p) {
     var m = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.55, 0.05), insetMat); m.position.set(p[0], p[1], 0.16); pivot.add(m);
   });
-  var knob = new THREE.Mesh(new THREE.SphereGeometry(0.09, 18, 18), new THREE.MeshStandardMaterial({ color: 0xE0A526, roughness: .3, metalness: .5 }));
+  var knob = new THREE.Mesh(new THREE.SphereGeometry(0.09, 18, 18), new THREE.MeshStandardMaterial({ color: 0x7EE0EA, roughness: .3, metalness: .5 }));
   knob.position.set(2.92, 0.95, 0.24); pivot.add(knob);
 
   /* ---------- the real door: a photoscanned GLB, split into frame + leaf and hinged on the left ---------- */
@@ -278,7 +278,7 @@
       var pos = geo.attributes.position, zMin = Infinity;
       for (var i = 0; i < pos.count; i += 2) { var vx = pos.getX(i) - cx0, vy = pos.getY(i); if (Math.abs(vx) < LX && vy > LY0 && vy < LY1) zMin = Math.min(zMin, pos.getZ(i)); }
       if (!isFinite(zMin)) zMin = bb.min.z;
-      var base = src.material; base.metalness = 0; base.roughness = .85; base.side = THREE.DoubleSide;
+      var base = src.material; base.metalness = 0; base.roughness = .85; base.side = THREE.DoubleSide; base.color.set(0x2A5AA8);  // navy-stained like the logo door
       renderer.localClippingEnabled = true;
       // frame: the whole scan with the door slab region clipped out (world space; the frame never moves)
       var W = { x0: -LX * s, x1: LX * s, y0: -1.6 + (LY0 - bb.min.y) * s, y1: -1.6 + (LY1 - bb.min.y) * s };
@@ -320,7 +320,7 @@
   function glowTexture() {
     var c = document.createElement('canvas'); c.width = c.height = 256; var g = c.getContext('2d');
     var r = g.createRadialGradient(128, 128, 0, 128, 128, 128);
-    r.addColorStop(0, 'rgba(255,220,140,1)'); r.addColorStop(.3, 'rgba(224,165,38,.55)'); r.addColorStop(1, 'rgba(224,165,38,0)');
+    r.addColorStop(0, 'rgba(225,250,255,1)'); r.addColorStop(.3, 'rgba(34,211,230,.55)'); r.addColorStop(1, 'rgba(34,211,230,0)');
     g.fillStyle = r; g.fillRect(0, 0, 256, 256); return new THREE.CanvasTexture(c);
   }
   var glowTex = glowTexture();
@@ -349,10 +349,10 @@
   var pGeo = new THREE.BufferGeometry(); pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
   function dotTexture() {
     var c = document.createElement('canvas'); c.width = c.height = 64; var g = c.getContext('2d');
-    var r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(255,230,170,1)'); r.addColorStop(.4, 'rgba(255,220,140,.6)'); r.addColorStop(1, 'rgba(255,220,140,0)');
+    var r = g.createRadialGradient(32, 32, 0, 32, 32, 32); r.addColorStop(0, 'rgba(230,250,255,1)'); r.addColorStop(.4, 'rgba(160,235,245,.6)'); r.addColorStop(1, 'rgba(160,235,245,0)');
     g.fillStyle = r; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c);
   }
-  var points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0xE0A526, size: 0.11, map: dotTexture(), transparent: true, opacity: .65, blending: THREE.AdditiveBlending, depthWrite: false }));
+  var points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x22D3E6, size: 0.11, map: dotTexture(), transparent: true, opacity: .65, blending: THREE.AdditiveBlending, depthWrite: false }));
   scene.add(points);
 
   /* ---------- layout (depends on aspect) ---------- */
