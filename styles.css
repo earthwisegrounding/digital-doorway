@@ -999,3 +999,6 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .logo-light .logo-mark { filter: drop-shadow(0 0 6px rgba(255,255,255,.35)); }
 
 @media (min-width: 1024px) and (max-width: 1199px) { .logo-word { font-size: 1.05rem; } .logo { gap: .45rem; } .logo-mark { height: 34px; } }
+
+/* wide screens: the header can use more width than the content, so the phone fits */
+@media (min-width: 1400px) { .nav-inner { max-width: 1360px; } .nav-phone { display: inline-flex; } }

@@ -338,6 +338,10 @@
           var mailLink = document.createElement('a'); // REPLACE (mirrors data-mailto)
           mailLink.className = 'link-hand'; mailLink.href = 'mailto:' + to; mailLink.textContent = to;
           bodyEl.appendChild(mailLink);
+          bodyEl.appendChild(document.createTextNode(' or call '));
+          var telLink = document.createElement('a');
+          telLink.className = 'link-hand'; telLink.href = 'tel:+18778531920'; telLink.textContent = '(877) 853-1920';
+          bodyEl.appendChild(telLink);
           bodyEl.appendChild(document.createTextNode('.'));
         }
         showSuccess();
