@@ -361,7 +361,11 @@
     panels.forEach(function (o, i) {
       var side = i % 2 ? 1 : -1;
       o.a = { x: side * (portrait ? 1.8 : 3.1 + (i % 3) * .3), y: 1.9 + ((i % 3) - 1) * .7, z: -3.2 - i * (portrait ? 2.2 : 1.7), ry: -side * .55 };
-      if (portrait) { o.g = { x: side * 1.65, y: 1.9 + ((i % 3) - 1) * .6, z: -3.2 - i * 2.2, ry: -side * .5 }; }
+      if (portrait) {
+        // phones: settle into two columns of four, stacked, small enough to fit the narrow view
+        var pc = i % 2, pr = Math.floor(i / 2);
+        o.g = { x: (pc - .5) * 1.6, y: 4.4 + (1.5 - pr) * 1.6, z: -12.7, ry: (.5 - pc) * .15 };
+      }
       else {
         var col = i % 4, row = Math.floor(i / 4);
         o.g = { x: (col - 1.5) * 2.3 + .6, y: row === 0 ? 4.16 : 1.45, z: -18.4 + (col === 0 || col === 3 ? .6 : 0), ry: (1.5 - col) * .12 };
@@ -409,8 +413,8 @@
     var camZ = lerp(camStart, camEnd, e);
     smx += (mx - smx) * .06; smy += (my - smy) * .06;
     camera.position.set(smx * .55, 1.9 + (portrait ? .15 : 0) - smy * .12, camZ);
-    var settle = portrait ? 0 : easeInOut(smooth(.6, .9, p));
-    lookTarget.set(smx * .9, lerp(1.75, 2.2, settle) - smy * .35, camZ - 9);
+    var settle = easeInOut(smooth(.6, .9, p));
+    lookTarget.set(smx * .9, lerp(1.75, portrait ? 3.5 : 2.2, settle) - smy * .35, camZ - 9);
     camera.lookAt(lookTarget);
     camLight.position.copy(camera.position);
 
@@ -433,7 +437,7 @@
       var fl = Math.sin(t * .8 + i * 1.3) * .12 * (1 - s * .7);
       m.position.set(lerp(a.x, g.x, s), lerp(a.y, g.y, s) + fl, lerp(a.z, g.z, s));
       m.rotation.set(Math.sin(t * .6 + i) * .05 * (1 - s), lerp(a.ry, g.ry, s) + Math.sin(t * .5 + i * 2) * .06 * (1 - s), 0);
-      var sc = portrait ? 1 : lerp(1, .82, s); m.scale.set(sc, sc, 1);
+      var sc = lerp(1, portrait ? .5 : .82, s); m.scale.set(sc, sc, 1);
     });
 
     var arr = pGeo.attributes.position.array;
