@@ -744,11 +744,12 @@
             netlify and name="contact" attributes. If data-endpoint is empty, the form falls back
             to a mailto: link and shows an "almost there, press send" state instead of a confirmation.
           -->
-          <form class="contact-form" id="contact-form" novalidate data-endpoint="" data-mailto="info@digitaldoorwaymarketing.com">
+          <form class="contact-form" id="contact-form" novalidate data-endpoint="https://digital-doorway-mail.angie-tatum-api.workers.dev/contact" data-mailto="info@digitaldoorwaymarketing.com">
             <div class="form-row">
               <div class="field">
                 <label for="f-name">Your name</label>
                 <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Sam Rivera" required>
+                <input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
                 <p class="field-error" id="f-name-err" aria-live="polite"></p>
               </div>
               <div class="field">

@@ -1,2 +1,4 @@
 .DS_Store
-.claude/
+api/node_modules/
+api/.wrangler/
+api/.env

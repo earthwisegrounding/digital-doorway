@@ -1,0 +1,1 @@
+{ "name": "digital-doorway-mail", "private": true, "type": "module", "scripts": { "deploy": "wrangler deploy", "secret": "wrangler secret put RESEND_API_KEY" }, "devDependencies": { "wrangler": "^4" } }

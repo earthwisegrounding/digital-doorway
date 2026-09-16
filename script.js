@@ -304,6 +304,7 @@
         // FORM ENDPOINT: posts JSON to data-endpoint (Formspree-style). Swap for Netlify if preferred.
         var payload = {};
         Object.keys(fields).forEach(function (k) { payload[k] = fields[k].el.value.trim(); });
+        var hp = form.querySelector('input[name="website"]'); if (hp) payload.website = hp.value;
         fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },

@@ -34,3 +34,10 @@ Drag the folder onto Netlify Drop, or push to GitHub and enable GitHub Pages, or
 - It lives under the Square location "Digital Doorway Marketing" (ID LWTA04YK02TTT) on the same Square account as justlikegrounding.com. Payments show up in the Square Dashboard under that location; filter by it to keep the two businesses separate.
 - After paying, customers land on `thank-you.html`. Square emails the receipt.
 - To change the price or wording, edit the link in Square Dashboard → Online → Payment links (or create a new one and update the button's href in `index.html`). No code holds any secret; the access token stays in the angie project's `api/.env`.
+
+## Contact form emails (Resend via Cloudflare Worker)
+
+- Submissions POST to `https://digital-doorway-mail.angie-tatum-api.workers.dev/contact` (source in `api/`), which emails them through Resend with reply-to set to the visitor.
+- Recipients and sender are set in `api/wrangler.toml` (`NOTIFY_TO`, `MAIL_FROM`). The Resend API key is a Worker secret (`cd api && echo "re_…" | npx wrangler secret put RESEND_API_KEY`), never in the repo.
+- Until digitaldoorwaymarketing.com is verified in Resend, Resend only delivers to the account's own address; after verifying, set `NOTIFY_TO` to all three addresses, `MAIL_FROM` to an address on the domain, optionally `AUTO_REPLY = "yes"`, then `cd api && npx wrangler deploy`.
+- A hidden `website` field is a honeypot; submissions that fill it are accepted but not sent.

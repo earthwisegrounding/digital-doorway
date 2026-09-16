@@ -1008,3 +1008,4 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .btn-ghost-light { background: transparent; color: var(--bg); border: 1.5px solid rgba(246,239,227,.55); }
 .btn-ghost-light:hover { background: rgba(246,239,227,.1); border-color: var(--bg); transform: translateY(-1px); }
 .price-pay-note { font-size: .875rem; line-height: 1.45; color: rgba(246,239,227,.75); max-width: 40ch; margin: 0; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
