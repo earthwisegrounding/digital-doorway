@@ -1002,3 +1002,9 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 
 /* wide screens: the header can use more width than the content, so the phone fits */
 @media (min-width: 1400px) { .nav-inner { max-width: 1360px; } .nav-phone { display: inline-flex; } }
+
+/* ---------- Square payment button in the pricing panel ---------- */
+.price-pay { margin-top: 1.1rem; display: flex; flex-direction: column; align-items: center; gap: .7rem; }
+.btn-ghost-light { background: transparent; color: var(--bg); border: 1.5px solid rgba(246,239,227,.55); }
+.btn-ghost-light:hover { background: rgba(246,239,227,.1); border-color: var(--bg); transform: translateY(-1px); }
+.price-pay-note { font-size: .875rem; line-height: 1.45; color: rgba(246,239,227,.75); max-width: 40ch; margin: 0; }
