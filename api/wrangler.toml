@@ -8,9 +8,9 @@ compatibility_date = "2026-09-01"
 
 [vars]
 # Where form submissions go (comma-separated).
-NOTIFY_TO = "digitaldoorwaymarketing@gmail.com"  # add steevreeves@gmail.com,marvreeves@gmail.com,info@ once the domain is verified in Resend
+NOTIFY_TO = "steevreeves@gmail.com,marvreeves@gmail.com,info@digitaldoorwaymarketing.com"
 # Sender. Must be on a domain verified in Resend; until then Resend's test sender is used.
-MAIL_FROM = "Digital Doorway Marketing <onboarding@resend.dev>"
+MAIL_FROM = "Digital Doorway Marketing <hello@digitaldoorwaymarketing.com>"
 # Send the visitor a confirmation copy ("yes"/"no"). Needs a verified sending domain.
-AUTO_REPLY = "no"
+AUTO_REPLY = "yes"
 ALLOWED_ORIGINS = "https://digitaldoorwaymarketing.com,https://www.digitaldoorwaymarketing.com,https://earthwisegrounding.github.io"
