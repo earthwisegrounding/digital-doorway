@@ -14,3 +14,11 @@ MAIL_FROM = "Digital Doorway Marketing <hello@digitaldoorwaymarketing.com>"
 # Send the visitor a confirmation copy ("yes"/"no"). Needs a verified sending domain.
 AUTO_REPLY = "yes"
 ALLOWED_ORIGINS = "https://digitaldoorwaymarketing.com,https://www.digitaldoorwaymarketing.com,https://earthwisegrounding.github.io"
+# Square sales → admin alert + client thank-you. Only payments at this location count.
+SQUARE_LOCATION_ID = "LWTA04YK02TTT"
+SQUARE_NOTIFICATION_URL = "https://digital-doorway-mail.angie-tatum-api.workers.dev/square-webhook"
+# Secret: SQUARE_WEBHOOK_SIGNATURE_KEY  (from the webhook subscription; `npx wrangler secret put SQUARE_WEBHOOK_SIGNATURE_KEY`)
+
+[[kv_namespaces]]
+binding = "SEEN"
+id = "dc4aa4eb26384eccb766b65ac8b41173"

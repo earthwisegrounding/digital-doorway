@@ -41,3 +41,8 @@ Drag the folder onto Netlify Drop, or push to GitHub and enable GitHub Pages, or
 - Recipients and sender are set in `api/wrangler.toml` (`NOTIFY_TO`, `MAIL_FROM`). The Resend API key is a Worker secret (`cd api && echo "re_…" | npx wrangler secret put RESEND_API_KEY`), never in the repo.
 - Until digitaldoorwaymarketing.com is verified in Resend, Resend only delivers to the account's own address; after verifying, set `NOTIFY_TO` to all three addresses, `MAIL_FROM` to an address on the domain, optionally `AUTO_REPLY = "yes"`, then `cd api && npx wrangler deploy`.
 - A hidden `website` field is a honeypot; submissions that fill it are accepted but not sent.
+
+## Sale emails (Square webhook → Resend)
+
+- Square webhook subscription "Digital Doorway Marketing sales" (`payment.updated`) posts to the worker's `/square-webhook`. The worker verifies Square's signature, ignores payments from other locations and duplicate deliveries (KV namespace `SEEN`), then emails the admins (`NOTIFY_TO`) a sale alert and the buyer a thank-you.
+- Secret: `SQUARE_WEBHOOK_SIGNATURE_KEY` (from the subscription, `npx wrangler secret put SQUARE_WEBHOOK_SIGNATURE_KEY`).
