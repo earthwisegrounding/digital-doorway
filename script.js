@@ -305,6 +305,7 @@
         var payload = {};
         Object.keys(fields).forEach(function (k) { payload[k] = fields[k].el.value.trim(); });
         var hp = form.querySelector('input[name="website"]'); if (hp) payload.website = hp.value;
+        payload.addons = Array.prototype.map.call(form.querySelectorAll('input[name="addons"]:checked'), function (c) { return c.value; }).join(', ');
         fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -325,7 +326,8 @@
           'Business: ' + fields.business.el.value.trim() + '\n' +
           'Email: ' + fields.email.el.value.trim() + '\n' +
           'Phone: ' + fields.phone.el.value.trim() + '\n' +
-          'Type: ' + fields.type.el.value + '\n\n' +
+          'Type: ' + fields.type.el.value + '\n' +
+          'Add-ons: ' + (Array.prototype.map.call(form.querySelectorAll('input[name="addons"]:checked'), function (c) { return c.value; }).join(', ') || 'none') + '\n\n' +
           fields.message.el.value.trim()
         );
         try { window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + bodyText; } catch (err) { /* ignore */ }
@@ -389,6 +391,14 @@
       f.src = 'https://www.youtube-nocookie.com/embed/' + box.getAttribute('data-video') + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
       f.title = 'Digital Doorway Marketing intro video'; f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; f.allowFullscreen = true; f.setAttribute('loading', 'eager');
       poster.parentNode.replaceChild(f, poster); f.focus();
+    });
+  });
+
+  /* ---------- Add-on buttons pre-tick the matching box in the contact form ---------- */
+  document.querySelectorAll('[data-addon]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var box = document.querySelector('input[name="addons"][value="' + a.getAttribute('data-addon') + '"]');
+      if (box) box.checked = true;
     });
   });
 })();

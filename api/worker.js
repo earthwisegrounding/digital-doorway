@@ -95,10 +95,11 @@ export default {
     if (data.website) return json(200, { ok: true }, headers);            // honeypot: bots fill hidden fields
     const name = clip(data.name, 120), business = clip(data.business, 160), email = clip(data.email, 200);
     const phone = clip(data.phone, 40), type = clip(data.type, 80), message = clip(data.message, 4000);
+    const addons = clip(data.addons, 300);
     if (!name || !business || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { error: 'missing fields' }, headers);
 
     const to = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
-    const lines = [['Name', name], ['Business', business], ['Email', email], ['Phone', phone || '—'], ['Type of business', type || '—']];
+    const lines = [['Name', name], ['Business', business], ['Email', email], ['Phone', phone || '—'], ['Type of business', type || '—'], ['Add-ons', addons || 'none']];
     const text = lines.map(([k, v]) => `${k}: ${v}`).join('\n') + `\n\nMessage:\n${message || '(none)'}\n\n— Sent from the contact form at digitaldoorwaymarketing.com`;
     const html = `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px">
       <h2 style="margin:0 0 12px;font-size:20px">New website inquiry: ${esc(business)}</h2>
