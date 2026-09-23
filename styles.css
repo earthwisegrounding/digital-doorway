@@ -1160,3 +1160,11 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .co-fine { margin: 0; font-size: .8125rem; line-height: 1.5; color: rgba(246,239,227,.7); }
 .co-fine .link-hand { color: var(--bg); }
 @media (max-width: 479px) { .co-opt { grid-template-columns: auto 1fr; } .co-price { grid-column: 2; text-align: left; } }
+.addon-included { font-size: .875rem !important; font-weight: 600; color: var(--accent) !important; margin: -.2rem 0 0; }
+.co-fields { display: grid; gap: .8rem; }
+.co-fields label { color: rgba(246,239,227,.8); }
+.co-fields input { background: rgba(255,253,248,.96); }
+.co-fields .field.has-error input { border-color: #FF9C8C; box-shadow: 0 0 0 3px rgba(255,156,140,.25); }
+.co-done { padding: 1rem 1.1rem; border-radius: 12px; background: rgba(20,180,196,.14); border: 1.5px solid rgba(20,180,196,.45); }
+.co-done p { margin: 0; color: var(--bg); font-size: .9375rem; line-height: 1.5; }
+.co-done .co-done-title { font: 600 1.2rem/1.2 var(--serif); margin-bottom: .35rem; }

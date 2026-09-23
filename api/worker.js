@@ -30,8 +30,8 @@ async function send(env, msg) {
 /* ---- Checkout: $499 build + optional add-ons → a Square payment link for exactly that order ----
    Prices live here (server side) so the browser can't change what gets charged. */
 const CATALOG = {
-  build:   { name: 'Website design and build (one-time)', cents: 49900, required: true },
-  bundle:  { name: 'Small Business Bundle: hosting, SSL, 5 email accounts (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
+  build:   { name: 'Website design and build, including first 2 years of hosting and domain registration (one-time)', cents: 49900, required: true },
+  bundle:  { name: 'Small Business Bundle: SSL, 5 email accounts, hosting from year 3 (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
   hosting: { name: 'Website Hosting (first month)', cents: 1499, renews: 'month', renewCents: 1499 },
   ssl:     { name: 'SSL Website Security (first month)', cents: 599, renews: 'month', renewCents: 599 },
   email1:  { name: 'Professional Business Email: 1 account (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
@@ -85,6 +85,49 @@ async function handleCheckout(request, env, headers) {
     return json(502, { error: 'checkout failed', detail: String(err.message || err) }, headers);
   }
 }
+/* ---- Order request: the customer picks the build + add-ons; we email the order so an invoice can be sent ---- */
+async function handleOrderRequest(request, env, headers) {
+  let data; try { data = await request.json(); } catch { return json(400, { error: 'bad json' }, headers); }
+  if (data.website) return json(200, { ok: true }, headers);                    // honeypot
+  const name = clip(data.name, 120), business = clip(data.business, 160), email = clip(data.email, 200);
+  if (!name || !business || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { error: 'missing fields' }, headers);
+  const keys = resolveItems(data.items).filter(k => k !== 'hosting' && k !== 'domain');   // both included for 2 years
+  const first = keys.reduce((s, k) => s + CATALOG[k].cents, 0);
+  const monthly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'month' ? CATALOG[k].renewCents : 0), 0);
+  const yearly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'year' ? CATALOG[k].renewCents : 0), 0);
+  const usd = c => `$${(c / 100).toFixed(2)}`;
+  const items = keys.map(k => ({ name: CATALOG[k].name, amount: usd(CATALOG[k].cents) }));
+  const renew = ['Hosting and domain: included for the first 2 years, then hosting $14.99/month and the domain renews yearly'];
+  if (monthly) renew.push(`${usd(monthly)}/month starting next month`);
+  if (yearly) renew.push(`${usd(yearly)}/year for business email`);
+  const rowsHtml = items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('');
+  const orderText = items.map(i => `- ${i.name}: ${i.amount}`).join('\n') + `\nFirst invoice total: ${usd(first)}\n` + renew.map(r => '* ' + r).join('\n');
+  const admins = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
+  try {
+    await send(env, { from: env.MAIL_FROM, to: admins, reply_to: email,
+      subject: `Order to invoice: ${business} (${usd(first)})`,
+      text: `New order request from the website. Send an invoice.\n\nName: ${name}\nBusiness: ${business}\nEmail: ${email}\n\nOrder:\n${orderText}\n\nReply to this email to reach ${name} directly.`,
+      html: `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:600px"><h2 style="margin:0 0 6px;font-size:20px">Order to invoice: ${esc(business)}</h2>
+        <p style="margin:0 0 14px;color:#6B5D4D">${esc(name)} &middot; <a href="mailto:${esc(email)}">${esc(email)}</a></p>
+        <table style="border-collapse:collapse">${rowsHtml}<tr><td style="padding:10px 16px 4px 0;border-top:1px solid #D9CBB3"><b>First invoice total</b></td><td style="padding:10px 0 4px;border-top:1px solid #D9CBB3;text-align:right"><b>${usd(first)}</b></td></tr></table>
+        <ul style="color:#6B5D4D;padding-left:18px">${renew.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+        <p style="margin-top:18px">Next step: send ${esc(name)} an invoice for ${usd(first)}. Reply to this email to reach them directly.</p></div>` });
+  } catch (err) { return json(502, { error: 'send failed', detail: String(err.message || err) }, headers); }
+  try {
+    await send(env, { from: env.MAIL_FROM, to: [email], reply_to: admins[admins.length - 1],
+      subject: 'We got your order — Digital Doorway Marketing',
+      text: `Hi ${name},\n\nThanks for your order for ${business}. Here's what you picked:\n\n${orderText}\n\nWe'll email your invoice within one business day, then set up a short call to get started.\n\nQuestions? Reply to this email or call (877) 853-1920.\n\n— Marv Reeves\nDigital Doorway Marketing\nhttps://digitaldoorwaymarketing.com`,
+      html: `<div style="font:16px/1.55 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:600px"><h2 style="margin:0 0 12px;font-size:22px">We got your order. The light's on.</h2>
+        <p>Hi ${esc(name)}, thanks for your order for <b>${esc(business)}</b>. Here's what you picked:</p>
+        <table style="border-collapse:collapse">${rowsHtml}<tr><td style="padding:10px 16px 4px 0;border-top:1px solid #D9CBB3"><b>First invoice</b></td><td style="padding:10px 0 4px;border-top:1px solid #D9CBB3;text-align:right"><b>${usd(first)}</b></td></tr></table>
+        <ul style="color:#6B5D4D;padding-left:18px">${renew.map(r => `<li>${esc(r)}</li>`).join('')}</ul>
+        <p>We'll email your invoice within one business day, then set up a short call to get started.</p>
+        <p>Questions? Reply to this email or call <a href="tel:+18778531920">(877) 853-1920</a>.</p>
+        <p style="margin-top:24px">— Marv Reeves<br>Digital Doorway Marketing<br><a href="https://digitaldoorwaymarketing.com">digitaldoorwaymarketing.com</a></p></div>` });
+  } catch (err) { /* the order reached the admins; a failed confirmation shouldn't fail the request */ }
+  return json(200, { ok: true }, headers);
+}
+
 async function orderSummary(env, orderId) {
   if (!orderId || !env.SQUARE_ACCESS_TOKEN) return null;
   try {
@@ -163,7 +206,8 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     if (url.pathname === '/health') return json(200, { ok: true }, headers);
     if (request.method === 'POST' && url.pathname === '/square-webhook') return handleSquare(request, env, headers);
-    if (request.method === 'POST' && url.pathname === '/checkout') return handleCheckout(request, env, headers);
+    if (request.method === 'POST' && url.pathname === '/checkout') return (env.CHECKOUT_ENABLED || 'no') === 'yes' ? handleCheckout(request, env, headers) : json(403, { error: 'online checkout is turned off' }, headers);
+    if (request.method === 'POST' && url.pathname === '/order-request') return handleOrderRequest(request, env, headers);
     if (request.method !== 'POST' || url.pathname !== '/contact') return json(404, { error: 'not found' }, headers);
     if (!env.RESEND_API_KEY) return json(500, { error: 'mailer not configured' }, headers);
 
