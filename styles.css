@@ -1106,3 +1106,4 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .cmp-handle { width: 52px; height: 52px; }
   .cw-seg button { padding: .65rem .8rem; font-size: .875rem; }
 }
+.cmp-back { position: absolute; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 6; box-shadow: 0 8px 24px rgba(0,0,0,.35); }

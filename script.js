@@ -408,7 +408,7 @@
     var frames = [box.querySelector('.cmp-a'), box.querySelector('.cmp-b')];
     var handle = box.querySelector('.cmp-handle');
     var segBtns = document.querySelectorAll('[data-cw-set]');
-    var x = 50, loaded = 0;
+    var x = 50;
 
     function setX(v, fromSeg) {
       x = Math.max(0, Math.min(100, v));
@@ -475,11 +475,49 @@
         }, true);
       } catch (err) {}
     }
+    /* inside the comparison, anything that leaves the page opens in a new tab,
+       so the 3D studio and outside links never take over a frame */
+    function keepHome(f) {
+      var doc = f.contentDocument, win = f.contentWindow, here = win.location.href.split('#')[0];
+      win.addEventListener('pagehide', function () { if (resetting) return; var i = frames.indexOf(f); ok[i] = false; box.classList.remove('is-ready'); back.hidden = false; });
+      doc.addEventListener('click', function (e) {
+        var launch = e.target.closest && e.target.closest('#launch');
+        if (launch) { e.preventDefault(); e.stopImmediatePropagation(); window.open('https://earthwisegrounding.github.io/verdura/prolawn/b/designer.html', '_blank', 'noopener'); return; }
+        var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+        var href = a.getAttribute('href'); if (!href || href.charAt(0) === '#') return;
+        var url; try { url = new URL(href, win.location.href); } catch (err) { return; }
+        if (url.protocol === 'mailto:' || url.protocol === 'tel:') { e.preventDefault(); window.location.href = url.href; return; }
+        if (url.href.split('#')[0] === here) return;          // same page, just a jump
+        e.preventDefault(); e.stopImmediatePropagation(); window.open(url.href, '_blank', 'noopener');
+      }, true);
+      doc.addEventListener('submit', function (e) { var t = e.target; if (t && t.getAttribute('action') && !/^#/.test(t.getAttribute('action'))) t.setAttribute('target', '_blank'); }, true);
+    }
+
+    /* safety net: if a frame ends up anywhere else, offer a way back */
+    var back = document.createElement('button');
+    back.type = 'button'; back.className = 'cmp-back btn btn-primary'; back.hidden = true;
+    back.textContent = 'Back to the comparison';
+    box.appendChild(back);
+    var resetting = false;
+    function reset() {
+      resetting = true; back.hidden = true; box.classList.remove('is-ready'); ok = [false, false];
+      frames.forEach(function (f) { f.setAttribute('src', f.getAttribute('data-src') + '?r=' + Date.now()); });
+    }
+    back.addEventListener('click', reset);
+
+    var ok = [false, false];
     frames.forEach(function (f, i) {
       f.addEventListener('load', function () {
         if (!f.getAttribute('src')) return;
-        loaded++; audioGuard(f, frames[1 - i]);
-        if (loaded >= 2) { link(0); link(1); box.classList.add('is-ready'); }
+        var home = false;
+        try { home = f.contentWindow.location.pathname.replace(/index\.html$/, '') === new URL(f.getAttribute('data-src'), location.href).pathname; } catch (err) { home = false; }
+        if (!home) { ok[i] = false; back.hidden = false; return; }
+        ok[i] = true; keepHome(f); link(i); audioGuard(f, frames[1 - i]);
+        if (ok[0] && ok[1]) {
+          resetting = false; box.classList.add('is-ready');
+          var s = scroller(frames[0]), d = scroller(frames[1]);                     // line the two up again
+          if (s && d) { var max = s.scrollHeight - s.clientHeight; expected[1] = Math.round((max > 0 ? s.scrollTop / max : 0) * (d.scrollHeight - d.clientHeight)); d.scrollTop = expected[1]; }
+        }
       });
     });
 
