@@ -27,6 +27,79 @@ async function send(env, msg) {
 }
 
 
+/* ---- Checkout: $499 build + optional add-ons → a Square payment link for exactly that order ----
+   Prices live here (server side) so the browser can't change what gets charged. */
+const CATALOG = {
+  build:   { name: 'Website design and build (one-time)', cents: 49900, required: true },
+  bundle:  { name: 'Small Business Bundle: hosting, SSL, 5 email accounts (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
+  hosting: { name: 'Website Hosting (first month)', cents: 1499, renews: 'month', renewCents: 1499 },
+  ssl:     { name: 'SSL Website Security (first month)', cents: 599, renews: 'month', renewCents: 599 },
+  email1:  { name: 'Professional Business Email: 1 account (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
+  email3:  { name: 'Professional Business Email: 3 accounts (first year)', cents: 12900, renews: 'year', renewCents: 12900 },
+  email5:  { name: 'Professional Business Email: 5 accounts (first year)', cents: 19900, renews: 'year', renewCents: 19900 },
+  domain:  { name: 'Domain name registration (priced after we check availability)', cents: 0 },
+};
+function resolveItems(raw) {
+  const want = new Set((Array.isArray(raw) ? raw : []).map(String).filter(k => CATALOG[k]));
+  want.add('build');
+  if (want.has('bundle')) ['hosting', 'ssl', 'email1', 'email3', 'email5'].forEach(k => want.delete(k));
+  const emails = ['email5', 'email3', 'email1'].filter(k => want.has(k));
+  emails.slice(1).forEach(k => want.delete(k));                       // at most one email plan (keep the largest)
+  return ['build', 'bundle', 'hosting', 'ssl', 'email1', 'email3', 'email5', 'domain'].filter(k => want.has(k));
+}
+async function squareApi(env, method, path, body) {
+  const r = await fetch('https://connect.squareup.com' + path, { method, headers: { 'Authorization': `Bearer ${env.SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2025-08-20', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error((data.errors && data.errors[0] && (data.errors[0].detail || data.errors[0].code)) || ('square ' + r.status));
+  return data;
+}
+async function handleCheckout(request, env, headers) {
+  if (!env.SQUARE_ACCESS_TOKEN) return json(500, { error: 'checkout not configured' }, headers);
+  let data; try { data = await request.json(); } catch { return json(400, { error: 'bad json' }, headers); }
+  const keys = resolveItems(data.items);
+  const email = clip(data.email, 200);
+  const monthly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'month' ? CATALOG[k].renewCents : 0), 0);
+  const yearly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'year' ? CATALOG[k].renewCents : 0), 0);
+  const lineItems = keys.filter(k => CATALOG[k].cents > 0).map(k => ({ name: CATALOG[k].name, quantity: '1', base_price_money: { amount: CATALOG[k].cents, currency: 'USD' } }));
+  const selected = keys.filter(k => k !== 'build');
+  const noteParts = [];
+  if (selected.length) noteParts.push('Add-ons: ' + selected.map(k => CATALOG[k].name).join('; '));
+  if (monthly) noteParts.push(`Renews: $${(monthly / 100).toFixed(2)}/month`);
+  if (yearly) noteParts.push(`Email renews: $${(yearly / 100).toFixed(2)}/year`);
+  const body = {
+    idempotency_key: crypto.randomUUID(),
+    description: 'Digital Doorway Marketing: website build' + (selected.length ? ' and add-ons' : ''),
+    order: {
+      location_id: env.SQUARE_LOCATION_ID,
+      line_items: lineItems,
+      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no' },
+    },
+    checkout_options: { allow_tipping: false, ask_for_shipping_address: false, redirect_url: 'https://digitaldoorwaymarketing.com/thank-you.html', merchant_support_email: 'info@digitaldoorwaymarketing.com' },
+    payment_note: clip(noteParts.join(' | '), 500) || undefined,
+  };
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) body.pre_populated_data = { buyer_email: email };
+  try {
+    const r = await squareApi(env, 'POST', '/v2/online-checkout/payment-links', body);
+    return json(200, { ok: true, url: r.payment_link.url }, headers);
+  } catch (err) {
+    return json(502, { error: 'checkout failed', detail: String(err.message || err) }, headers);
+  }
+}
+async function orderSummary(env, orderId) {
+  if (!orderId || !env.SQUARE_ACCESS_TOKEN) return null;
+  try {
+    const o = (await squareApi(env, 'GET', '/v2/orders/' + orderId)).order;
+    const md = o.metadata || {};
+    const items = (o.line_items || []).map(li => ({ name: li.name, amount: money(li.total_money || li.base_price_money) }));
+    const keys = (md.items || '').split(',').filter(Boolean);
+    if (keys.includes('domain')) items.push({ name: CATALOG.domain.name, amount: 'to be quoted' });
+    const renew = [];
+    if (+md.monthly_cents) renew.push(`$${(md.monthly_cents / 100).toFixed(2)}/month for hosting and security`);
+    if (+md.yearly_cents) renew.push(`$${(md.yearly_cents / 100).toFixed(2)}/year for business email`);
+    return { items, renew };
+  } catch (err) { return null; }
+}
+
 /* ---- Square webhook: payment.completed → admin alert + client thank-you ---- */
 const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
 async function squareSignatureOk(env, request, rawBody) {
@@ -53,12 +126,15 @@ async function handleSquare(request, env, headers) {
   const receipt = p.receipt_url || '';
   const admins = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
   const results = {};
+  const sum = await orderSummary(env, p.order_id);
+  const itemsText = sum && sum.items.length ? '\n\nOrder:\n' + sum.items.map(i => `- ${i.name}: ${i.amount}`).join('\n') + (sum.renew.length ? '\nRenews: ' + sum.renew.join('; ') : '') : '';
+  const itemsHtml = sum && sum.items.length ? `<table style="border-collapse:collapse;margin:12px 0">${sum.items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('')}</table>${sum.renew.length ? `<p style="margin:0 0 8px;color:#6B5D4D">Renews: ${esc(sum.renew.join('; '))}</p>` : ''}` : '';
   try {
     await send(env, { from: env.MAIL_FROM, to: admins, reply_to: buyer || undefined,
       subject: `New sale: ${amount} from ${buyer || 'a customer'}`,
-      text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}\n\nNext step: reach out within one business day to book the first call.`,
+      text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}${itemsText}\n\nNext step: reach out within one business day to book the first call.`,
       html: `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:20px">New sale: ${esc(amount)}</h2>
-        <table style="border-collapse:collapse">${[['Customer', buyer || '(no email on the payment)'], ['When', when + ' (Pacific)'], ['Receipt', p.receipt_number || '—'], ['Payment ID', p.id]].map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#6B5D4D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join('')}</table>
+        <table style="border-collapse:collapse">${[['Customer', buyer || '(no email on the payment)'], ['When', when + ' (Pacific)'], ['Receipt', p.receipt_number || '—'], ['Payment ID', p.id]].map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#6B5D4D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join('')}</table>${itemsHtml}
         ${receipt ? `<p><a href="${esc(receipt)}">View the Square receipt</a></p>` : ''}<p style="margin-top:20px">Next step: reach out within one business day to book the first call.</p></div>` });
     results.admins = 'sent';
   } catch (err) { results.admins = 'failed: ' + err.message; }
@@ -66,9 +142,9 @@ async function handleSquare(request, env, headers) {
     try {
       await send(env, { from: env.MAIL_FROM, to: [buyer], reply_to: admins[admins.length - 1],
         subject: 'Thank you — your website build is booked',
-        text: `Thank you for your payment of ${amount} to Digital Doorway Marketing.\n\nHere's what happens next: Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.\n\nSquare has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + p.receipt_number + ')' : ''}.\n\nQuestions in the meantime? Reply to this email or call (877) 853-1920.\n\n— Marv Reeves\nDigital Doorway Marketing\nhttps://digitaldoorwaymarketing.com`,
+        text: `Thank you for your payment of ${amount} to Digital Doorway Marketing.${itemsText}\n\nHere's what happens next: Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.\n\nSquare has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + p.receipt_number + ')' : ''}.\n\nQuestions in the meantime? Reply to this email or call (877) 853-1920.\n\n— Marv Reeves\nDigital Doorway Marketing\nhttps://digitaldoorwaymarketing.com`,
         html: `<div style="font:16px/1.55 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:22px">Thank you. The light's on.</h2>
-          <p>Your payment of <b>${esc(amount)}</b> to Digital Doorway Marketing went through.</p>
+          <p>Your payment of <b>${esc(amount)}</b> to Digital Doorway Marketing went through.</p>${itemsHtml}${sum && sum.renew.length ? '<p>Your add-ons renew as shown above. We\'ll send each renewal as a Square invoice before it\'s due.</p>' : ''}
           <p><b>What happens next:</b> Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.</p>
           <p>Square has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + esc(p.receipt_number) + ')' : ''}.</p>
           <p>Questions in the meantime? Reply to this email or call <a href="tel:+18778531920">(877) 853-1920</a>.</p>
@@ -87,6 +163,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     if (url.pathname === '/health') return json(200, { ok: true }, headers);
     if (request.method === 'POST' && url.pathname === '/square-webhook') return handleSquare(request, env, headers);
+    if (request.method === 'POST' && url.pathname === '/checkout') return handleCheckout(request, env, headers);
     if (request.method !== 'POST' || url.pathname !== '/contact') return json(404, { error: 'not found' }, headers);
     if (!env.RESEND_API_KEY) return json(500, { error: 'mailer not configured' }, headers);
 

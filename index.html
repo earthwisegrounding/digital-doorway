@@ -632,8 +632,8 @@
               </ul>
               <a class="btn btn-primary btn-lg price-btn" href="#contact">Claim your $499 site <svg class="btn-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
               <div class="price-pay">
-                <a class="btn btn-ghost-light btn-lg" href="https://square.link/u/K1iD7cfg" target="_blank" rel="noopener">Click here to pay now</a>
-                <p class="price-pay-note">Secure checkout by Square. Card, Apple Pay, or Google Pay. Ready to start today? Pay now and we'll reach out within one business day.</p>
+                <a class="btn btn-ghost-light btn-lg" href="#checkout">Click here to pay now</a>
+                <p class="price-pay-note">Pick any add-ons, then pay through Square's secure checkout: card, Apple Pay, or Google Pay. We'll reach out within one business day.</p>
               </div>
             </div>
             <p class="price-tape" aria-hidden="true"></p>
@@ -667,7 +667,7 @@
           <div class="bundle-side">
             <p class="bundle-price"><span>$34.99</span>/month</p>
             <p class="bundle-save">About $30 a year less than buying all three separately.</p>
-            <a class="btn btn-primary btn-lg" href="#contact" data-addon="Small Business Bundle">Choose the bundle <svg class="btn-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="btn btn-primary btn-lg" href="#checkout" data-addon="Small Business Bundle" data-co-pick="bundle">Choose the bundle <svg class="btn-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></a>
           </div>
         </article>
 
@@ -677,13 +677,13 @@
             <header><h3>Website Hosting</h3><p class="addon-price">$14.99<span>/month</span></p></header>
             <p class="addon-tagline">Keep your business online, fast, and ready for customers.</p>
             <p>Give visitors a reliable website experience with secure, dependable hosting built for small businesses. We manage the technical details so your site stays accessible around the clock while you focus on serving customers and growing your business.</p>
-            <a class="link-hand addon-link" href="#contact" data-addon="Website Hosting">Add hosting</a>
+            <a class="link-hand addon-link" href="#checkout" data-addon="Website Hosting" data-co-pick="hosting">Add hosting</a>
           </article>
           <article class="addon" data-reveal style="--i:1">
             <header><h3>SSL Website Security</h3><p class="addon-price">$5.99<span>/month</span></p></header>
             <p class="addon-tagline">Protect customer information and earn trust at every visit.</p>
             <p>SSL security helps safeguard data shared through your website and gives customers the secure HTTPS connection they look for before browsing, contacting you, or making a purchase. Show visitors that their privacy matters and give them more confidence to do business with you.</p>
-            <a class="link-hand addon-link" href="#contact" data-addon="SSL Website Security">Add SSL security</a>
+            <a class="link-hand addon-link" href="#checkout" data-addon="SSL Website Security" data-co-pick="ssl">Add SSL security</a>
           </article>
           <article class="addon" data-reveal style="--i:2">
             <header><h3>Professional Business Email</h3><p class="addon-price">from $59<span>/year</span></p></header>
@@ -694,14 +694,88 @@
               <li><span>3 business emails</span><b>$129/year</b></li>
               <li><span>5 business emails</span><b>$199/year</b></li>
             </ul>
-            <a class="link-hand addon-link" href="#contact" data-addon="Professional Business Email">Add business email</a>
+            <a class="link-hand addon-link" href="#checkout" data-addon="Professional Business Email" data-co-pick="email1">Add business email</a>
           </article>
           <article class="addon" data-reveal style="--i:3">
             <header><h3>Domain Name Registration</h3><p class="addon-price addon-price-ask">Ask us</p></header>
             <p class="addon-tagline">Claim your business name online before someone else does.</p>
             <p>Register a professional domain name that makes your business easy to find and remember. A custom domain gives your website a credible online address, strengthens your brand, and makes it easier for customers to connect with you.</p>
-            <a class="link-hand addon-link" href="#contact" data-addon="Domain Name Registration">Claim your domain</a>
+            <a class="link-hand addon-link" href="#checkout" data-addon="Domain Name Registration" data-co-pick="domain">Claim your domain</a>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CHECKOUT ============================== -->
+    <section class="section section-linen" id="checkout" aria-labelledby="checkout-title">
+      <div class="container">
+        <div class="section-head co-head" data-reveal>
+          <p class="eyebrow">Checkout</p>
+          <h2 id="checkout-title">Build your order.</h2>
+          <p class="section-intro">Your $499 website is always included. Add anything else you'd like, then pay securely through Square.</p>
+        </div>
+
+        <div class="co-grid">
+          <form class="co-options" data-checkout novalidate>
+            <fieldset class="co-group">
+              <legend>Your website</legend>
+              <label class="co-opt is-locked">
+                <input type="checkbox" checked disabled>
+                <span class="co-name">Website design and build<small>Everything in the $499 list above. You own it.</small></span>
+                <span class="co-price">$499<small>one-time</small></span>
+              </label>
+            </fieldset>
+
+            <fieldset class="co-group">
+              <legend>Hosting and security</legend>
+              <label class="co-opt co-best">
+                <input type="checkbox" name="co" value="bundle">
+                <span class="co-name">Small Business Bundle <em class="co-badge">Best value</em><small>Hosting, SSL security, and 5 business email accounts.</small></span>
+                <span class="co-price">$34.99<small>/month</small></span>
+              </label>
+              <label class="co-opt" data-in-bundle>
+                <input type="checkbox" name="co" value="hosting">
+                <span class="co-name">Website Hosting<small class="co-when-bundled">Included in the bundle</small></span>
+                <span class="co-price">$14.99<small>/month</small></span>
+              </label>
+              <label class="co-opt" data-in-bundle>
+                <input type="checkbox" name="co" value="ssl">
+                <span class="co-name">SSL Website Security<small class="co-when-bundled">Included in the bundle</small></span>
+                <span class="co-price">$5.99<small>/month</small></span>
+              </label>
+            </fieldset>
+
+            <fieldset class="co-group" data-in-bundle>
+              <legend>Professional business email <small class="co-when-bundled">5 accounts included in the bundle</small></legend>
+              <label class="co-opt"><input type="radio" name="co-email" value="" checked><span class="co-name">No business email</span><span class="co-price"></span></label>
+              <label class="co-opt"><input type="radio" name="co-email" value="email1"><span class="co-name">1 business email</span><span class="co-price">$59<small>/year</small></span></label>
+              <label class="co-opt"><input type="radio" name="co-email" value="email3"><span class="co-name">3 business emails</span><span class="co-price">$129<small>/year</small></span></label>
+              <label class="co-opt"><input type="radio" name="co-email" value="email5"><span class="co-name">5 business emails</span><span class="co-price">$199<small>/year</small></span></label>
+            </fieldset>
+
+            <fieldset class="co-group">
+              <legend>Domain name</legend>
+              <label class="co-opt">
+                <input type="checkbox" name="co" value="domain">
+                <span class="co-name">Register a domain for me<small>Priced once we check your name is available. Nothing charged for it today.</small></span>
+                <span class="co-price co-price-ask">Quoted</span>
+              </label>
+            </fieldset>
+          </form>
+
+          <aside class="co-summary" aria-labelledby="co-sum-title">
+            <h3 id="co-sum-title">Your order</h3>
+            <ul class="co-lines" data-co-lines role="list"></ul>
+            <div class="co-total"><span>Due today</span><b data-co-total>$499.00</b></div>
+            <p class="co-renew" data-co-renew hidden></p>
+            <div class="field co-email">
+              <label for="co-email">Email for your receipt <span class="opt">(optional)</span></label>
+              <input id="co-email" type="email" autocomplete="email" placeholder="you@yourbusiness.com">
+            </div>
+            <button class="btn btn-primary btn-lg co-pay" type="button" data-co-pay>Continue to secure payment <svg class="btn-arrow" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <p class="co-error" data-co-error role="alert" hidden></p>
+            <p class="co-fine">You'll finish on Square's secure checkout with a card, Apple Pay, or Google Pay. Questions first? <a class="link-hand" href="#contact">Ask us</a>.</p>
+          </aside>
         </div>
       </div>
     </section>

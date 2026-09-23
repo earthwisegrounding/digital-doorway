@@ -53,3 +53,12 @@ Drag the folder onto Netlify Drop, or push to GitHub and enable GitHub Pages, or
 - Their "Design your yard in 3D" links point to the live studio at earthwisegrounding.github.io/verdura (its 3D models are ~59 MB, so it is not copied). Inside the comparison, the studio and any other link that leaves the page open in a new tab; if a frame ever navigates away anyway, a "Back to the comparison" button reloads both and re-syncs.
 - The homepage "One business. Two directions." section loads both in stacked frames with a draggable divider; because they're on the same domain, scrolling either side scrolls both in step, and only one welcome message plays at a time.
 - If the ProLawn sites change, re-copy them into `work/prolawn/` (keep the noindex tag and the studio links).
+
+## Checkout (build + add-ons)
+
+- The `#checkout` section lets customers pick add-ons on top of the required $499 build. "Continue to secure payment" POSTs the selection to the worker's `/checkout`, which prices it from its own catalog (`CATALOG` in `api/worker.js`, the source of truth for charges), creates a Square payment link for exactly that order under the Digital Doorway Marketing location, and redirects the customer to it.
+- Today's charge = $499 + first month of hosting/SSL/bundle + first year of the email plan. Renewals are NOT automatic: the order records `monthly_cents`/`yearly_cents`, the sale emails show what renews, and the site tells customers renewals come as Square invoices. Set those up in Square Dashboard → Invoices (recurring) after each sale.
+- Domain registration is recorded as a request (no charge); quote it separately.
+- Rules: the bundle replaces separate hosting, SSL, and email; only one email plan per order.
+- If you change a price, change it in `CATALOG` (worker) AND the display prices in `index.html` + `script.js` (`P` in the checkout block). Redeploy the worker with `cd api && npx wrangler deploy`.
+- Worker secrets now include `SQUARE_ACCESS_TOKEN` (same token as the angie project).
