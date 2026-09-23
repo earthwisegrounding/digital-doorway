@@ -401,4 +401,94 @@
       if (box) box.checked = true;
     });
   });
+
+  /* ---------- Client work: A/B comparison slider with synced scrolling ---------- */
+  (function () {
+    var box = document.querySelector('[data-compare]'); if (!box) return;
+    var frames = [box.querySelector('.cmp-a'), box.querySelector('.cmp-b')];
+    var handle = box.querySelector('.cmp-handle');
+    var segBtns = document.querySelectorAll('[data-cw-set]');
+    var x = 50, loaded = 0;
+
+    function setX(v, fromSeg) {
+      x = Math.max(0, Math.min(100, v));
+      box.style.setProperty('--x', x + '%');
+      box.setAttribute('data-side', x >= 97 ? 'a' : x <= 3 ? 'b' : 'split');
+      handle.setAttribute('aria-valuenow', Math.round(x));
+      handle.setAttribute('aria-valuetext', x >= 97 ? 'Direction A' : x <= 3 ? 'Direction B' : Math.round(x) + '% Direction A, ' + Math.round(100 - x) + '% Direction B');
+      segBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(+b.getAttribute('data-cw-set') === Math.round(x))); });
+    }
+
+    /* drag the handle (pointer events cover mouse, pen, and touch) */
+    function xFrom(e) { var r = box.getBoundingClientRect(); return ((e.clientX - r.left) / r.width) * 100; }
+    handle.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); handle.setPointerCapture(e.pointerId); box.classList.add('is-dragging');
+      box.style.transition = 'none';
+    });
+    handle.addEventListener('pointermove', function (e) { if (box.classList.contains('is-dragging')) setX(xFrom(e)); });
+    function endDrag() { box.classList.remove('is-dragging'); }
+    handle.addEventListener('pointerup', endDrag); handle.addEventListener('pointercancel', endDrag); handle.addEventListener('lostpointercapture', endDrag);
+    handle.addEventListener('keydown', function (e) {
+      var step = e.shiftKey ? 25 : 5;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { setX(x - step); e.preventDefault(); }
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { setX(x + step); e.preventDefault(); }
+      else if (e.key === 'Home') { setX(0); e.preventDefault(); }
+      else if (e.key === 'End') { setX(100); e.preventDefault(); }
+    });
+
+    /* A / side by side / B buttons glide the bar */
+    var anim = 0;
+    function glideTo(target) {
+      cancelAnimationFrame(anim); var from = x, t0 = performance.now(), dur = 450;
+      (function step(now) {
+        var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        setX(from + (target - from) * e); if (p < 1) anim = requestAnimationFrame(step);
+      })(t0);
+      setTimeout(function () { if (Math.abs(x - target) > .01) { cancelAnimationFrame(anim); setX(target); } }, dur + 80);
+    }
+    segBtns.forEach(function (b) { b.addEventListener('click', function () { glideTo(+b.getAttribute('data-cw-set')); }); });
+
+    /* keep both sites scrolled to the same point (proportionally, since page lengths differ).
+       Each side remembers the position it was just told to take, so its own scroll event
+       doesn't echo back; smooth scrolling is switched off inside the frames so moves are instant. */
+    var expected = [null, null];
+    function scroller(f) { try { return f.contentDocument && (f.contentDocument.scrollingElement || f.contentDocument.documentElement); } catch (err) { return null; } }
+    function link(i) {
+      var src = frames[i], j = 1 - i, dst = frames[j], w;
+      try { w = src.contentWindow; } catch (err) { return; } if (!w) return;
+      try { src.contentDocument.documentElement.style.scrollBehavior = 'auto'; } catch (err) {}
+      w.addEventListener('scroll', function () {
+        var s = scroller(src), d = scroller(dst); if (!s || !d) return;
+        if (expected[i] !== null && Math.abs(s.scrollTop - expected[i]) < 3) { expected[i] = null; return; }
+        expected[i] = null;
+        var max = s.scrollHeight - s.clientHeight, dmax = d.scrollHeight - d.clientHeight;
+        var target = Math.round((max > 0 ? s.scrollTop / max : 0) * dmax);
+        if (Math.abs(d.scrollTop - target) < 2) return;
+        expected[j] = target; d.scrollTop = target;
+      }, { passive: true });
+    }
+    /* only one welcome message plays at a time */
+    function audioGuard(f, other) {
+      try {
+        f.contentDocument.addEventListener('play', function () {
+          try { Array.prototype.forEach.call(other.contentDocument.querySelectorAll('audio, video'), function (m) { m.pause(); }); } catch (err) {}
+        }, true);
+      } catch (err) {}
+    }
+    frames.forEach(function (f, i) {
+      f.addEventListener('load', function () {
+        if (!f.getAttribute('src')) return;
+        loaded++; audioGuard(f, frames[1 - i]);
+        if (loaded >= 2) { link(0); link(1); box.classList.add('is-ready'); }
+      });
+    });
+
+    /* load both live sites only when the section is near */
+    function start() { frames.forEach(function (f) { if (!f.getAttribute('src')) f.setAttribute('src', f.getAttribute('data-src')); }); }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { start(); io.disconnect(); } }, { rootMargin: '600px 0px' });
+      io.observe(box);
+    } else start();
+    setX(50);
+  })();
 })();

@@ -1059,3 +1059,50 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .check input { width: 18px; height: 18px; accent-color: var(--accent); flex: none; margin: 0; }
 .field .check input { width: 18px; height: 18px; min-height: 0; padding: 0; border: 0; border-radius: 3px; box-shadow: none; background: none; }
 .check-grid { gap: .15rem .9rem; }
+
+/* ---------- Client work: A/B comparison slider ---------- */
+.cw-head { text-align: center; margin-inline: auto; }
+.cw-head .section-intro { margin-inline: auto; }
+.cw-toolbar { display: flex; justify-content: center; margin-bottom: 1.25rem; }
+.cw-seg { display: inline-flex; gap: .25rem; padding: .3rem; background: var(--surface); border: 1.5px solid var(--rule); border-radius: 999px; }
+.cw-seg button { border: 0; background: transparent; font: 600 .9375rem/1 var(--sans); color: var(--muted); padding: .7rem 1.1rem; min-height: 44px; border-radius: 999px; cursor: pointer; transition: background .2s, color .2s; }
+.cw-seg button[aria-pressed="true"] { background: var(--grad-terracotta); color: #FFFDF8; }
+.cw-seg button:focus-visible { outline: 3px solid var(--mustard); outline-offset: 2px; }
+.compare {
+  position: relative; width: 100%; height: min(78vh, 820px); min-height: 460px;
+  border-radius: var(--radius-lg); overflow: hidden; background: var(--walnut);
+  border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--mustard), var(--shadow-lift);
+  isolation: isolate; touch-action: pan-y;
+}
+.cmp-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; background: #fff; }
+.cmp-a { clip-path: inset(0 calc(100% - var(--x)) 0 0); z-index: 2; }
+.cmp-b { z-index: 1; }
+.compare.is-dragging .cmp-frame { pointer-events: none; }
+.cmp-bar { position: absolute; top: 0; bottom: 0; left: var(--x); width: 3px; transform: translateX(-50%); background: #FFFDF8; box-shadow: 0 0 0 1px rgba(16,33,63,.35), 0 0 18px rgba(0,0,0,.35); z-index: 3; pointer-events: none; }
+.cmp-handle {
+  position: absolute; top: 50%; left: var(--x); z-index: 4; transform: translate(-50%, -50%);
+  width: 56px; height: 56px; border-radius: 50%; border: 3px solid #FFFDF8; background: var(--grad-terracotta); color: #FFFDF8;
+  display: grid; place-items: center; cursor: ew-resize; touch-action: none; box-shadow: 0 6px 20px rgba(0,0,0,.35);
+}
+.cmp-handle svg { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.cmp-handle:focus-visible { outline: 3px solid var(--mustard); outline-offset: 4px; }
+.cmp-tag { position: absolute; bottom: 1rem; z-index: 3; pointer-events: none; font: 700 .8125rem/1 var(--sans); letter-spacing: .12em; color: #FFFDF8; background: rgba(16,33,63,.82); padding: .5rem .75rem; border-radius: 999px; transition: opacity .2s; }
+.cmp-tag-a { left: 1rem; }
+.cmp-tag-b { right: 1rem; }
+.compare[data-side="a"] .cmp-tag-b, .compare[data-side="b"] .cmp-tag-a { opacity: 0; }
+.cmp-loading { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; color: #FFFDF8; font: italic 500 1.25rem/1 var(--serif); background: var(--grad-walnut); transition: opacity .4s; pointer-events: none; }
+.compare.is-ready .cmp-loading { opacity: 0; }
+.cw-cards { display: grid; gap: clamp(1rem, 2vw, 1.5rem); margin-top: clamp(1.75rem, 3vw, 2.5rem); }
+@media (min-width: 760px) { .cw-cards { grid-template-columns: 1fr 1fr; } }
+.cw-card { display: flex; flex-direction: column; gap: .5rem; padding: clamp(1.3rem, 2.5vw, 1.8rem); background: var(--surface); border: 1.5px solid var(--rule); border-radius: var(--radius); }
+.cw-label { font: 700 .75rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.cw-card h3 { font-size: clamp(1.2rem, 1.6vw, 1.4rem); }
+.cw-card p:not(.cw-label) { color: var(--muted); font-size: .9688rem; line-height: 1.6; }
+.cw-card .link-hand { margin-top: auto; padding-top: .3rem; font-weight: 600; align-self: flex-start; }
+.cw-card .link-hand::after { content: " \2197"; }
+.cw-note { text-align: center; color: var(--muted); margin: clamp(1.5rem, 3vw, 2rem) auto 0; max-width: 60ch; }
+@media (max-width: 639px) {
+  .compare { height: 72vh; min-height: 420px; border-radius: var(--radius); box-shadow: 5px 5px 0 var(--mustard), var(--shadow); }
+  .cmp-handle { width: 52px; height: 52px; }
+  .cw-seg button { padding: .65rem .8rem; font-size: .875rem; }
+}
