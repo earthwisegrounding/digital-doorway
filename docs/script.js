@@ -611,4 +611,36 @@
     });
     render();
   })();
+
+  /* ---------- 3D showpiece: load three.js, the loader, and the scene only when needed ----------
+     Nothing 3D downloads during the initial page load. The first scroll, tap, or key press,
+     or the section already being on screen, starts it. showpiece.js then fetches
+     the door model itself. */
+  (function () {
+    var section = document.getElementById('showcase'); if (!section) return;
+    var SCRIPTS = [
+      'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
+      'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js',
+      'showpiece.js?v=6'
+    ];
+    var started = false, events = ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'], io = null;
+    function load(i) {
+      if (i >= SCRIPTS.length) return;
+      var s = document.createElement('script'); s.src = SCRIPTS[i]; s.async = false;
+      s.onload = function () { load(i + 1); };
+      s.onerror = function () { section.classList.add('is-static'); };
+      document.body.appendChild(s);
+    }
+    function go() {
+      if (started) return; started = true;
+      events.forEach(function (ev) { window.removeEventListener(ev, go, { passive: true }); });
+      if (io) io.disconnect();
+      load(0);
+    }
+    events.forEach(function (ev) { window.addEventListener(ev, go, { passive: true, once: true }); });
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) go(); });   // visible now (tall screens); otherwise the first scroll starts it
+      io.observe(section);
+    } else go();
+  })();
 })();

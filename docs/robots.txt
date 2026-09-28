@@ -1,0 +1,6 @@
+# digitaldoorwaymarketing.com
+# All crawlers, including AI assistants and search crawlers, are welcome.
+User-agent: *
+Allow: /
+
+Sitemap: https://digitaldoorwaymarketing.com/sitemap.xml

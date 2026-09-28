@@ -1,3 +1,8 @@
+/* ---------- Self-hosted fonts (latin subset; variable files cover every weight used) ---------- */
+@font-face { font-family: 'Fraunces'; font-style: normal; font-weight: 400 700; font-display: swap; src: url(assets/fonts/fraunces-normal-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Fraunces'; font-style: italic; font-weight: 400 700; font-display: swap; src: url(assets/fonts/fraunces-italic-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Inter Tight'; font-style: normal; font-weight: 400 600; font-display: swap; src: url(assets/fonts/inter-tight-normal-latin.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
 /* ==========================================================================
    Digital Doorway Marketing — "The Open Door"
    Cream paper, ink, terracotta, a hand-drawn line or two.
@@ -279,11 +284,12 @@ body.menu-open { overflow: hidden; }
 .hero-eyebrow, .hero-trust { display: flex; flex-wrap: wrap; justify-content: center; column-gap: 1.2em; row-gap: .15em; overflow-x: clip; }
 .hero-eyebrow span, .hero-trust span { white-space: nowrap; position: relative; }
 .hero-eyebrow span::before, .hero-trust span::before { content: "\00B7"; position: absolute; left: -.6em; transform: translateX(-50%); opacity: .6; }
-.hero-title { max-width: 14ch; margin-bottom: 1.5rem; }
+.hero-title { margin-bottom: 1.5rem; }
+.hero-title .line { max-width: 14ch; margin-inline: auto; }
 .hero-title .line { display: block; animation: riseIn .7s var(--ease-out) both; }
-.hero-title .line:nth-child(1) { animation-delay: 120ms; }
-.hero-title .line:nth-child(2) { animation-delay: 200ms; }
-.hero-title .line:nth-child(3) { animation-delay: 280ms; }
+.hero-title .line:nth-child(2) { animation-delay: 120ms; }
+.hero-title .line:nth-child(3) { animation-delay: 200ms; }
+.hero-title .line:nth-child(4) { animation-delay: 280ms; }
 
 .hl-word { position: relative; display: inline-block; font-style: italic; font-weight: 400; z-index: 0; padding-inline: .04em; }
 .hl-text { position: relative; z-index: 1; }
@@ -1168,3 +1174,11 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
 .co-done { padding: 1rem 1.1rem; border-radius: 12px; background: rgba(20,180,196,.14); border: 1.5px solid rgba(20,180,196,.45); }
 .co-done p { margin: 0; color: var(--bg); font-size: .9375rem; line-height: 1.5; }
 .co-done .co-done-title { font: 600 1.2rem/1.2 var(--serif); margin-bottom: .35rem; }
+
+/* ---------- SEO pass: kickers inside headings, demoted 3D captions ---------- */
+h2 > .eyebrow { display: block; }
+.sp-step p.sp-heading {
+  font-family: var(--serif); font-weight: 600; color: #FDFAF3; margin: 0; max-width: none;
+  font-size: clamp(2rem, 4.8vw, 4.1rem); line-height: 1.08; letter-spacing: -.02em;
+  font-variation-settings: "opsz" 96, "SOFT" 40; text-wrap: balance;
+}
