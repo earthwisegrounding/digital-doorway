@@ -8,7 +8,7 @@
 - Included: custom design (not a template), mobile-first build, copywriting help, Google-ready SEO basics (titles, descriptions, speed, map listing hookup), contact forms and click-to-call, two rounds of changes, launch, and a walkthrough of the finished site. The client owns the site.
 - After the first 2 years: hosting is $14.99/month and the domain renews yearly.
 - Every client gets more than one design direction to choose from.
-- Payment: clients request an invoice on the website; invoices are emailed. Nothing is charged on the site.
+- Payment: online at checkout on the website, through Square (card, Apple Pay, or Google Pay).
 
 ## Optional add-ons
 

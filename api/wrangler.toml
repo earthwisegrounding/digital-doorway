@@ -15,9 +15,9 @@ MAIL_FROM = "Digital Doorway Marketing <hello@digitaldoorwaymarketing.com>"
 AUTO_REPLY = "yes"
 ALLOWED_ORIGINS = "https://digitaldoorwaymarketing.com,https://www.digitaldoorwaymarketing.com,https://earthwisegrounding.github.io"
 # Square sales → admin alert + client thank-you. Only payments at this location count.
-# Online payment via Square is switched OFF (invoices are emailed instead). To turn it back on:
-#   set CHECKOUT_ENABLED = "yes" here, PAY_ONLINE = true in script.js, and re-enable the Square webhook subscription.
-CHECKOUT_ENABLED = "no"
+# Online payment via Square is ON: the homepage order builder calls /checkout.
+# Set CHECKOUT_ENABLED = "no" to make /checkout refuse requests (the page then offers the plain $499 link).
+CHECKOUT_ENABLED = "yes"
 SQUARE_LOCATION_ID = "LWTA04YK02TTT"
 SQUARE_NOTIFICATION_URL = "https://digital-doorway-mail.angie-tatum-api.workers.dev/square-webhook"
 # Secret: SQUARE_WEBHOOK_SIGNATURE_KEY  (from the webhook subscription; `npx wrangler secret put SQUARE_WEBHOOK_SIGNATURE_KEY`)

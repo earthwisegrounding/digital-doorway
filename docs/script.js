@@ -530,17 +530,17 @@
     setX(50);
   })();
 
-  /* ---------- Order builder: request an invoice (online Square checkout kept but switched off) ---------- */
+  /* ---------- Order builder: pick add-ons, then pay through Square ----------
+     The worker prices the order (api/worker.js CATALOG) and returns a Square payment link for exactly those items. */
   (function () {
     var form = document.querySelector('[data-checkout]'); if (!form) return;
-    var PAY_ONLINE = false;   // true = hand off to Square checkout again (worker must also have CHECKOUT_ENABLED = "yes")
+    var FALLBACK = 'https://square.link/u/K1iD7cfg';   // the plain $499 Square link, offered if checkout can't open
     var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
     var P = { build: 49900, bundle: 3499, ssl: 599, email1: 5900, email3: 12900, email5: 19900 };
     var NAMES = { build: 'Website build, with 2 years of hosting and domain', bundle: 'Small Business Bundle, first month', ssl: 'SSL Website Security, first month', email1: '1 business email, first year', email3: '3 business emails, first year', email5: '5 business emails, first year' };
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
-    var done = document.querySelector('[data-co-done]');
-    var inName = document.getElementById('co-name'), inBiz = document.getElementById('co-biz'), inEmail = document.getElementById('co-email');
+    var inEmail = document.getElementById('co-email');
     var bundleBox = form.querySelector('input[value="bundle"]');
     var usd = function (c) { return '$' + (c / 100).toFixed(2); };
 
@@ -573,7 +573,6 @@
       var r = ['Hosting and your domain are included for your first 2 years.'];
       if (monthly) r.push((keys.indexOf('bundle') > -1 ? 'The bundle' : 'SSL security') + ' renews at ' + usd(monthly) + '/month.');
       if (yearly) r.push('Business email renews at ' + usd(yearly) + '/year.');
-      if (monthly || yearly) r.push('We’ll email each renewal as an invoice before it’s due.');
       renew.textContent = r.join(' '); renew.hidden = false;
     }
     form.addEventListener('change', render);
@@ -587,25 +586,23 @@
       });
     });
 
-    function fieldOk(input, test) { var ok = test(input.value.trim()); input.closest('.field').classList.toggle('has-error', !ok); return ok; }
     pay.addEventListener('click', function () {
       err.hidden = true;
-      var ok = fieldOk(inName, function (v) { return v.length > 0; }) & fieldOk(inBiz, function (v) { return v.length > 0; }) & fieldOk(inEmail, function (v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); });
-      if (!ok) { err.textContent = 'Please add your name, business name, and an email for the invoice.'; err.hidden = false; return; }
+      var email = (inEmail.value || '').trim(), field = inEmail.closest('.field');
+      var emailOk = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      field.classList.toggle('has-error', !emailOk);
+      if (!emailOk) { err.textContent = 'That email doesn’t look right. Fix it or leave it blank; Square will ask for it.'; err.hidden = false; return; }
       pay.setAttribute('aria-busy', 'true');
-      var label = pay.firstChild.textContent; pay.firstChild.textContent = PAY_ONLINE ? 'Opening secure checkout… ' : 'Sending your order… ';
-      var body = JSON.stringify({ items: selected(), name: inName.value.trim(), business: inBiz.value.trim(), email: inEmail.value.trim() });
-      fetch(API + (PAY_ONLINE ? '/checkout' : '/order-request'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body })
-        .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.ok) throw new Error(d.detail || 'failed'); return d; }); })
-        .then(function (d) {
-          if (PAY_ONLINE && d.url) { window.location.href = d.url; return; }
-          pay.hidden = true; form.querySelectorAll('input').forEach(function (i) { i.disabled = true; });
-          [inName, inBiz, inEmail].forEach(function (i) { i.disabled = true; });
-          done.hidden = false; done.focus();
-        })
+      var label = pay.firstChild.textContent; pay.firstChild.textContent = 'Opening secure checkout… ';
+      fetch(API + '/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selected(), email: email }) })
+        .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.url) throw new Error(d.detail || d.error || 'failed'); return d; }); })
+        .then(function (d) { window.location.href = d.url; })
         .catch(function () {
           pay.removeAttribute('aria-busy'); pay.firstChild.textContent = label;
-          err.textContent = 'Something hiccupped sending your order. Please email info@digitaldoorwaymarketing.com or call (877) 853-1920 and we’ll take it from there.';
+          err.innerHTML = '';
+          err.appendChild(document.createTextNode('We couldn’t open checkout just now. You can '));
+          var a = document.createElement('a'); a.href = FALLBACK; a.textContent = 'pay the $499 build directly'; a.target = '_blank'; a.rel = 'noopener';
+          err.appendChild(a); err.appendChild(document.createTextNode(' and we’ll add any extras afterward, or call (877) 853-1920.'));
           err.hidden = false;
         });
     });

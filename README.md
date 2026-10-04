@@ -61,9 +61,12 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 - The homepage "One business. Two directions." section loads both in stacked frames with a draggable divider; because they're on the same domain, scrolling either side scrolls both in step, and only one welcome message plays at a time.
 - If the ProLawn sites change, re-copy them into `docs/work/prolawn/` (keep the noindex tag and the studio links).
 
-## Orders and invoices (online payment switched off)
+## Orders and online payment (Square)
 
-- The `#checkout` section is an order builder: the $499 build (which includes the first 2 years of hosting and domain registration) is always included, and customers add SSL, the Small Business Bundle, or an email plan. "Request my invoice" POSTs name, business, email, and items to the worker's `/order-request`, which prices the order from `CATALOG` in `api/worker.js` and emails the admins an itemized "Order to invoice" plus a copy to the customer. Nothing is charged on the site; you send the invoice.
-- Square online payment is kept but OFF: `PAY_ONLINE = false` in `docs/script.js`, `CHECKOUT_ENABLED = "no"` in `api/wrangler.toml` (the `/checkout` route returns 403), and the Square webhook subscription "Digital Doorway Marketing sales" is disabled in Square. To turn online payment back on, flip both flags, redeploy the worker (`cd api && npx wrangler deploy`), and re-enable the webhook.
-- The original $499 Square payment link (square.link/u/K1iD7cfg) still exists in Square but is not linked from the site.
-- If you change a price, change it in `CATALOG` (worker) AND the display prices in `docs/index.html` + the `P` table in the order-builder block of `docs/script.js`.
+- The `#checkout` section is the order builder: the $499 build (which includes the first 2 years of hosting and domain registration) is always included, and customers add SSL, the Small Business Bundle, or an email plan. "Continue to secure payment" POSTs the selection (and an optional receipt email) to the worker's `/checkout`, which prices it from `CATALOG` in `api/worker.js`, creates a Square payment link for exactly that order under the "Digital Doorway Marketing" location, and redirects the customer to Square's checkout. Afterward they land on `docs/thank-you.html`.
+- Today's charge = $499 + the first month of the bundle or SSL + the first year of the email plan. Renewals are not automatic; the order records them and the sale emails list them.
+- The Square webhook subscription "Digital Doorway Marketing sales" is enabled, so every completed payment sends the admins a "New sale" email and the customer a thank-you.
+- Switches: `CHECKOUT_ENABLED` in `api/wrangler.toml` ("yes" now). If checkout can't open, the page offers the plain $499 link (square.link/u/K1iD7cfg), which is also what `/ready` uses.
+- The Square location must be **Active** for any of this to work. On 2026-10-04 it had been set to Inactive (Square showed "This business is currently not accepting payments") and was reactivated through the API.
+- `/order-request` (the old invoice flow) still exists in the worker but nothing on the site calls it.
+- If you change a price, change it in `CATALOG` (worker) AND the display prices in `docs/index.html` + the `P` table in the order-builder block of `docs/script.js`, and the JSON-LD offers and `docs/llms.txt`.
