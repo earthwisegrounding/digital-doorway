@@ -530,7 +530,7 @@
     setX(50);
   })();
 
-  /* ---------- Order: the $499 website (2 years of hosting, domain, SSL, and 5 emails included), paid through Square ----------
+  /* ---------- Order: the $499 website (2 years of hosting, domain, SSL, 5 emails, local SEO, QR codes, audio welcome included), paid through Square ----------
      The worker prices the order (api/worker.js CATALOG) and returns a Square payment link for it. */
   (function () {
     var form = document.querySelector('[data-checkout]'); if (!form) return;
@@ -542,12 +542,12 @@
     function selected() { return ['build']; }
     function render() {
       lines.innerHTML = '';
-      [['Website design and build', '$499.00'], ['2 years of hosting, domain, SSL & 5 emails', 'Included']].forEach(function (row) {
+      [['Website design and build', '$499.00'], ['7 services for 24 months', 'Included']].forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
         n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
       total.textContent = '$499.00';
-      renew.textContent = 'No monthly fees for your first 24 months. After that, the optional Small Business Bundle keeps everything running for $34.99 a month.';
+      renew.textContent = 'No monthly fees for your first 24 months. After that, the optional Business Bundle keeps everything running for $34.99 a month.';
       renew.hidden = false;
     }
 

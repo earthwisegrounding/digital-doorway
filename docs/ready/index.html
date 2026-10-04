@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Your New Website | Digital Doorway Marketing</title>
-<meta name="description" content="Your new website is ready. See everything included for $499: two years of domain, hosting, SSL, professional email, local SEO, QR codes, an audio welcome message and more.">
+<meta name="description" content="Your new website is ready. See everything included for $499: two years of domain, hosting, SSL, professional email, local SEO, QR codes and an audio welcome message.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#06142E">
 <link rel="icon" href="assets/logo-mark.png">
@@ -98,7 +98,8 @@
   }
   .value-banner span { display: inline-flex; align-items: center; gap: 10px; }
   .value-banner b { color: var(--teal); }
-  .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 28px; }
+  .services { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-top: 28px; }
+  .services > .svc { flex: 0 0 calc((100% - 54px) / 4); }
   .svc { background: var(--card); border-radius: var(--radius); padding: 24px 22px; box-shadow: var(--shadow); position: relative; }
   .svc .ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: rgba(21, 86, 184, 0.09); color: var(--blue); margin-bottom: 16px; }
   .svc .ico svg { width: 24px; height: 24px; }
@@ -269,11 +270,12 @@
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv { opacity: 1; transform: none; transition: none; } .bar .fill { transition: none; } }
 
   @media (max-width: 960px) {
-    .services { grid-template-columns: repeat(2, 1fr); }
+    .services > .svc { flex-basis: calc((100% - 18px) / 2); }
     .receipt-wrap, .choices, .claim-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
-    .services, .keep, .timeline { grid-template-columns: 1fr; }
+    .keep, .timeline { grid-template-columns: 1fr; }
+    .services > .svc { flex-basis: 100%; }
     .brand span { display: none; }
     .video { border-radius: 14px; }
     .hero-cta .btn { width: 100%; }
@@ -327,7 +329,7 @@
         <p class="lead">Your $499 doesn't just buy a website. It also covers every service below for your first two years, with nothing extra to pay.</p>
       </div>
       <div class="value-banner rv">
-        <span>✓ <b>8 services</b> included</span>
+        <span>✓ <b>7 services</b> included</span>
         <span>✓ Covered for <b>24 months</b></span>
         <span>✓ Over <b>$800 in value per year</b></span>
       </div>
@@ -367,12 +369,12 @@
 
       <div class="timeline rv" aria-label="Timeline">
         <div class="tl t1"><small>Today</small><b>Pay $499 once</b><span>Your website goes live</span></div>
-        <div class="tl t2"><small>Months 1–24</small><b>All 8 services included</b><span>Nothing more to pay</span></div>
+        <div class="tl t2"><small>Months 1–24</small><b>All 7 services included</b><span>Nothing more to pay</span></div>
         <div class="tl t3"><small>Month 25 onward</small><b>You choose</b><span>Buy services individually or bundle them</span></div>
       </div>
       <div class="keep rv">
         <div class="yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#2BD47D"/><path d="M7 12.5l3 3 7-7" stroke="#06142E" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>You keep your website</b><span>The website you purchased is yours, after year two and beyond.</span></div></div>
-        <div class="no"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FFC400"/><path d="M12 6.5v7" stroke="#06142E" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.5" fill="#06142E"/></svg><div><b>The included services end</b><span>Domain, hosting, SSL, email, SEO, QR codes, audio message and newsletter are no longer covered after month 24.</span></div></div>
+        <div class="no"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FFC400"/><path d="M12 6.5v7" stroke="#06142E" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.5" fill="#06142E"/></svg><div><b>The included services end</b><span>Domain, hosting, SSL, email, SEO, QR codes and audio message are no longer covered after month 24.</span></div></div>
       </div>
 
       <div class="choices">
@@ -413,8 +415,8 @@
       </div>
       <div class="faq">
         <details class="rv"><summary>Do I own the website after I pay?</summary><p>Yes. Once you claim it for $499, the website is yours to keep, during your first two years and after.</p></details>
-        <details class="rv"><summary>Are there any monthly fees during the first two years?</summary><p>No. Your one-time $499 covers the website plus all eight included services for 24 months.</p></details>
-        <details class="rv"><summary>What happens when the two years are up?</summary><p>You keep the website. The included services (domain, hosting, SSL, email, local SEO, QR codes, audio welcome message and newsletter) are no longer covered. You can buy them individually from any provider, or continue with us through the Business Bundle for $34.99 a month.</p></details>
+        <details class="rv"><summary>Are there any monthly fees during the first two years?</summary><p>No. Your one-time $499 covers the website plus all seven included services for 24 months.</p></details>
+        <details class="rv"><summary>What happens when the two years are up?</summary><p>You keep the website. The included services (domain, hosting, SSL, email, local SEO, QR codes and audio welcome message) are no longer covered. You can buy them individually from any provider, or continue with us through the Business Bundle for $34.99 a month.</p></details>
         <details class="rv"><summary>Do I have to sign up for the Business Bundle?</summary><p>No. The bundle is completely optional, and it's only relevant after your first 24 months. It's simply the easiest and most affordable way to keep everything running in one place.</p></details>
         <details class="rv"><summary>What's included in the Business Bundle?</summary><p>Domain name registration, website hosting, SSL certificate, QR codes, five business email addresses on your domain, SEO and your audio welcome message, all for $34.99 a month.</p></details>
         <details class="rv"><summary>How do I pay?</summary><p>Click "Claim my website" and pay securely by card. Payments are processed by Square.</p></details>
@@ -433,7 +435,7 @@
       <div class="order rv">
         <div class="order-site"><div class="fav" id="favInitial">Y</div><div><b data-biz>your business</b><span data-domain>yourbusiness.com</span></div></div>
         <div class="order-row"><span>Custom professional website</span><span>Included</span></div>
-        <div class="order-row"><span>8 services for 24 months</span><span>Included</span></div>
+        <div class="order-row"><span>7 services for 24 months</span><span>Included</span></div>
         <div class="order-row"><span>Monthly fees for 2 years</span><span>$0</span></div>
         <div class="order-row total"><span>Total due today</span><span>$499.00</span></div>
         <button class="btn btn-primary" type="button" data-checkout>Claim my website · $499</button>
@@ -510,8 +512,6 @@ const SERVICES = [
     icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"/>' },
   { key: "audio", name: "Professional audio welcome message", desc: "A professionally recorded voice greeting that welcomes visitors to your site.", price: 99, per: "yr", priceNote: "Pro recording, refreshed yearly", bundle: true,
     icon: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>' },
-  { key: "newsletter", name: "Monthly marketing newsletter", desc: "A monthly newsletter that keeps your business in front of customers.", bundle: false,
-    icon: '<path d="M4 5h13a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2z"/><path d="M19 9h1a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2M8 9h7M8 13h7M8 17h4"/>' },
 ];
 // ═════════════════════════════════════════════════════════════════════════
 

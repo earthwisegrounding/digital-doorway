@@ -30,8 +30,8 @@ async function send(env, msg) {
 /* ---- Checkout: $499 build + optional add-ons → a Square payment link for exactly that order ----
    Prices live here (server side) so the browser can't change what gets charged. */
 const CATALOG = {
-  build:   { name: 'Website design and build, including first 2 years of hosting, domain, SSL, and 5 business email addresses (one-time)', cents: 49900, required: true },
-  bundle:  { name: 'Small Business Bundle: SSL, 5 email accounts, hosting from year 3 (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
+  build:   { name: 'Website design and build, including first 2 years of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, and an audio welcome message (one-time)', cents: 49900, required: true },
+  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
   hosting: { name: 'Website Hosting (first month)', cents: 1499, renews: 'month', renewCents: 1499 },
   ssl:     { name: 'SSL Website Security (first month)', cents: 599, renews: 'month', renewCents: 599 },
   email1:  { name: 'Professional Business Email: 1 account (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
