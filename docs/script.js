@@ -539,7 +539,6 @@
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
     var inEmail = document.getElementById('co-email');
-    var TEST = new URLSearchParams(location.search).get('test');   // private live-test link (?test=CODE): the worker decides whether it's valid
     function selected() { return ['build']; }
     function render() {
       lines.innerHTML = '';
@@ -550,7 +549,6 @@
       total.textContent = '$499.00';
       renew.textContent = 'No monthly fees for your first 24 months. After that, the optional Business Bundle keeps everything running for $34.99 a month.';
       renew.hidden = false;
-      if (TEST) { total.textContent = '$5.00'; renew.textContent = 'Private test link: Square will show the $5 test price. Everyone else pays $499.'; }
     }
 
     pay.addEventListener('click', function () {
@@ -561,7 +559,7 @@
       if (!emailOk) { err.textContent = 'That email doesn’t look right. Fix it or leave it blank; Square will ask for it.'; err.hidden = false; return; }
       pay.setAttribute('aria-busy', 'true');
       var label = pay.firstChild.textContent; pay.firstChild.textContent = 'Opening secure checkout… ';
-      fetch(API + '/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selected(), email: email, test: TEST || undefined }) })
+      fetch(API + '/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selected(), email: email }) })
         .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.url) throw new Error(d.detail || d.error || 'failed'); return d; }); })
         .then(function (d) { window.location.href = d.url; })
         .catch(function () {

@@ -56,15 +56,11 @@ async function squareApi(env, method, path, body) {
 async function handleCheckout(request, env, headers) {
   if (!env.SQUARE_ACCESS_TOKEN) return json(500, { error: 'checkout not configured' }, headers);
   let data; try { data = await request.json(); } catch { return json(400, { error: 'bad json' }, headers); }
-  const isTest = !!(env.TEST_CODE && data.test && String(data.test) === env.TEST_CODE
-    && (!env.TEST_EXPIRES || Date.now() <= Date.parse(env.TEST_EXPIRES + 'T23:59:59-07:00')));
-  const keys = isTest ? ['build'] : resolveItems(data.items);
+  const keys = resolveItems(data.items);
   const email = clip(data.email, 200);
   const monthly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'month' ? CATALOG[k].renewCents : 0), 0);
   const yearly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'year' ? CATALOG[k].renewCents : 0), 0);
-  const lineItems = isTest
-    ? [{ name: 'TEST ORDER ($5 live test): ' + CATALOG.build.name, quantity: '1', base_price_money: { amount: 500, currency: 'USD' } }]
-    : keys.filter(k => CATALOG[k].cents > 0).map(k => ({ name: CATALOG[k].name, quantity: '1', base_price_money: { amount: CATALOG[k].cents, currency: 'USD' } }));
+  const lineItems = keys.filter(k => CATALOG[k].cents > 0).map(k => ({ name: CATALOG[k].name, quantity: '1', base_price_money: { amount: CATALOG[k].cents, currency: 'USD' } }));
   const selected = keys.filter(k => k !== 'build');
   const noteParts = [];
   if (selected.length) noteParts.push('Add-ons: ' + selected.map(k => CATALOG[k].name).join('; '));
@@ -72,19 +68,19 @@ async function handleCheckout(request, env, headers) {
   if (yearly) noteParts.push(`Email renews: $${(yearly / 100).toFixed(2)}/year`);
   const body = {
     idempotency_key: crypto.randomUUID(),
-    description: (isTest ? 'TEST ORDER: ' : '') + 'Digital Doorway Marketing: website build' + (selected.length ? ' and add-ons' : ''),
+    description: 'Digital Doorway Marketing: website build' + (selected.length ? ' and add-ons' : ''),
     order: {
       location_id: env.SQUARE_LOCATION_ID,
       line_items: lineItems,
-      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no', test: isTest ? 'yes' : 'no' },
+      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no' },
     },
     checkout_options: { allow_tipping: false, ask_for_shipping_address: false, redirect_url: 'https://digitaldoorwaymarketing.com/thank-you.html', merchant_support_email: 'info@digitaldoorwaymarketing.com' },
-    payment_note: isTest ? 'Live test order at the private $5 test price' : (clip(noteParts.join(' | '), 500) || undefined),
+    payment_note: clip(noteParts.join(' | '), 500) || undefined,
   };
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) body.pre_populated_data = { buyer_email: email };
   try {
     const r = await squareApi(env, 'POST', '/v2/online-checkout/payment-links', body);
-    return json(200, { ok: true, url: r.payment_link.url, test: isTest }, headers);
+    return json(200, { ok: true, url: r.payment_link.url }, headers);
   } catch (err) {
     return json(502, { error: 'checkout failed', detail: String(err.message || err) }, headers);
   }
@@ -143,7 +139,7 @@ async function orderSummary(env, orderId) {
     const renew = [];
     if (+md.monthly_cents) renew.push(`$${(md.monthly_cents / 100).toFixed(2)}/month for hosting and security`);
     if (+md.yearly_cents) renew.push(`$${(md.yearly_cents / 100).toFixed(2)}/year for business email`);
-    return { items, renew, test: md.test === 'yes' };
+    return { items, renew };
   } catch (err) { return null; }
 }
 
@@ -178,7 +174,7 @@ async function handleSquare(request, env, headers) {
   const itemsHtml = sum && sum.items.length ? `<table style="border-collapse:collapse;margin:12px 0">${sum.items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('')}</table>${sum.renew.length ? `<p style="margin:0 0 8px;color:#6B5D4D">Renews: ${esc(sum.renew.join('; '))}</p>` : ''}` : '';
   try {
     await send(env, { from: env.MAIL_FROM, to: admins, reply_to: buyer || undefined,
-      subject: `${sum && sum.test ? '[TEST] ' : ''}New sale: ${amount} from ${buyer || 'a customer'}`,
+      subject: `New sale: ${amount} from ${buyer || 'a customer'}`,
       text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}${itemsText}\n\nNext step: reach out within one business day to book the first call.`,
       html: `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:20px">New sale: ${esc(amount)}</h2>
         <table style="border-collapse:collapse">${[['Customer', buyer || '(no email on the payment)'], ['When', when + ' (Pacific)'], ['Receipt', p.receipt_number || '—'], ['Payment ID', p.id]].map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#6B5D4D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join('')}</table>${itemsHtml}
@@ -188,7 +184,7 @@ async function handleSquare(request, env, headers) {
   if (buyer) {
     try {
       await send(env, { from: env.MAIL_FROM, to: [buyer], reply_to: admins[admins.length - 1],
-        subject: (sum && sum.test ? '[TEST] ' : '') + 'Thank you — your website build is booked',
+        subject: 'Thank you — your website build is booked',
         text: `Thank you for your payment of ${amount} to Digital Doorway Marketing.${itemsText}\n\nHere's what happens next: Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.\n\nSquare has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + p.receipt_number + ')' : ''}.\n\nQuestions in the meantime? Reply to this email or call (877) 853-1920.\n\n— Marv Reeves\nDigital Doorway Marketing\nhttps://digitaldoorwaymarketing.com`,
         html: `<div style="font:16px/1.55 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:22px">Thank you. The light's on.</h2>
           <p>Your payment of <b>${esc(amount)}</b> to Digital Doorway Marketing went through.</p>${itemsHtml}${sum && sum.renew.length ? '<p>Your add-ons renew as shown above, and we\'ll be in touch before anything renews.</p>' : ''}
