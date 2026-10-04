@@ -1182,3 +1182,7 @@ h2 > .eyebrow { display: block; }
   font-size: clamp(2rem, 4.8vw, 4.1rem); line-height: 1.08; letter-spacing: -.02em;
   font-variation-settings: "opsz" 96, "SOFT" 40; text-wrap: balance;
 }
+
+/* bundle: optional, after the first 24 months */
+.bundle-when { color: rgba(246,239,227,.8); font-weight: 600; font-size: .9375rem; max-width: 26ch; margin: .25rem 0 0; }
+.co-opt.is-locked .co-price { color: var(--accent); }

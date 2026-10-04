@@ -530,61 +530,26 @@
     setX(50);
   })();
 
-  /* ---------- Order builder: pick add-ons, then pay through Square ----------
-     The worker prices the order (api/worker.js CATALOG) and returns a Square payment link for exactly those items. */
+  /* ---------- Order: the $499 website (2 years of hosting, domain, SSL, and 5 emails included), paid through Square ----------
+     The worker prices the order (api/worker.js CATALOG) and returns a Square payment link for it. */
   (function () {
     var form = document.querySelector('[data-checkout]'); if (!form) return;
-    var FALLBACK = 'https://square.link/u/K1iD7cfg';   // the plain $499 Square link, offered if checkout can't open
     var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
-    var P = { build: 49900, bundle: 3499, ssl: 599, email1: 5900, email3: 12900, email5: 19900 };
-    var NAMES = { build: 'Website build, with 2 years of hosting and domain', bundle: 'Small Business Bundle, first month', ssl: 'SSL Website Security, first month', email1: '1 business email, first year', email3: '3 business emails, first year', email5: '5 business emails, first year' };
+    var FALLBACK = 'https://square.link/u/K1iD7cfg';   // the plain $499 Square link, offered if checkout can't open
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
     var inEmail = document.getElementById('co-email');
-    var bundleBox = form.querySelector('input[value="bundle"]');
-    var usd = function (c) { return '$' + (c / 100).toFixed(2); };
-
-    function selected() {
-      var keys = ['build'];
-      form.querySelectorAll('input[name="co"]:checked').forEach(function (i) { keys.push(i.value); });
-      var em = form.querySelector('input[name="co-email"]:checked'); if (em && em.value) keys.push(em.value);
-      if (keys.indexOf('bundle') > -1) keys = keys.filter(function (k) { return ['ssl', 'email1', 'email3', 'email5'].indexOf(k) < 0; });
-      return keys;
-    }
+    function selected() { return ['build']; }
     function render() {
-      var bundled = bundleBox.checked;
-      form.classList.toggle('is-bundled', bundled);
-      form.querySelectorAll('[data-in-bundle] input').forEach(function (i) {
-        i.disabled = bundled;
-        if (bundled) { if (i.type === 'checkbox') i.checked = false; else i.checked = i.value === ''; }
-      });
-      var keys = selected(), sum = 0, monthly = 0, yearly = 0;
       lines.innerHTML = '';
-      keys.forEach(function (k) {
-        sum += P[k];
-        if (k === 'bundle' || k === 'ssl') monthly += P[k];
-        if (/^email/.test(k)) yearly += P[k];
-        var li = document.createElement('li');
-        var n = document.createElement('span'); n.textContent = NAMES[k];
-        var v = document.createElement('b'); v.textContent = usd(P[k]);
-        li.appendChild(n); li.appendChild(v); lines.appendChild(li);
+      [['Website design and build', '$499.00'], ['2 years of hosting, domain, SSL & 5 emails', 'Included']].forEach(function (row) {
+        var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
+        n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
-      total.textContent = usd(sum);
-      var r = ['Hosting and your domain are included for your first 2 years.'];
-      if (monthly) r.push((keys.indexOf('bundle') > -1 ? 'The bundle' : 'SSL security') + ' renews at ' + usd(monthly) + '/month.');
-      if (yearly) r.push('Business email renews at ' + usd(yearly) + '/year.');
-      renew.textContent = r.join(' '); renew.hidden = false;
+      total.textContent = '$499.00';
+      renew.textContent = 'No monthly fees for your first 24 months. After that, the optional Small Business Bundle keeps everything running for $34.99 a month.';
+      renew.hidden = false;
     }
-    form.addEventListener('change', render);
-
-    /* "Add SSL security" etc. elsewhere on the page preselect the matching option */
-    document.querySelectorAll('[data-co-pick]').forEach(function (a) {
-      a.addEventListener('click', function () {
-        var k = a.getAttribute('data-co-pick');
-        var box = /^email/.test(k) ? form.querySelector('input[name="co-email"][value="' + k + '"]') : form.querySelector('input[name="co"][value="' + k + '"]');
-        if (box && !box.disabled) { box.checked = true; render(); }
-      });
-    });
 
     pay.addEventListener('click', function () {
       err.hidden = true;

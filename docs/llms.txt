@@ -1,28 +1,29 @@
 # Digital Doorway Marketing
 
-> Digital Doorway Marketing designs and builds custom websites for local businesses (restaurants, salons, trades, clinics, gyms, shops, landscapers, and more) for a flat $499, one-time. The price includes the first 2 years of hosting and domain registration. Founded by Marv Reeves, based in Seattle, WA.
+> Digital Doorway Marketing designs and builds custom websites for local businesses (restaurants, salons, trades, clinics, gyms, shops, landscapers, and more) for a flat $499, one-time. The price includes the first 2 years of hosting, domain registration, SSL security, and 5 business email addresses. Founded by Marv Reeves, based in Seattle, WA.
 
 ## The $499 website
 
-- Price: $499, one-time. Includes the first 2 years of hosting and domain registration.
+- Price: $499, one-time. Includes the first 2 years of hosting, domain registration, SSL security, and 5 business email addresses. No monthly fees for 24 months.
 - Included: custom design (not a template), mobile-first build, copywriting help, Google-ready SEO basics (titles, descriptions, speed, map listing hookup), contact forms and click-to-call, two rounds of changes, launch, and a walkthrough of the finished site. The client owns the site.
-- After the first 2 years: hosting is $14.99/month and the domain renews yearly.
+- After the first 2 years (optional): the Small Business Bundle (hosting, SSL, 5 email accounts) is $34.99/month, or individually hosting $14.99/month, SSL $5.99/month, email from $59/year; the domain renews yearly.
 - Every client gets more than one design direction to choose from.
 - Payment: online at checkout on the website, through Square (card, Apple Pay, or Google Pay).
 
-## Optional add-ons
+## After the first 2 years (optional)
 
-- Small Business Bundle: $34.99/month. SSL security, 5 business email accounts, and hosting from year three.
+- Small Business Bundle: $34.99/month. Hosting, SSL security, and 5 business email accounts. Starts only after the first 24 months.
+- Website Hosting: $14.99/month.
 - SSL Website Security: $5.99/month.
 - Professional Business Email: 1 account $59/year, 3 accounts $129/year, 5 accounts $199/year.
-- Domain name registration: first 2 years included with the build.
+- Domain name: renews yearly; price confirmed before it's due.
 
 ## How it works
 
 1. Tell us about your business (a short conversation).
 2. We design your site.
 3. You say what to change (two rounds).
-4. We launch it, with hosting and your domain set up.
+4. We launch it, with hosting, your domain, SSL, and business email set up.
 
 ## Contact
 
