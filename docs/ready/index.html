@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your New Website | Digital Doorway Marketing</title>
+<meta name="description" content="Your new website is ready. See everything included for $499: two years of domain, hosting, SSL, professional email, local SEO, QR codes, an audio welcome message and more.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#06142E">
+<link rel="icon" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F8FC;
+    --card: #FFFFFF;
+    --night: #06142E;
+    --navy: #0B2A5B;
+    --blue: #1556B8;
+    --sky: #3D8BFF;
+    --teal: #14C3D6;
+    --teal-dark: #0A8C9B;
+    --ink: #0E1A2B;
+    --muted: #5B6B82;
+    --dim: #9FB3D1;
+    --line: #DFE6EF;
+    --green: #12A36B;
+    --red: #D23B3B;
+    --radius: 18px;
+    --shadow: 0 30px 60px -24px rgba(11, 42, 91, 0.28), 0 0 0 1px rgba(11, 42, 91, 0.06);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: Inter, system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  img, video { max-width: 100%; display: block; }
+  a { color: var(--blue); }
+  .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+  h1, h2, h3 { line-height: 1.08; letter-spacing: -0.03em; margin: 0; }
+  h2 { font-size: clamp(30px, 4.4vw, 50px); font-weight: 800; }
+  section { padding: clamp(64px, 9vw, 108px) 0; }
+  .center { text-align: center; }
+  .lead { font-size: clamp(17px, 2vw, 20px); color: var(--muted); max-width: 680px; margin: 16px 0 0; }
+  .center .lead { margin-inline: auto; }
+  .accent { color: var(--blue); }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 10px; padding: 8px 16px; border-radius: 999px; background: rgba(20, 195, 214, 0.12);
+    color: var(--blue); font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px;
+  }
+  .kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; border-radius: 12px; font: inherit;
+    font-weight: 700; font-size: 17px; text-decoration: none; cursor: pointer; border: 0; transition: transform .15s, background .15s, box-shadow .15s;
+  }
+  .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 12px 24px -10px rgba(21, 86, 184, 0.7); }
+  .btn-primary:hover { background: var(--navy); transform: translateY(-1px); }
+  .btn-teal { background: var(--teal); color: var(--night); box-shadow: 0 12px 28px -10px rgba(20, 195, 214, 0.7); }
+  .btn-teal:hover { background: #3fd3e3; transform: translateY(-1px); }
+  .btn-ghost-light { background: rgba(255, 255, 255, 0.08); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.25); }
+  .btn-ghost-light:hover { background: rgba(255, 255, 255, 0.14); }
+  .btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+  .btn[disabled] { opacity: .7; cursor: progress; transform: none; }
+
+  /* header */
+  header.top { position: sticky; top: 0; z-index: 20; background: rgba(6, 20, 46, 0.86); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
+  .brand img { width: 42px; background: #fff; border-radius: 9px; padding: 3px 4px; }
+  .brand span { font-weight: 800; letter-spacing: 0.08em; font-size: 14px; line-height: 1.15; }
+  header.top .btn { padding: 10px 18px; font-size: 15px; }
+
+  /* hero */
+  .hero {
+    background: radial-gradient(900px 520px at 85% -10%, rgba(20, 195, 214, 0.20), transparent 70%), radial-gradient(800px 600px at 0% 100%, rgba(61, 139, 255, 0.14), transparent 70%), var(--night);
+    color: #fff; padding: clamp(28px, 4vw, 44px) 0 clamp(56px, 7vw, 84px);
+  }
+  .hero-head { text-align: center; max-width: 900px; margin: 0 auto 24px; }
+  .hero .kicker { background: rgba(20, 195, 214, 0.14); color: var(--teal); margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(30px, 4.6vw, 52px); font-weight: 800; }
+  .hero h1 .biz { color: var(--teal); }
+  .video {
+    width: min(100%, 1000px, (100svh - 250px) * 16 / 9); min-width: min(100%, 560px); margin: 0 auto; aspect-ratio: 16 / 9; border-radius: 20px; overflow: hidden;
+    background: #000; box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.10);
+  }
+  .video video { width: 100%; height: 100%; object-fit: cover; }
+  .hero-sub { text-align: center; color: var(--dim); font-size: clamp(16px, 1.9vw, 19px); max-width: 680px; margin: 26px auto 0; }
+  .hero-sub b { color: #fff; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 22px; }
+  .site-chip { display: inline-flex; align-items: center; gap: 8px; }
+  .site-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #2BD47D; box-shadow: 0 0 0 4px rgba(43, 212, 125, 0.2); }
+
+  /* included */
+  .value-banner {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 26px; margin: 36px auto 0; max-width: 900px; padding: 18px 24px;
+    border-radius: 16px; background: var(--navy); color: #fff; font-weight: 700; font-size: 17px;
+  }
+  .value-banner span { display: inline-flex; align-items: center; gap: 10px; }
+  .value-banner b { color: var(--teal); }
+  .services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 28px; }
+  .svc { background: var(--card); border-radius: var(--radius); padding: 24px 22px; box-shadow: var(--shadow); position: relative; }
+  .svc .ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: rgba(21, 86, 184, 0.09); color: var(--blue); margin-bottom: 16px; }
+  .svc .ico svg { width: 24px; height: 24px; }
+  .svc h3 { font-size: 17.5px; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .svc p { margin: 0; color: var(--muted); font-size: 14.5px; }
+  .svc .ex { margin-top: 10px; font-size: 12.5px; color: var(--blue); background: #EEF4FD; border-radius: 8px; padding: 6px 9px; display: inline-block; word-break: break-all; }
+  .svc .yrs { position: absolute; top: 18px; right: 18px; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; color: var(--teal-dark); background: rgba(20, 195, 214, 0.12); padding: 4px 8px; border-radius: 999px; }
+
+  /* receipt */
+  .receipt-wrap { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .receipt { background: var(--card); border-radius: 22px; box-shadow: var(--shadow); padding: clamp(24px, 4vw, 36px); position: relative; }
+  .receipt::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -10px; height: 20px;
+    background: radial-gradient(circle at 10px 0, transparent 9px, var(--card) 10px) 0 0 / 20px 20px repeat-x;
+  }
+  .receipt small { font-weight: 700; letter-spacing: 0.14em; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+  .receipt ul { list-style: none; padding: 0; margin: 16px 0 0; }
+  .receipt li { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px dashed var(--line); font-size: 15.5px; }
+  .receipt li span:last-child { color: var(--muted); white-space: nowrap; }
+  .receipt li.hl span:first-child { font-weight: 700; }
+  .receipt .tot { display: flex; justify-content: space-between; align-items: end; margin-top: 18px; }
+  .receipt .tot b { font-size: 15px; }
+  .receipt .tot .price { font-size: clamp(54px, 7vw, 72px); font-weight: 800; letter-spacing: -0.05em; color: var(--navy); line-height: 1; }
+  .receipt .once { text-align: right; color: var(--blue); font-weight: 600; font-size: 14px; margin-top: 2px; }
+  .points { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 16px; }
+  .points li { display: flex; gap: 14px; }
+  .points li svg { flex: none; width: 28px; height: 28px; margin-top: 1px; }
+  .points b { display: block; font-size: 17px; }
+  .points span { color: var(--muted); font-size: 15px; }
+
+  /* after two years */
+  .after { background: var(--night); color: #fff; position: relative; overflow: hidden; }
+  .after::before { content: ""; position: absolute; inset: 0; background: radial-gradient(700px 500px at 90% 10%, rgba(20, 195, 214, 0.18), transparent 70%); pointer-events: none; }
+  .after .wrap { position: relative; }
+  .after .kicker { background: rgba(20, 195, 214, 0.14); color: var(--teal); }
+  .after .lead { color: var(--dim); }
+  .timeline { display: grid; grid-template-columns: 1fr 2fr 1.2fr; margin: 44px 0 0; border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1); }
+  .tl { padding: 22px 24px; }
+  .tl small { display: block; font-weight: 700; letter-spacing: 0.12em; font-size: 12px; text-transform: uppercase; opacity: 0.75; margin-bottom: 6px; }
+  .tl b { font-size: 18px; display: block; line-height: 1.3; }
+  .tl span { font-size: 14px; opacity: 0.85; }
+  .tl.t1 { background: var(--teal); color: var(--night); }
+  .tl.t2 { background: linear-gradient(90deg, rgba(20, 195, 214, 0.22), rgba(20, 195, 214, 0.08)); }
+  .tl.t3 { background: rgba(255, 255, 255, 0.05); }
+  .keep { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  .keep > div { border-radius: 16px; padding: 20px 22px; display: flex; gap: 14px; align-items: flex-start; }
+  .keep .yes { background: rgba(43, 212, 125, 0.10); box-shadow: inset 0 0 0 1px rgba(43, 212, 125, 0.3); }
+  .keep .no { background: rgba(255, 196, 0, 0.08); box-shadow: inset 0 0 0 1px rgba(255, 196, 0, 0.3); }
+  .keep svg { flex: none; width: 28px; height: 28px; }
+  .keep b { display: block; font-size: 17px; margin-bottom: 2px; }
+  .keep span { color: var(--dim); font-size: 15px; }
+
+  .choices { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 22px; margin-top: 56px; align-items: stretch; }
+  .opt { border-radius: 24px; padding: clamp(24px, 3.4vw, 34px); }
+  .opt-label { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .opt h3 { font-size: clamp(22px, 2.6vw, 28px); margin-bottom: 18px; }
+  .opt-a { background: rgba(255, 255, 255, 0.04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+  .opt-a .opt-label { color: var(--dim); }
+  table.costs { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .costs th { text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dim); padding: 0 0 10px; }
+  .costs th:not(:first-child), .costs td:not(:first-child) { text-align: right; white-space: nowrap; }
+  .costs td { padding: 11px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); vertical-align: top; }
+  .costs td:first-child { padding-right: 12px; }
+  .costs td small { display: block; color: var(--dim); font-size: 12.5px; }
+  .costs td.m { padding-left: 14px; }
+  .costs tfoot td { border-top: 2px solid rgba(255, 255, 255, 0.25); font-weight: 800; font-size: 18px; padding-top: 14px; }
+  .costs tfoot td:not(:first-child) { color: #FFB4B4; }
+  .opt-b { background: #fff; color: var(--ink); position: relative; box-shadow: 0 0 0 3px var(--teal), 0 40px 80px -30px rgba(20, 195, 214, 0.5); display: flex; flex-direction: column; }
+  .opt-b .ribbon { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--teal); color: var(--night); font-weight: 800; font-size: 12.5px; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 999px; white-space: nowrap; }
+  .opt-b .opt-label { color: var(--teal-dark); }
+  .bundle-price { display: flex; align-items: baseline; gap: 6px; }
+  .bundle-price b { font-size: clamp(56px, 7vw, 72px); font-weight: 800; letter-spacing: -0.05em; color: var(--navy); line-height: 1; }
+  .bundle-price span { color: var(--muted); font-weight: 600; }
+  .bundle-yr { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .bundle-list { list-style: none; padding: 0; margin: 20px 0; display: grid; gap: 10px; }
+  .bundle-list li { display: flex; gap: 10px; align-items: center; font-weight: 600; font-size: 15.5px; }
+  .bundle-list svg { flex: none; width: 22px; height: 22px; }
+  .save { margin-top: auto; background: #E9FBF3; color: #0B6B47; border-radius: 14px; padding: 14px 16px; font-weight: 700; text-align: center; }
+  .save b { font-size: 22px; display: block; color: var(--green); }
+  .compare { margin-top: 40px; display: grid; gap: 14px; }
+  .bar { display: grid; grid-template-columns: 170px 1fr; gap: 16px; align-items: center; }
+  .bar span { font-weight: 600; font-size: 15px; color: var(--dim); }
+  .bar .track { height: 44px; border-radius: 10px; background: rgba(255, 255, 255, 0.06); overflow: hidden; }
+  .bar .fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding: 0 14px; font-weight: 800; border-radius: 10px; width: 0; transition: width 1.1s cubic-bezier(.22, 1, .36, 1); white-space: nowrap; }
+  .bar .fill.a { background: linear-gradient(90deg, #7A3B4A, #C2525F); color: #fff; }
+  .bar .fill.b { background: var(--teal); color: var(--night); }
+  .note { color: var(--dim); font-size: 13px; margin-top: 18px; }
+
+  /* faq */
+  .faq { max-width: 800px; margin: 40px auto 0; }
+  details { background: var(--card); border-radius: 14px; margin-bottom: 12px; box-shadow: 0 0 0 1px var(--line); }
+  summary { cursor: pointer; padding: 20px 24px; font-weight: 700; font-size: 17px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-size: 24px; line-height: 1; color: var(--blue); flex: none; transition: transform .2s; }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { margin: 0; padding: 0 24px 22px; color: var(--muted); }
+
+  /* claim */
+  .claim { background: linear-gradient(160deg, var(--navy), #0D3A7A); color: #fff; }
+  .claim-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 64px); align-items: center; }
+  .claim h2 { font-size: clamp(34px, 5vw, 54px); }
+  .claim h2 .biz { color: var(--teal); }
+  .claim .lead { color: #C4D3EA; }
+  .order { background: #fff; color: var(--ink); border-radius: 24px; padding: clamp(24px, 4vw, 36px); box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.5); }
+  .order-site { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 14px; background: var(--bg); margin-bottom: 18px; }
+  .order-site .fav { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, var(--navy), var(--teal)); color: #fff; font-weight: 800; display: grid; place-items: center; flex: none; }
+  .order-site b { display: block; }
+  .order-site span { color: var(--muted); font-size: 14px; }
+  .order-row { display: flex; justify-content: space-between; padding: 9px 0; font-size: 15px; color: var(--muted); }
+  .order-row.total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 16px; color: var(--ink); font-weight: 800; font-size: 20px; }
+  .order .btn { width: 100%; margin-top: 18px; font-size: 18px; padding: 18px; }
+  .secure { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 13px; margin-top: 12px; }
+
+  /* checkout modal */
+  dialog { border: 0; padding: 0; border-radius: 22px; width: min(480px, calc(100% - 24px)); max-height: calc(100svh - 24px); box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5); color: var(--ink); }
+  dialog::backdrop { background: rgba(6, 20, 46, 0.7); backdrop-filter: blur(4px); }
+  .co-head { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+  .co-head b { font-size: 18px; }
+  .x { background: none; border: 0; font-size: 26px; line-height: 1; cursor: pointer; color: var(--muted); padding: 4px 8px; border-radius: 8px; }
+  .x:hover { background: var(--bg); }
+  .co-body { padding: 22px 24px 24px; }
+  .mock-banner { display: flex; gap: 10px; align-items: flex-start; background: #FFF7E0; color: #7A5A00; border-radius: 12px; padding: 12px 14px; font-size: 13.5px; margin-bottom: 18px; }
+  .co-sum { display: flex; justify-content: space-between; align-items: center; background: var(--bg); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; }
+  .co-sum span { font-size: 14px; color: var(--muted); }
+  .co-sum b { font-size: 22px; }
+  .f { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .f label, .f .lbl { font-weight: 600; font-size: 14px; }
+  .f input { font: inherit; font-size: 16px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; color: var(--ink); }
+  .f input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px rgba(21, 86, 184, 0.12); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* mock Square card field: mirrors the look of Square's single-line card element */
+  .sq-card { display: grid; grid-template-columns: 1fr 84px 64px 76px; border: 1.5px solid var(--line); border-radius: 10px; overflow: hidden; background: #fff; }
+  .sq-card:focus-within { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(21, 86, 184, 0.12); }
+  .sq-card.err { border-color: var(--red); }
+  .sq-card input { border: 0; font: inherit; font-size: 16px; padding: 12px 10px; min-width: 0; background: transparent; color: var(--ink); }
+  .sq-card input:focus { outline: none; }
+  .sq-card input + input { border-left: 1px solid var(--line); }
+  .sq-err { color: var(--red); font-size: 13.5px; min-height: 1.2em; margin-top: 6px; }
+  .test-cards { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+  .test-cards button { font: inherit; font-size: 12.5px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; cursor: pointer; color: var(--blue); }
+  .co-body .btn { width: 100%; margin-top: 8px; font-size: 17px; }
+  .powered { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+  .powered svg { width: 16px; height: 16px; }
+  .done { text-align: center; padding: 8px 0; }
+  .done .big-ck { width: 72px; height: 72px; margin: 0 auto 14px; }
+  .done h3 { font-size: 26px; margin-bottom: 8px; }
+  .done p { color: var(--muted); margin: 0 0 18px; }
+  .done dl { text-align: left; background: var(--bg); border-radius: 12px; padding: 14px 16px; margin: 0 0 18px; font-size: 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; }
+  .done dt { color: var(--muted); }
+  .done dd { margin: 0; font-weight: 600; text-align: right; word-break: break-all; }
+
+  /* sticky cta */
+  .sticky {
+    position: fixed; left: 50%; bottom: 16px; z-index: 25; transform: translate(-50%, 160%); transition: transform .3s ease;
+    display: flex; align-items: center; gap: 16px; background: var(--night); color: #fff; padding: 10px 10px 10px 20px; border-radius: 16px;
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1); width: max-content; max-width: calc(100% - 24px);
+  }
+  .sticky.show { transform: translate(-50%, 0); }
+  .sticky span { font-size: 14.5px; color: var(--dim); }
+  .sticky span b { color: #fff; }
+  .sticky .btn { padding: 12px 18px; font-size: 15px; }
+
+  footer { background: var(--night); color: #7F93B3; padding: 36px 0 110px; font-size: 13px; }
+  footer .wrap { display: grid; gap: 10px; }
+
+  .rv { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s cubic-bezier(.22, 1, .36, 1); }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .rv { opacity: 1; transform: none; transition: none; } .bar .fill { transition: none; } }
+
+  @media (max-width: 960px) {
+    .services { grid-template-columns: repeat(2, 1fr); }
+    .receipt-wrap, .choices, .claim-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .services, .keep, .timeline { grid-template-columns: 1fr; }
+    .brand span { display: none; }
+    .video { border-radius: 14px; }
+    .hero-cta .btn { width: 100%; }
+    .bar { grid-template-columns: 1fr; gap: 6px; }
+    .costs th.y, .costs td.y { display: none; }
+    .sticky span { display: none; }
+    .sticky { padding: 8px; left: 12px; right: 12px; width: auto; transform: translateY(160%); }
+    .sticky.show { transform: none; }
+    .sticky .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Digital Doorway Marketing"><img src="assets/logo-mark.png" alt="" width="42" height="32"><span>DIGITAL DOORWAY<br>MARKETING</span></a>
+    <a class="btn btn-teal" href="#claim">Claim my website</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-head">
+        <span class="kicker">Prepared for <span data-biz>your business</span></span>
+        <h1>Your new website is ready, <span class="biz" data-biz>your business</span>.</h1>
+      </div>
+      <div class="video">
+        <video controls playsinline preload="metadata" poster="assets/poster.jpg">
+          <source src="assets/offer-video.mp4" type="video/mp4">
+        </video>
+      </div>
+      <p class="hero-sub">We built it first so you could see it first. Claim it for a one-time <b>$499</b>, and the next two years of domain, hosting, email, SEO and more are already covered.</p>
+      <div class="hero-cta">
+        <a class="btn btn-ghost-light site-chip" id="viewSite" href="#" target="_blank" rel="noopener" hidden><span class="dot"></span>View <span data-domain>yourbusiness.com</span> ↗</a>
+        <a class="btn btn-teal" href="#claim">Claim it for $499 →</a>
+        <a class="btn btn-ghost-light" href="#included">See what's included</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INCLUDED -->
+  <section id="included">
+    <div class="wrap">
+      <div class="center rv">
+        <span class="kicker">Included for 2 full years</span>
+        <h2>Everything your business needs online, <span class="accent">covered for 24 months.</span></h2>
+        <p class="lead">Your $499 doesn't just buy a website. It also covers every service below for your first two years, with nothing extra to pay.</p>
+      </div>
+      <div class="value-banner rv">
+        <span>✓ <b>8 services</b> included</span>
+        <span>✓ Covered for <b>24 months</b></span>
+        <span>✓ Over <b>$800 in value per year</b></span>
+      </div>
+      <div class="services" id="serviceGrid"></div>
+    </div>
+  </section>
+
+  <!-- RECEIPT -->
+  <section style="padding-top:0">
+    <div class="wrap receipt-wrap">
+      <div class="receipt rv">
+        <small>Your website package</small>
+        <ul id="receiptList"></ul>
+        <div class="tot"><b>Total due today</b><div><div class="price">$499</div></div></div>
+        <div class="once">One-time payment · No monthly fees for 2 years</div>
+      </div>
+      <div class="rv">
+        <span class="kicker">What $499 gets you</span>
+        <h2>One payment. <span class="accent">Two years covered.</span></h2>
+        <ul class="points">
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#14C3D6"/><path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>It's already built</b><span>No guessing what you'll get. You've seen your website before paying anything.</span></div></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#14C3D6"/><path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>The website is yours to keep</b><span>Claim it once, and it belongs to your business.</span></div></li>
+          <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#14C3D6"/><path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>We handle the technical stuff</b><span>Domain, hosting, security and email setup are done for you. You focus on your customers.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- AFTER 2 YEARS -->
+  <section class="after" id="after">
+    <div class="wrap">
+      <div class="center rv">
+        <span class="kicker">After your first 2 years</span>
+        <h2>Your website stays yours. <span style="color:var(--teal)">Here's what changes.</span></h2>
+        <p class="lead">We want you to know exactly what to expect, with no surprises.</p>
+      </div>
+
+      <div class="timeline rv" aria-label="Timeline">
+        <div class="tl t1"><small>Today</small><b>Pay $499 once</b><span>Your website goes live</span></div>
+        <div class="tl t2"><small>Months 1–24</small><b>All 8 services included</b><span>Nothing more to pay</span></div>
+        <div class="tl t3"><small>Month 25 onward</small><b>You choose</b><span>Buy services individually or bundle them</span></div>
+      </div>
+      <div class="keep rv">
+        <div class="yes"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#2BD47D"/><path d="M7 12.5l3 3 7-7" stroke="#06142E" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>You keep your website</b><span>The website you purchased is yours, after year two and beyond.</span></div></div>
+        <div class="no"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FFC400"/><path d="M12 6.5v7" stroke="#06142E" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.5" fill="#06142E"/></svg><div><b>The included services end</b><span>Domain, hosting, SSL, email, SEO, QR codes, audio message and newsletter are no longer covered after month 24.</span></div></div>
+      </div>
+
+      <div class="choices">
+        <div class="opt opt-a rv">
+          <div class="opt-label">Option 1</div>
+          <h3>Buy each service on your own</h3>
+          <table class="costs">
+            <thead><tr><th>Service</th><th>Typical price</th><th class="y">Per year</th></tr></thead>
+            <tbody id="costRows"></tbody>
+            <tfoot><tr><td>Total</td><td id="costMonthly"></td><td class="y" id="costYearly"></td></tr></tfoot>
+          </table>
+        </div>
+        <div class="opt opt-b rv">
+          <div class="ribbon">BETTER OPTION · SAVE <span id="savePct">48</span>%</div>
+          <div class="opt-label">Option 2</div>
+          <h3>Business Bundle</h3>
+          <div class="bundle-price"><b>$34.99</b><span>/ month</span></div>
+          <div class="bundle-yr" id="bundleYr"></div>
+          <ul class="bundle-list" id="bundleList"></ul>
+          <div class="save">You save<b id="saveYr"></b>compared with buying separately</div>
+        </div>
+      </div>
+
+      <div class="compare rv" id="compare" aria-label="Yearly cost comparison">
+        <div class="bar"><span>Buying separately</span><div class="track"><div class="fill a" data-w="100" id="barA"></div></div></div>
+        <div class="bar"><span>Business Bundle</span><div class="track"><div class="fill b" id="barB"></div></div></div>
+      </div>
+      <p class="note">Individual prices are estimates of typical retail pricing for comparable services and vary by provider. The Business Bundle is optional and starts only after your first 24 months.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap">
+      <div class="center rv">
+        <span class="kicker">Questions</span>
+        <h2>Good questions to ask</h2>
+      </div>
+      <div class="faq">
+        <details class="rv"><summary>Do I own the website after I pay?</summary><p>Yes. Once you claim it for $499, the website is yours to keep, during your first two years and after.</p></details>
+        <details class="rv"><summary>Are there any monthly fees during the first two years?</summary><p>No. Your one-time $499 covers the website plus all eight included services for 24 months.</p></details>
+        <details class="rv"><summary>What happens when the two years are up?</summary><p>You keep the website. The included services (domain, hosting, SSL, email, local SEO, QR codes, audio welcome message and newsletter) are no longer covered. You can buy them individually from any provider, or continue with us through the Business Bundle for $34.99 a month.</p></details>
+        <details class="rv"><summary>Do I have to sign up for the Business Bundle?</summary><p>No. The bundle is completely optional, and it's only relevant after your first 24 months. It's simply the easiest and most affordable way to keep everything running in one place.</p></details>
+        <details class="rv"><summary>What's included in the Business Bundle?</summary><p>Domain name registration, website hosting, SSL certificate, QR codes, five business email addresses on your domain, SEO and your audio welcome message, all for $34.99 a month.</p></details>
+        <details class="rv"><summary>How do I pay?</summary><p>Click "Claim my website" and pay securely by card. Payments are processed by Square.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLAIM -->
+  <section class="claim" id="claim">
+    <div class="wrap claim-grid">
+      <div class="rv">
+        <span class="kicker" style="background:rgba(20,195,214,.15);color:var(--teal)">Ready when you are</span>
+        <h2>Claim your website, <span class="biz" data-biz>your business</span>.</h2>
+        <p class="lead">It's built, it's ready, and the next two years are covered. Your customers are searching. Let them find you.</p>
+      </div>
+      <div class="order rv">
+        <div class="order-site"><div class="fav" id="favInitial">Y</div><div><b data-biz>your business</b><span data-domain>yourbusiness.com</span></div></div>
+        <div class="order-row"><span>Custom professional website</span><span>Included</span></div>
+        <div class="order-row"><span>8 services for 24 months</span><span>Included</span></div>
+        <div class="order-row"><span>Monthly fees for 2 years</span><span>$0</span></div>
+        <div class="order-row total"><span>Total due today</span><span>$499.00</span></div>
+        <button class="btn btn-primary" type="button" data-checkout>Claim my website · $499</button>
+        <div class="secure"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure checkout powered by Square</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0;color:#fff;font-weight:700">Digital Doorway Marketing</p>
+    <p style="margin:0">We handle the technical stuff. You focus on your customers.</p>
+    <p style="margin:0">Included services cover 24 months from purchase. Individual service prices shown are estimates of typical retail pricing and vary by provider. The Business Bundle is optional.</p>
+    <p style="margin:0">© <span id="yr">2026</span> Digital Doorway Marketing</p>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky"><span>Claim <b data-domain>yourbusiness.com</b> for a one-time $499</span><button class="btn btn-teal" type="button" data-checkout>Claim my website →</button></div>
+
+<!-- CHECKOUT -->
+<dialog id="checkout" aria-labelledby="coTitle">
+  <div class="co-head"><b id="coTitle">Claim your website</b><button class="x" type="button" data-close aria-label="Close">×</button></div>
+  <div class="co-body" id="coBody">
+    <div class="mock-banner" id="mockBanner">⚠️ <span><b>Test mode.</b> This is a mock Square checkout. No card is charged and no card details leave this page.</span></div>
+    <div class="co-sum"><div><span>Website + 2 years of services</span><br><b data-domain style="font-size:15px">yourbusiness.com</b></div><b>$499.00</b></div>
+    <form id="payForm" novalidate>
+      <div class="f"><label for="cName">Name on card</label><input id="cName" autocomplete="cc-name" required></div>
+      <div class="row2">
+        <div class="f"><label for="cEmail">Email for receipt</label><input id="cEmail" type="email" autocomplete="email" required></div>
+        <div class="f"><label for="cPhone">Phone</label><input id="cPhone" type="tel" autocomplete="tel"></div>
+      </div>
+      <div class="f" style="margin-bottom:4px"><span class="lbl">Card</span><div id="card-container"></div></div>
+      <div class="sq-err" id="payErr" role="alert"></div>
+      <button class="btn btn-primary" id="payBtn" type="submit">Pay $499.00</button>
+    </form>
+    <div class="powered"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" fill="#0E1A2B"/><rect x="7" y="7" width="10" height="10" rx="2" fill="#fff"/><rect x="10" y="10" width="4" height="4" rx="1" fill="#0E1A2B"/></svg>Payments processed by Square</div>
+  </div>
+</dialog>
+
+<script>
+// ═════════════════════════════════════════════════════════════════════════
+//  CONFIG: edit prices, services and payments here
+// ═════════════════════════════════════════════════════════════════════════
+const PRICE = 499;
+const BUNDLE_MONTHLY = 34.99;
+
+// Square settings. mode "link" = send buyers to the hosted Square payment link.
+// mode "mock" = fake checkout for demos (nothing is charged).
+// To go live: set mode to "sandbox" (then "production"), add your Square
+// Application ID + Location ID, and point paymentEndpoint at a server route
+// that calls Square's CreatePayment API with the token this page sends.
+const SQUARE = {
+  mode: "link",
+  paymentLink: "https://square.link/u/K1iD7cfg",
+  applicationId: "sandbox-sq0idb-REPLACE_ME",
+  locationId: "REPLACE_ME",
+  paymentEndpoint: "/api/payments",
+};
+
+// price = what a business would typically pay on its own; per = "mo" or "yr"
+const SERVICES = [
+  { key: "domain", name: "Domain name registration", desc: "Your own .com address, registered in your business's name.", ex: "{domain}", price: 19.99, per: "yr", priceNote: ".com renewal", bundle: true,
+    icon: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>' },
+  { key: "hosting", name: "Website hosting", desc: "Fast, reliable hosting that keeps your site online around the clock.", price: 9.99, per: "mo", priceNote: "Shared hosting", bundle: true,
+    icon: '<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/>' },
+  { key: "ssl", name: "SSL security certificate", desc: "The padlock in the address bar that shows customers your site is secure.", ex: "🔒 https://{domain}", price: 49.99, per: "yr", priceNote: "Standard SSL", bundle: true,
+    icon: '<rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>' },
+  { key: "email", name: "5 professional email addresses", desc: "Business email on your own domain, for you and your team.", ex: "you@{domain}", price: 14.95, per: "mo", priceNote: "5 inboxes × $2.99", bundle: true,
+    icon: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
+  { key: "seo", name: "Local SEO", desc: "Set up so nearby customers find you when they search for what you do.", price: 19.99, per: "mo", priceNote: "Local listing tools", bundle: true,
+    icon: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>' },
+  { key: "qr", name: "QR code generation", desc: "Custom QR codes for flyers, trucks, cards and signs that send people straight to your site.", price: 7.99, per: "mo", priceNote: "Dynamic QR plan", bundle: true,
+    icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4h-4"/>' },
+  { key: "audio", name: "Professional audio welcome message", desc: "A professionally recorded voice greeting that welcomes visitors to your site.", price: 99, per: "yr", priceNote: "Pro recording, refreshed yearly", bundle: true,
+    icon: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/>' },
+  { key: "newsletter", name: "Monthly marketing newsletter", desc: "A monthly newsletter that keeps your business in front of customers.", bundle: false,
+    icon: '<path d="M4 5h13a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2z"/><path d="M19 9h1a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2M8 9h7M8 13h7M8 17h4"/>' },
+];
+// ═════════════════════════════════════════════════════════════════════════
+
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const money = (n, cents = true) => "$" + n.toLocaleString("en-US", { minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0 });
+const CHECK = (fill = "#14C3D6", stroke = "#fff") => `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="${fill}"/><path d="M7 12.5l3 3 7-7" stroke="${stroke}" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// ── Personalize from the link: ?business=Rivera+Plumbing&domain=riveraplumbing.com&site=https://… ──
+const params = new URLSearchParams(location.search);
+const BIZ = (params.get("business") || "").trim().slice(0, 60);
+const DOMAIN = (params.get("domain") || "").trim().toLowerCase().replace(/^https?:\/\//, "").replace(/\/.*$/, "").slice(0, 80) || "yourbusiness.com";
+const SITE = (() => { const s = params.get("site") || (params.get("domain") ? "https://" + DOMAIN : ""); try { const u = new URL(s); return /^https?:$/.test(u.protocol) ? u.href : ""; } catch { return ""; } })();
+if (BIZ) { $$("[data-biz]").forEach((el) => (el.textContent = BIZ)); document.title = `${BIZ}: Your New Website | Digital Doorway Marketing`; }
+$$("[data-domain]").forEach((el) => (el.textContent = DOMAIN));
+$("#favInitial").textContent = (BIZ || DOMAIN).charAt(0).toUpperCase();
+if (SITE) { const v = $("#viewSite"); v.href = SITE; v.hidden = false; }
+
+// ── Render services, receipt, cost table, bundle ─────────────────────────
+const yearly = (s) => (s.per === "yr" ? s.price : s.price * 12);
+const monthly = (s) => (s.per === "mo" ? s.price : s.price / 12);
+const svg = (paths) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
+$("#serviceGrid").innerHTML = SERVICES.map((s) => `
+  <div class="svc rv"><span class="yrs">2 YRS</span><div class="ico">${svg(s.icon)}</div><h3>${s.name}</h3><p>${s.desc}</p>
+  ${s.ex ? `<span class="ex mono">${esc(s.ex.replace("{domain}", DOMAIN))}</span>` : ""}</div>`).join("");
+
+$("#receiptList").innerHTML = `<li class="hl"><span>Custom professional website</span><span>Yours to keep</span></li>` +
+  SERVICES.map((s) => `<li><span>${s.name}</span><span>24 months</span></li>`).join("");
+
+const priced = SERVICES.filter((s) => s.bundle);
+const totYr = priced.reduce((a, s) => a + yearly(s), 0);
+const totMo = totYr / 12;
+const bundleYr = BUNDLE_MONTHLY * 12;
+$("#costRows").innerHTML = priced.map((s) => `<tr><td>${s.name}<small>${s.priceNote}</small></td>
+  <td class="m">${money(s.price)}/${s.per}</td><td class="y">${money(yearly(s))}</td></tr>`).join("");
+$("#costMonthly").textContent = money(totMo) + "/mo";
+$("#costYearly").textContent = money(totYr);
+$("#bundleYr").textContent = `That's ${money(bundleYr)} a year for everything below.`;
+$("#bundleList").innerHTML = priced.map((s) => `<li>${CHECK()}${s.name.replace("5 professional email addresses", "5 business emails on your domain")}</li>`).join("");
+$("#saveYr").textContent = money(totYr - bundleYr) + " a year";
+$("#savePct").textContent = Math.round((1 - bundleYr / totYr) * 100);
+$("#barA").textContent = money(totYr, false) + "/yr";
+$("#barB").textContent = money(bundleYr, false) + "/yr";
+$("#barB").dataset.w = Math.round((bundleYr / totYr) * 100);
+
+// ── Mock Square Web Payments SDK ─────────────────────────────────────────
+// Mirrors the real SDK's shape: Square.payments(appId, locationId).card() →
+// card.attach(selector) → card.tokenize() → { status, token, details }.
+// Test cards: 4111 1111 1111 1111 succeeds; 4000 0000 0000 0002 is declined.
+const MockSquare = {
+  payments() {
+    return {
+      async card() {
+        let root;
+        return {
+          async attach(sel) {
+            root = document.querySelector(sel);
+            root.innerHTML = `<div class="sq-card" id="sqCard">
+              <input id="sqNum" inputmode="numeric" autocomplete="cc-number" placeholder="Card number" aria-label="Card number" maxlength="19">
+              <input id="sqExp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" aria-label="Expiration date" maxlength="5">
+              <input id="sqCvv" inputmode="numeric" autocomplete="cc-csc" placeholder="CVV" aria-label="Security code" maxlength="4">
+              <input id="sqZip" inputmode="numeric" autocomplete="postal-code" placeholder="ZIP" aria-label="ZIP code" maxlength="10"></div>
+              <div class="test-cards">Test cards: <button type="button" data-tc="4111111111111111">4111 1111 1111 1111</button> approves · <button type="button" data-tc="4000000000000002">4000 0000 0000 0002</button> declines</div>`;
+            const num = $("#sqNum", root), exp = $("#sqExp", root);
+            num.addEventListener("input", () => (num.value = num.value.replace(/\D/g, "").slice(0, 16).replace(/(.{4})(?=.)/g, "$1 ")));
+            exp.addEventListener("input", () => { const d = exp.value.replace(/\D/g, "").slice(0, 4); exp.value = d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; });
+            $$("[data-tc]", root).forEach((b) => b.addEventListener("click", () => {
+              num.value = b.dataset.tc.replace(/(.{4})(?=.)/g, "$1 "); exp.value = "12/" + String((new Date().getFullYear() + 2) % 100); $("#sqCvv", root).value = "111"; $("#sqZip", root).value = "12345";
+            }));
+          },
+          async tokenize() {
+            await new Promise((r) => setTimeout(r, 700));
+            const n = $("#sqNum", root).value.replace(/\D/g, ""), [mm, yy] = $("#sqExp", root).value.split("/");
+            const cvv = $("#sqCvv", root).value, zip = $("#sqZip", root).value;
+            const luhn = n.split("").reverse().reduce((a, d, i) => a + (i % 2 ? ((d * 2) > 9 ? d * 2 - 9 : d * 2) : +d), 0) % 10 === 0;
+            const exp = new Date(2000 + +yy, +mm);
+            const errors = [];
+            if (n.length < 13 || !luhn) errors.push({ field: "cardNumber", message: "Card number is not valid." });
+            if (!(mm >= 1 && mm <= 12) || !yy || exp < new Date()) errors.push({ field: "expirationDate", message: "Expiration date is not valid." });
+            if (!/^\d{3,4}$/.test(cvv)) errors.push({ field: "cvv", message: "CVV is not valid." });
+            if (!/^\d{5}/.test(zip)) errors.push({ field: "postalCode", message: "ZIP code is not valid." });
+            if (errors.length) return { status: "Invalid", errors };
+            return { status: "OK", token: "cnon:mock-" + (n === "4000000000000002" ? "card-declined" : "card-nonce-ok") + "-" + Date.now(),
+              details: { card: { brand: n[0] === "4" ? "VISA" : n[0] === "5" ? "MASTERCARD" : n[0] === "3" ? "AMERICAN_EXPRESS" : "CARD", last4: n.slice(-4) } } };
+          },
+          async destroy() { root.innerHTML = ""; },
+        };
+      },
+    };
+  },
+};
+// Stand-in for your server's call to Square's CreatePayment API.
+async function mockCreatePayment({ sourceId, amountMoney, buyer }) {
+  await new Promise((r) => setTimeout(r, 1100));
+  if (sourceId.includes("card-declined")) return { errors: [{ code: "GENERIC_DECLINE", detail: "The card was declined." }] };
+  return { payment: { id: "MOCK" + Math.random().toString(36).slice(2, 12).toUpperCase(), status: "COMPLETED", amountMoney, receiptNumber: Math.random().toString(36).slice(2, 6).toUpperCase(), buyerEmailAddress: buyer.email, createdAt: new Date().toISOString() } };
+}
+async function createPayment(body) {
+  if (SQUARE.mode === "mock") return mockCreatePayment(body);
+  const res = await fetch(SQUARE.paymentEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  return res.json();
+}
+function loadSquare() {
+  if (SQUARE.mode === "mock") return Promise.resolve(MockSquare);
+  const src = SQUARE.mode === "production" ? "https://web.squarecdn.com/v1/square.js" : "https://sandbox.web.squarecdn.com/v1/square.js";
+  return new Promise((ok, fail) => { const s = document.createElement("script"); s.src = src; s.onload = () => ok(window.Square); s.onerror = fail; document.head.appendChild(s); });
+}
+
+// ── Checkout flow ─────────────────────────────────────────────────────────
+const dlg = $("#checkout");
+const bodyHTML = $("#coBody").innerHTML;
+let card;
+async function openCheckout() {
+  if (SQUARE.mode === "link") { window.open(SQUARE.paymentLink, "_blank", "noopener"); return; }
+  $("#coBody").innerHTML = bodyHTML;
+  $$("#coBody [data-domain]").forEach((el) => (el.textContent = DOMAIN));
+  if (SQUARE.mode !== "mock") $("#mockBanner").remove();
+  dlg.showModal();
+  try {
+    const Sq = await loadSquare();
+    card = await (await Sq.payments(SQUARE.applicationId, SQUARE.locationId)).card();
+    await card.attach("#card-container");
+  } catch (e) {
+    $("#payErr").textContent = "Payments couldn't load. Please refresh and try again.";
+    return;
+  }
+  $("#payForm").addEventListener("submit", pay);
+}
+async function pay(e) {
+  e.preventDefault();
+  const form = e.target, err = $("#payErr"), btn = $("#payBtn");
+  err.textContent = "";
+  $("#sqCard")?.classList.remove("err");
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  btn.disabled = true; btn.textContent = "Processing…";
+  try {
+    const t = await card.tokenize();
+    if (t.status !== "OK") { $("#sqCard")?.classList.add("err"); throw new Error(t.errors?.[0]?.message || "Please check your card details."); }
+    const result = await createPayment({
+      sourceId: t.token, idempotencyKey: crypto.randomUUID(), locationId: SQUARE.locationId,
+      amountMoney: { amount: PRICE * 100, currency: "USD" },
+      note: `Website claim: ${BIZ || DOMAIN} (${DOMAIN})`,
+      buyer: { name: $("#cName").value, email: $("#cEmail").value, phone: $("#cPhone").value, business: BIZ, domain: DOMAIN },
+    });
+    if (!result.payment) throw new Error(result.errors?.[0]?.detail || "Payment failed. Please try another card.");
+    showReceipt(result.payment, t.details.card);
+  } catch (ex) {
+    err.textContent = ex.message;
+    btn.disabled = false; btn.textContent = "Pay $499.00";
+  }
+}
+function showReceipt(p, c) {
+  $("#coTitle").textContent = "You're all set!";
+  $("#coBody").innerHTML = `<div class="done">
+    <div class="big-ck">${CHECK()}</div>
+    <h3>${esc(DOMAIN)} is yours.</h3>
+    <p>Payment received. A receipt is on its way to <b>${esc(p.buyerEmailAddress)}</b>. Our team will reach out shortly to finish setting up your email and services.</p>
+    <dl>
+      <dt>Amount</dt><dd>${money(p.amountMoney.amount / 100)}</dd>
+      <dt>Card</dt><dd>${esc(c.brand)} •••• ${esc(c.last4)}</dd>
+      <dt>Payment ID</dt><dd class="mono">${esc(p.id)}</dd>
+      <dt>Services covered until</dt><dd>${new Date(new Date().setMonth(new Date().getMonth() + 24)).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</dd>
+    </dl>
+    ${SQUARE.mode === "mock" ? `<p style="font-size:13px;margin:0 0 14px">Test mode: no money was charged.</p>` : ""}
+    <button class="btn btn-primary" type="button" data-close>Done</button></div>`;
+  $("#sticky").remove();
+}
+$$("[data-checkout]").forEach((b) => b.addEventListener("click", openCheckout));
+dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-close]")) dlg.close(); });
+dlg.addEventListener("close", () => card?.destroy?.());
+
+// ── Scroll effects ────────────────────────────────────────────────────────
+const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+$$(".rv").forEach((el) => io.observe(el));
+new IntersectionObserver(([en], o) => { if (en.isIntersecting) { $$(".bar .fill").forEach((f) => (f.style.width = f.dataset.w + "%")); o.disconnect(); } }, { threshold: 0.4 }).observe($("#compare"));
+
+const sticky = $("#sticky");
+let pastHero = false, atClaim = false;
+const tog = () => sticky.classList.toggle("show", pastHero && !atClaim);
+new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting && en.boundingClientRect.top < 0; tog(); }).observe($(".hero-cta"));
+new IntersectionObserver(([en]) => { atClaim = en.isIntersecting; tog(); }, { threshold: 0.1 }).observe($("#claim"));
+$("#yr").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
