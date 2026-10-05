@@ -483,14 +483,15 @@
 const PRICE = 499;
 const BUNDLE_MONTHLY = 34.99;
 
-// Square settings. mode "link" = send buyers to the hosted Square payment link.
+// Square settings. mode "worker" = ask the site's Cloudflare Worker (/checkout) to create a
+// Square checkout for $499 under the Digital Doorway location, then send the buyer there.
 // mode "mock" = fake checkout for demos (nothing is charged).
 // To go live: set mode to "sandbox" (then "production"), add your Square
 // Application ID + Location ID, and point paymentEndpoint at a server route
 // that calls Square's CreatePayment API with the token this page sends.
 const SQUARE = {
-  mode: "link",
-  paymentLink: "https://square.link/u/K1iD7cfg",
+  mode: "worker",
+  checkoutEndpoint: "https://digital-doorway-mail.angie-tatum-api.workers.dev/checkout",
   applicationId: "sandbox-sq0idb-REPLACE_ME",
   locationId: "REPLACE_ME",
   paymentEndpoint: "/api/payments",
@@ -625,12 +626,31 @@ function loadSquare() {
   return new Promise((ok, fail) => { const s = document.createElement("script"); s.src = src; s.onload = () => ok(window.Square); s.onerror = fail; document.head.appendChild(s); });
 }
 
+// ── Checkout through the Worker: creates a fresh Square checkout and redirects to it ──
+let checkingOut = false;
+async function workerCheckout() {
+  if (checkingOut) return;
+  checkingOut = true;
+  const btns = $$("[data-checkout]"), labels = btns.map((b) => b.textContent);
+  btns.forEach((b) => { b.textContent = "Opening secure checkout…"; b.setAttribute("aria-busy", "true"); });
+  try {
+    const res = await fetch(SQUARE.checkoutEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: ["build"] }) });
+    const d = await res.json().catch(() => ({}));
+    if (!res.ok || !d.url) throw new Error(d.detail || d.error || "checkout failed");
+    location.href = d.url;
+  } catch {
+    btns.forEach((b, i) => { b.textContent = labels[i]; b.removeAttribute("aria-busy"); });
+    checkingOut = false;
+    alert("We couldn't open checkout just now. Please try again in a moment, or call us at (877) 853-1920.");
+  }
+}
+
 // ── Checkout flow ─────────────────────────────────────────────────────────
 const dlg = $("#checkout");
 const bodyHTML = $("#coBody").innerHTML;
 let card;
 async function openCheckout() {
-  if (SQUARE.mode === "link") { window.open(SQUARE.paymentLink, "_blank", "noopener"); return; }
+  if (SQUARE.mode === "worker") return workerCheckout();
   $("#coBody").innerHTML = bodyHTML;
   $$("#coBody [data-domain]").forEach((el) => (el.textContent = DOMAIN));
   if (SQUARE.mode !== "mock") $("#mockBanner").remove();

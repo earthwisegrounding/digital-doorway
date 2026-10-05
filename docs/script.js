@@ -535,7 +535,6 @@
   (function () {
     var form = document.querySelector('[data-checkout]'); if (!form) return;
     var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
-    var FALLBACK = 'https://square.link/u/K1iD7cfg';   // the plain $499 Square link, offered if checkout can't open
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
     var inEmail = document.getElementById('co-email');
@@ -565,9 +564,7 @@
         .catch(function () {
           pay.removeAttribute('aria-busy'); pay.firstChild.textContent = label;
           err.innerHTML = '';
-          err.appendChild(document.createTextNode('We couldn’t open checkout just now. You can '));
-          var a = document.createElement('a'); a.href = FALLBACK; a.textContent = 'pay the $499 build directly'; a.target = '_blank'; a.rel = 'noopener';
-          err.appendChild(a); err.appendChild(document.createTextNode(' and we’ll add any extras afterward, or call (877) 853-1920.'));
+          err.appendChild(document.createTextNode('We couldn’t open checkout just now. Please try again in a moment, or call (877) 853-1920.'));
           err.hidden = false;
         });
     });
