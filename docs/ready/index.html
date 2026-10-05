@@ -521,6 +521,9 @@ const money = (n, cents = true) => "$" + n.toLocaleString("en-US", { minimumFrac
 const CHECK = (fill = "#14C3D6", stroke = "#fff") => `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="${fill}"/><path d="M7 12.5l3 3 7-7" stroke="${stroke}" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
+// Always open at the top (browsers otherwise restore the last scroll position on revisits)
+if (!location.hash) { history.scrollRestoration = "manual"; scrollTo(0, 0); addEventListener("pageshow", () => scrollTo(0, 0)); }
+
 // ── Personalize from the link: ?business=Rivera+Plumbing&domain=riveraplumbing.com&site=https://… ──
 const params = new URLSearchParams(location.search);
 const BIZ = (params.get("business") || "").trim().slice(0, 60);
