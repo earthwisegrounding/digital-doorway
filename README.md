@@ -37,10 +37,10 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 
 ## Payments (Square)
 
-- The "Pay $499 with Square" button in the pricing panel opens a Square payment link: https://square.link/u/K1iD7cfg
-- It lives under the Square location "Digital Doorway Marketing" (ID LWTA04YK02TTT) on the same Square account as justlikegrounding.com. Payments show up in the Square Dashboard under that location; filter by it to keep the two businesses separate.
+- Every payment button (homepage `#checkout` and `/ready`) POSTs to the worker's `/checkout`, which creates a Square checkout and redirects to it. No fixed payment link is used anymore.
+- Payments go to the Digital Doorway Marketing Square account (its own account, separate from justlikegrounding.com), location "Digital Doorway Marketing", ID `L3QWTE4CRSP7G` (`SQUARE_LOCATION_ID` in `api/wrangler.toml`). Switched from the justlikegrounding account (location `LWTA04YK02TTT`) on 2026-10-04.
+- The worker's `SQUARE_ACCESS_TOKEN` secret is that account's production access token (from developer.squareup.com). Set it with `cd api && npx wrangler secret put SQUARE_ACCESS_TOKEN`; it is never in the repo.
 - After paying, customers land on `docs/thank-you.html`. Square emails the receipt.
-- To change the price or wording, edit the link in Square Dashboard → Online → Payment links (or create a new one and update the button's href in `docs/index.html`). No code holds any secret; the access token stays in the angie project's `api/.env`.
 
 ## Contact form emails (Resend via Cloudflare Worker)
 
@@ -67,7 +67,7 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 - The "After your first two years" section (`#addons`) lists what applies from month 25: the optional Business Bundle ($34.99/month; domain, hosting, SSL, 5 emails, local SEO, QR codes, audio welcome message, matching `/ready`) or individual hosting ($14.99/month), SSL ($5.99/month), and email ($59/$129/$199 a year). Nothing from it is sold at checkout today. The worker's `CATALOG` still knows those items if they're ever sold online.
 - `/ready` and the homepage must describe the same offer. If the included services or the bundle change, update both pages, the JSON-LD, `docs/llms.txt`, and the worker's item names.
 - The Square webhook subscription "Digital Doorway Marketing sales" is enabled, so every completed payment sends the admins a "New sale" email and the customer a thank-you.
-- Switches: `CHECKOUT_ENABLED` in `api/wrangler.toml` ("yes" now). If checkout can't open, the page offers the plain $499 link (square.link/u/K1iD7cfg), which is also what `/ready` uses.
+- Switches: `CHECKOUT_ENABLED` in `api/wrangler.toml` ("yes" now). If checkout can't open, both pages ask the visitor to try again or call (877) 853-1920.
 - The Square location must be **Active** for any of this to work. On 2026-10-04 it had been set to Inactive (Square showed "This business is currently not accepting payments") and was reactivated through the API.
 - `/order-request` (the old invoice flow) still exists in the worker but nothing on the site calls it.
 - If you change a price, change it in `CATALOG` (worker) AND the display prices in `docs/index.html` + the `P` table in the order-builder block of `docs/script.js`, and the JSON-LD offers and `docs/llms.txt`.

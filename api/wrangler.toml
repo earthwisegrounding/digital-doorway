@@ -18,7 +18,7 @@ ALLOWED_ORIGINS = "https://digitaldoorwaymarketing.com,https://www.digitaldoorwa
 # Online payment via Square is ON: the homepage order builder calls /checkout.
 # Set CHECKOUT_ENABLED = "no" to make /checkout refuse requests (the page then offers the plain $499 link).
 CHECKOUT_ENABLED = "yes"
-SQUARE_LOCATION_ID = "LWTA04YK02TTT"
+SQUARE_LOCATION_ID = "L3QWTE4CRSP7G"
 SQUARE_NOTIFICATION_URL = "https://digital-doorway-mail.angie-tatum-api.workers.dev/square-webhook"
 # Secret: SQUARE_WEBHOOK_SIGNATURE_KEY  (from the webhook subscription; `npx wrangler secret put SQUARE_WEBHOOK_SIGNATURE_KEY`)
 
