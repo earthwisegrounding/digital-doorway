@@ -23,6 +23,10 @@
   header .wrap { display: flex; align-items: center; gap: 10px; height: 64px; }
   header img { width: 42px; height: auto; }
   header span { font-weight: 800; letter-spacing: 0.08em; font-size: 14px; line-height: 1.15; }
+  header .wrap { justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  header a { color: #9FB3D1; font-size: 14px; font-weight: 600; text-decoration: none; }
+  header a:hover { color: #fff; }
   main { padding: 40px 0 64px; }
   h1 { font-size: clamp(28px, 5vw, 38px); letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 8px; }
   .lead { color: var(--muted); margin: 0 0 28px; }
@@ -49,7 +53,7 @@
 </style>
 </head>
 <body>
-<header><div class="wrap"><img src="../assets/logo-mark.png" alt="" width="42" height="32"><span>DIGITAL DOORWAY<br>MARKETING</span></div></header>
+<header><div class="wrap"><div class="brand"><img src="../assets/logo-mark.png" alt="" width="42" height="32"><span>DIGITAL DOORWAY<br>MARKETING</span></div><a href="../email/">Email builder →</a></div></header>
 <main class="wrap">
   <h1>Make a client link</h1>
   <p class="lead">Fill in the business details. You'll get a personalized "Your new website is ready" link to send them.</p>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email Builder | Digital Doorway Marketing</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#06142E">
+<link rel="icon" href="../assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F8FC; --card: #FFFFFF; --night: #06142E; --navy: #0B2A5B; --blue: #1556B8;
+    --teal: #14C3D6; --ink: #0E1A2B; --muted: #5B6B82; --line: #DFE6EF; --green: #12A36B;
+    --shadow: 0 30px 60px -24px rgba(11, 42, 91, 0.30), 0 0 0 1px rgba(11, 42, 91, 0.06);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Inter, system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  header { background: var(--night); color: #fff; }
+  .wrap { width: min(680px, 100% - 32px); margin-inline: auto; }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  header img { width: 42px; height: auto; }
+  header span { font-weight: 800; letter-spacing: 0.08em; font-size: 14px; line-height: 1.15; }
+  header a { color: #9FB3D1; font-size: 14px; font-weight: 600; text-decoration: none; }
+  header a:hover { color: #fff; }
+  main { padding: 40px 0 64px; }
+  h1 { font-size: clamp(28px, 5vw, 38px); letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 8px; }
+  .lead { color: var(--muted); margin: 0 0 28px; }
+  .card { background: var(--card); border-radius: 18px; padding: clamp(20px, 4vw, 32px); box-shadow: var(--shadow); }
+  .card + .card { margin-top: 20px; }
+  label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  label small { font-weight: 500; color: var(--muted); }
+  .field + .field { margin-top: 18px; }
+  input { width: 100%; font: inherit; font-size: 16px; padding: 13px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+  input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(21, 86, 184, 0.15); }
+  .hint { color: var(--muted); font-size: 13.5px; margin-top: 5px; }
+  h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+  .preview { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #F5F8FC; }
+  .preview iframe { display: block; width: 100%; height: 560px; border: 0; }
+  .empty { padding: 48px 20px; text-align: center; color: var(--muted); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font: inherit; font-weight: 700; font-size: 15px; text-decoration: none; cursor: pointer; border: 0; }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: var(--navy); }
+  .btn-ghost { background: transparent; color: var(--navy); box-shadow: inset 0 0 0 2px var(--line); }
+  .btn-ghost:hover { box-shadow: inset 0 0 0 2px var(--blue); }
+  .btn:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+  .btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
+  .ok { color: var(--green); font-weight: 700; font-size: 14px; align-self: center; }
+  details { margin-top: 16px; }
+  summary { cursor: pointer; font-weight: 700; color: var(--blue); font-size: 14px; }
+  textarea { width: 100%; min-height: 160px; margin-top: 10px; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12.5px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); resize: vertical; }
+  .tips { margin: 14px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; }
+  .tips li + li { margin-top: 4px; }
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand"><img src="../assets/logo-mark.png" alt="" width="42" height="32"><span>DIGITAL DOORWAY<br>MARKETING</span></div><a href="../link/">Link builder →</a></div></header>
+<main class="wrap">
+  <h1>Make a client email</h1>
+  <p class="lead">Enter the business name and the link to their new website. You'll get a ready-to-paste email with our logo, their business name, and a button to their personalized page.</p>
+
+  <form class="card" autocomplete="off" onsubmit="return false">
+    <div class="field">
+      <label for="business">Business name</label>
+      <input id="business" maxlength="60" placeholder="Rivera Plumbing" required>
+    </div>
+    <div class="field">
+      <label for="site">Link to their new website</label>
+      <input id="site" placeholder="https://riveraplumbing.com" inputmode="url" autocapitalize="off" spellcheck="false">
+      <div class="hint">Shown as the "View your new website" button on their personalized page. Its domain is also used in the example business email addresses.</div>
+    </div>
+    <div class="field">
+      <label for="sender">Your name <small>(optional)</small></label>
+      <input id="sender" maxlength="60" placeholder="Steve">
+      <div class="hint">Signs the email. Leave blank to sign it "The Digital Doorway Marketing team".</div>
+    </div>
+  </form>
+
+  <section class="card">
+    <h2>Email preview</h2>
+    <div class="preview" id="previewBox"><div class="empty">Enter a business name to see the email.</div></div>
+    <div class="row">
+      <button class="btn btn-primary" type="button" id="copyEmail" aria-disabled="true">Copy email</button>
+      <a class="btn btn-ghost" id="openPage" target="_blank" rel="noopener" aria-disabled="true">Open their page ↗</a>
+      <span class="ok" id="okEmail" hidden>Copied! Paste it into your email.</span>
+    </div>
+    <ul class="tips">
+      <li><b>Gmail, Outlook, Apple Mail:</b> click Copy email, then paste into the body of a new message.</li>
+      <li>Suggested subject: <b id="subject">Your new website is ready</b></li>
+    </ul>
+    <details>
+      <summary>Need the raw HTML code instead?</summary>
+      <textarea id="code" readonly aria-label="Email HTML code"></textarea>
+      <div class="row">
+        <button class="btn btn-ghost" type="button" id="copyCode" aria-disabled="true">Copy HTML code</button>
+        <span class="ok" id="okCode" hidden>Copied!</span>
+      </div>
+    </details>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const READY = new URL("../", location.href).href;          // the personalized offer page
+const LOGO = "https://digitaldoorwaymarketing.com/assets/logo.png";  // absolute so it loads inside email clients
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function cleanSite(v) {
+  v = v.trim();
+  if (!v) return "";
+  if (!/^https?:\/\//i.test(v)) v = "https://" + v;
+  try { const u = new URL(v); return /^https?:$/.test(u.protocol) ? u.href : ""; } catch { return ""; }
+}
+
+function offerUrl(biz, site) {
+  const p = new URLSearchParams({ business: biz });
+  if (site) {
+    p.set("domain", new URL(site).hostname.replace(/^www\./, ""));
+    p.set("site", site);
+  }
+  return READY + "?" + p.toString();
+}
+
+// Table layout + inline styles: the format email clients render reliably.
+function emailHtml(biz, url, sender) {
+  const b = esc(biz), u = esc(url);
+  const sign = sender ? `${esc(sender)}<br>Digital Doorway Marketing` : "The Digital Doorway Marketing team";
+  const font = "font-family:Arial,Helvetica,sans-serif;";
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F5F8FC;">
+<tr><td align="center" style="padding:24px 12px;">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:560px;background:#FFFFFF;border-radius:14px;border:1px solid #DFE6EF;">
+<tr><td align="center" style="padding:32px 32px 8px;">
+<a href="${u}" target="_blank" style="text-decoration:none;"><img src="${LOGO}" width="140" alt="Digital Doorway Marketing" style="display:block;width:140px;height:auto;border:0;"></a>
+<div style="${font}font-size:12px;font-weight:bold;letter-spacing:2px;color:#0B2A5B;padding-top:10px;">DIGITAL DOORWAY MARKETING</div>
+</td></tr>
+<tr><td style="padding:20px 32px 0;${font}color:#0E1A2B;">
+<h1 style="margin:0 0 16px;font-size:26px;line-height:1.25;color:#0B2A5B;${font}">Your new website is ready, ${b}.</h1>
+<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#33415C;">Hi ${b} team,</p>
+<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#33415C;">We built a professional website for ${b}, and it's ready for you to see. Your personal page has a short video that walks through everything that's included.</p>
+<p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#33415C;">One payment of $499 covers the website plus your first two years of domain, hosting, SSL security, business email and local SEO.</p>
+</td></tr>
+<tr><td align="center" style="padding:0 32px 28px;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" bgcolor="#1556B8" style="border-radius:10px;">
+<a href="${u}" target="_blank" style="display:inline-block;padding:15px 30px;${font}font-size:17px;font-weight:bold;color:#FFFFFF;text-decoration:none;border-radius:10px;">See your new website &rarr;</a>
+</td></tr></table>
+</td></tr>
+<tr><td style="padding:0 32px 32px;${font}">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#33415C;">${sign}<br><a href="tel:+18778531920" style="color:#1556B8;text-decoration:none;">(877) 853-1920</a></p>
+</td></tr>
+</table>
+<p style="margin:16px 0 0;${font}font-size:12px;color:#8090A6;">Digital Doorway Marketing &middot; Opening doors to your success</p>
+</td></tr>
+</table>`;
+}
+
+function emailText(biz, url, sender) {
+  return `Your new website is ready, ${biz}.\n\nHi ${biz} team,\n\nWe built a professional website for ${biz}, and it's ready for you to see. Your personal page has a short video that walks through everything that's included:\n\n${url}\n\nOne payment of $499 covers the website plus your first two years of domain, hosting, SSL security, business email and local SEO.\n\n${sender ? sender + "\nDigital Doorway Marketing" : "The Digital Doorway Marketing team"}\n(877) 853-1920`;
+}
+
+let current = null;
+function build() {
+  const biz = $("business").value.trim();
+  const site = cleanSite($("site").value);
+  const sender = $("sender").value.trim();
+  const ready = !!biz;
+  ["copyEmail", "openPage", "copyCode"].forEach((id) => $(id).setAttribute("aria-disabled", String(!ready)));
+  $("subject").textContent = ready ? `${biz}: your new website is ready` : "Your new website is ready";
+  if (!ready) {
+    current = null;
+    $("previewBox").innerHTML = '<div class="empty">Enter a business name to see the email.</div>';
+    $("code").value = ""; $("openPage").href = "#";
+    return;
+  }
+  const url = offerUrl(biz, site);
+  current = { html: emailHtml(biz, url, sender), text: emailText(biz, url, sender) };
+  let frame = $("previewBox").querySelector("iframe");
+  if (!frame) { $("previewBox").innerHTML = ""; frame = document.createElement("iframe"); frame.title = "Email preview"; $("previewBox").appendChild(frame); }
+  frame.srcdoc = `<!doctype html><html><head><meta charset="utf-8"><base target="_blank"></head><body style="margin:0;">${current.html}</body></html>`;
+  $("code").value = current.html;
+  $("openPage").href = url;
+}
+
+function flash(id) { const ok = $(id); ok.hidden = false; clearTimeout(ok._t); ok._t = setTimeout(() => (ok.hidden = true), 2200); }
+
+// Copies as rich text so it pastes as a formatted email, not as code.
+async function copyRich() {
+  if (!current) return;
+  try {
+    await navigator.clipboard.write([new ClipboardItem({
+      "text/html": new Blob([current.html], { type: "text/html" }),
+      "text/plain": new Blob([current.text], { type: "text/plain" }),
+    })]);
+  } catch {
+    const box = document.createElement("div");
+    box.contentEditable = "true"; box.style.cssText = "position:fixed;left:-9999px;top:0;";
+    box.innerHTML = current.html; document.body.appendChild(box);
+    const r = document.createRange(); r.selectNodeContents(box);
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    document.execCommand("copy"); sel.removeAllRanges(); box.remove();
+  }
+  flash("okEmail");
+}
+async function copyCode() {
+  if (!current) return;
+  try { await navigator.clipboard.writeText(current.html); }
+  catch { $("code").select(); document.execCommand("copy"); }
+  flash("okCode");
+}
+
+["business", "site", "sender"].forEach((id) => $(id).addEventListener("input", build));
+$("copyEmail").addEventListener("click", copyRich);
+$("copyCode").addEventListener("click", copyCode);
+build();
+</script>
+</body>
+</html>
