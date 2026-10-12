@@ -6,3 +6,5 @@ FULL-AUDIT-REPORT.md
 ACTION-PLAN.md
 SEO-REPORT.html
 screenshots/
+api/.dev.vars
+.wrangler/

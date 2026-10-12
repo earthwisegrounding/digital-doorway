@@ -1,17 +1,19 @@
 # Digital Doorway Marketing
 
-> Digital Doorway Marketing designs and builds custom websites for local businesses (restaurants, salons, trades, clinics, gyms, shops, landscapers, and more) for a flat $499, one-time. The price includes the first 2 years of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, and a professional audio welcome message. Founded by Marv Reeves, based in Seattle, WA.
+> Digital Doorway Marketing designs and builds custom websites for local businesses (restaurants, salons, trades, clinics, gyms, shops, landscapers, and more) for a flat $499, one-time. The price includes the first 2 years of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, and a professional audio welcome message, plus the first year of a CRM customized for the client's industry. Founded by Marv Reeves, based in Seattle, WA.
 
 ## The $499 website
 
-- Price: $499, one-time. Includes the first 2 years of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, and a professional audio welcome message. No monthly fees for 24 months.
+- Price: $499, one-time. Includes the first 2 years of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, and a professional audio welcome message, plus the first 12 months of CRM free (a $600 value). Nothing is billed monthly in the first year.
 - Included: custom design (not a template), mobile-first build, copywriting help, Google-ready SEO basics (titles, descriptions, speed, map listing hookup), contact forms and click-to-call, two rounds of changes, launch, and a walkthrough of the finished site. The client owns the site.
 - After the first 2 years (optional): the Business Bundle (domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message) is $34.99/month, or individually hosting $14.99/month, SSL $5.99/month, email from $59/year, with the domain renewing yearly.
+- CRM: every website comes with a CRM (customer relationship manager) set up for the client's industry, with stages, fields, and reminders that match how the business works (for example quotes and jobs for trades, appointments and rebooking for salons, inquiries and events for caterers). Website contact-form inquiries land in it automatically. Free for the first 12 months; after that $50/month, optional.
 - Every client gets more than one design direction to choose from.
 - Payment: online at checkout on the website, through Square (card, Apple Pay, or Google Pay).
 
-## After the first 2 years (optional)
+## After the included period (optional)
 
+- CRM: $50/month from month 13, only if the client keeps it. Not part of the Business Bundle.
 - Business Bundle: $34.99/month. Domain, hosting, SSL security, 5 business email accounts, local SEO, QR codes, and the audio welcome message. Starts only after the first 24 months.
 - Website Hosting: $14.99/month.
 - SSL Website Security: $5.99/month.
@@ -36,6 +38,7 @@
 
 - [Homepage](https://digitaldoorwaymarketing.com/): offer, examples, process, pricing, add-ons, FAQ, and contact form
 - [Pricing](https://digitaldoorwaymarketing.com/#pricing)
+- [Free CRM](https://digitaldoorwaymarketing.com/#crm)
 - [Add-ons](https://digitaldoorwaymarketing.com/#addons)
 - [Examples](https://digitaldoorwaymarketing.com/#examples)
 - [FAQ](https://digitaldoorwaymarketing.com/#faq)

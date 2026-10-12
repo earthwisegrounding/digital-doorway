@@ -530,6 +530,51 @@
     setX(50);
   })();
 
+  /* ---------- Free CRM: industry chips rename the sample pipeline ---------- */
+  (function () {
+    var chips = document.querySelector('[data-crm-chips]'), board = document.querySelector('[data-crm-board]'), title = document.querySelector('[data-crm-title]');
+    if (!chips || !board) return;
+    var COLORS = ['#7C9BD6', '#3D74C9', '#1553A8', '#12805A'];
+    // [stage, [[job, who, detail], ...]] x 4
+    var DEMO = {
+      trades: ['Plumbing & HVAC', [['New call', [['Water heater leak', 'Dana K.', 'Today'], ['No heat upstairs', 'Mike R.', '2h ago']]], ['Quote sent', [['Bathroom repipe', 'Erin S.', '$3,200']]], ['Job booked', [['AC tune-up', 'Tom W.', 'Thu 9 am']]], ['Paid', [['Drain clearing', 'Ana P.', '$225']]]]],
+      salon: ['Salons & spas', [['New client', [['Color consult', 'Jess M.', 'Today'], ['Bridal trial', 'Nora L.', 'Sat']]], ['Booked', [['Cut and gloss', 'Leah T.', 'Fri 2 pm']]], ['Visited', [['Balayage', 'Maya R.', '$240']]], ['Rebook due', [['Root touch-up', 'Kim D.', 'In 6 wks']]]]],
+      food: ['Restaurants & catering', [['Catering inquiry', [['Office lunch for 40', 'Brightline Co.', '$820'], ['Rehearsal dinner', 'Sara & Ben', 'Jun 14']]], ['Menu sent', [['Birthday party for 25', 'Luis G.', '$560']]], ['Confirmed', [['Team breakfast', 'Northwind', 'Tue 8 am']]], ['Follow up', [['Holiday party', 'Cedar Dental', 'Ask for a review']]]]],
+      landscape: ['Landscaping', [['Estimate request', [['Spring cleanup', 'Rob H.', 'Today'], ['Paver patio', 'Lena K.', '1d ago']]], ['Site visit', [['Drainage fix', 'Carl M.', 'Wed 10 am']]], ['Proposal sent', [['Backyard redesign', 'Priya S.', '$6,200']]], ['Seasonal care', [['Weekly mowing', 'Oak St. HOA', '$45/visit']]]]],
+      dental: ['Dental & medical', [['New patient', [['Cleaning and exam', 'Grace W.', 'Today'], ['Whitening consult', 'Omar F.', '3h ago']]], ['Appointment set', [['Crown fitting', 'Dale P.', 'Mon 11 am']]], ['Visited', [['Implant consult', 'Rita B.', 'Plan sent']]], ['Recall due', [['6-month checkup', 'Sam Y.', 'Nov 3']]]]],
+      fitness: ['Gyms & fitness', [['Trial booked', [['Free week pass', 'Alex J.', 'Today'], ['Intro PT session', 'Mei C.', 'Sat']]], ['Trial done', [['Follow-up call', 'Chris V.', 'Due today']]], ['Member', [['Annual plan', 'Tara N.', '$89/mo']]], ['Renewal due', [['Membership renewal', 'Jordan P.', 'Dec 1']]]]]
+    };
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+    function render(key) {
+      var d = DEMO[key], n = 0, frag = document.createDocumentFragment();
+      d[1].forEach(function (stage, i) {
+        var col = el('div', 'crm-col'), head = el('p', 'crm-col-title', stage[0]);
+        col.style.setProperty('--c', COLORS[i]);
+        head.appendChild(el('span', null, String(stage[1].length)));
+        col.appendChild(head);
+        stage[1].forEach(function (c) {
+          var card = el('div', 'crm-card'), meta = el('span');
+          card.style.setProperty('--d', n++);
+          meta.appendChild(el('i', null, c[1])); meta.appendChild(el('em', null, c[2]));
+          card.appendChild(el('b', null, c[0])); card.appendChild(meta);
+          col.appendChild(card);
+        });
+        frag.appendChild(col);
+      });
+      board.innerHTML = '';
+      board.appendChild(frag);
+      title.textContent = 'Your CRM \u00b7 ' + d[0];
+    }
+    chips.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-industry]');
+      if (!btn || btn.getAttribute('aria-pressed') === 'true') return;
+      Array.prototype.forEach.call(chips.querySelectorAll('button'), function (b) { b.setAttribute('aria-pressed', String(b === btn)); });
+      if (reduceMotion) { render(btn.getAttribute('data-industry')); return; }
+      board.classList.add('is-swapping');
+      setTimeout(function () { render(btn.getAttribute('data-industry')); board.classList.remove('is-swapping'); }, 180);
+    });
+  })();
+
   /* ---------- Order: the $499 website (2 years of hosting, domain, SSL, 5 emails, local SEO, QR codes, audio welcome included), paid through Square ----------
      The worker prices the order (api/worker.js CATALOG) and returns a Square payment link for it. */
   (function () {
@@ -541,12 +586,12 @@
     function selected() { return ['build']; }
     function render() {
       lines.innerHTML = '';
-      [['Website design and build', '$499.00'], ['7 services for 24 months', 'Included']].forEach(function (row) {
+      [['Website design and build', '$499.00'], ['7 services for 24 months', 'Included'], ['CRM for 12 months', 'Free']].forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
         n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
       total.textContent = '$499.00';
-      renew.textContent = 'No monthly fees for your first 24 months. After that, the optional Business Bundle keeps everything running for $34.99 a month.';
+      renew.textContent = 'Nothing to pay monthly in your first year. After that, the CRM is $50 a month if you keep it, and everything else stays included through month 24. From month 25, the optional Business Bundle keeps it all running for $34.99 a month.';
       renew.hidden = false;
     }
 

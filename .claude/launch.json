@@ -14,6 +14,21 @@
         "docs"
       ],
       "port": 8767
+    },
+    {
+      "name": "crm-api",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "wrangler",
+        "dev",
+        "--config",
+        "api/wrangler.toml",
+        "--port",
+        "8787",
+        "--ip",
+        "127.0.0.1"
+      ],
+      "port": 8787
     }
   ]
 }

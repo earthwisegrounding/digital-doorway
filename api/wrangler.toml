@@ -1,4 +1,4 @@
-# Contact-form mailer for digitaldoorwaymarketing.com (Cloudflare Worker).
+# Contact-form mailer, Square checkout/webhook, and CRM API for digitaldoorwaymarketing.com (Cloudflare Worker).
 #   cd api
 #   echo "re_…" | npx wrangler secret put RESEND_API_KEY   # once; never commit the key
 #   npx wrangler deploy                                     # prints the workers.dev URL
@@ -21,7 +21,16 @@ CHECKOUT_ENABLED = "yes"
 SQUARE_LOCATION_ID = "L3QWTE4CRSP7G"
 SQUARE_NOTIFICATION_URL = "https://digital-doorway-mail.angie-tatum-api.workers.dev/square-webhook"
 # Secret: SQUARE_WEBHOOK_SIGNATURE_KEY  (from the webhook subscription; `npx wrangler secret put SQUARE_WEBHOOK_SIGNATURE_KEY`)
+# CRM (admin UI at digitaldoorwaymarketing.com/crm/): who can sign in with an emailed code.
+CRM_ADMINS = "steevreeves@gmail.com,marvreeves@gmail.com,info@digitaldoorwaymarketing.com"
+# Secret: CRM_SESSION_SECRET  (random string that signs CRM sessions; changing it signs everyone out)
 
 [[kv_namespaces]]
 binding = "SEEN"
 id = "dc4aa4eb26384eccb766b65ac8b41173"
+
+# CRM database. Schema: schema.sql (`npx wrangler d1 execute digital-doorway-crm --remote --file schema.sql`).
+[[d1_databases]]
+binding = "DB"
+database_name = "digital-doorway-crm"
+database_id = "70a86e94-104d-40e3-87f9-0cb0dd4ad527"

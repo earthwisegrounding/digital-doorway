@@ -1,36 +1,26 @@
-/* Contact-form mailer. POST /contact with JSON {name, business, email, phone, type, message}
-   → one notification email to NOTIFY_TO via Resend, reply-to set to the visitor. */
+/* Contact-form mailer, Square checkout and webhook, and the CRM API.
+   POST /contact with JSON {name, business, email, phone, type, message}
+   → one notification email to NOTIFY_TO via Resend (reply-to set to the visitor), and the lead lands in the CRM. */
+import { json, esc, clip, send } from './lib.js';
+import { handleCrm, crmCaptureLead, crmRecordPayment } from './crm.js';
+
 const cors = (env, origin) => {
   const allowed = (env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
   const ok = allowed.includes(origin);
   return {
     'Access-Control-Allow-Origin': ok ? origin : allowed[0] || '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Accept',
+    'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept, Authorization',
     'Access-Control-Max-Age': '86400',
     'Vary': 'Origin',
   };
 };
-const json = (status, body, headers) => new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', ...headers } });
-const esc = s => String(s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const clip = (s, n) => String(s || '').trim().slice(0, n);
-
-async function send(env, msg) {
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(msg),
-  });
-  const body = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(`resend ${r.status}: ${body.message || body.name || 'unknown'}`);
-  return body;
-}
 
 
 /* ---- Checkout: $499 build + optional add-ons → a Square payment link for exactly that order ----
    Prices live here (server side) so the browser can't change what gets charged. */
 const CATALOG = {
-  build:   { name: 'Website design and build, including first 2 years of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, and an audio welcome message (one-time)', cents: 49900, required: true },
+  build:   { name: 'Website design and build, including first 2 years of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, and an audio welcome message, plus the first year of CRM free (one-time)', cents: 49900, required: true },
   bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
   hosting: { name: 'Website Hosting (first month)', cents: 1499, renews: 'month', renewCents: 1499 },
   ssl:     { name: 'SSL Website Security (first month)', cents: 599, renews: 'month', renewCents: 599 },
@@ -170,6 +160,7 @@ async function handleSquare(request, env, headers) {
   const admins = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
   const results = {};
   const sum = await orderSummary(env, p.order_id);
+  try { await crmRecordPayment(env, p, sum); results.crm = 'recorded'; } catch (err) { results.crm = 'failed: ' + err.message; }
   const itemsText = sum && sum.items.length ? '\n\nOrder:\n' + sum.items.map(i => `- ${i.name}: ${i.amount}`).join('\n') + (sum.renew.length ? '\nRenews: ' + sum.renew.join('; ') : '') : '';
   const itemsHtml = sum && sum.items.length ? `<table style="border-collapse:collapse;margin:12px 0">${sum.items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('')}</table>${sum.renew.length ? `<p style="margin:0 0 8px;color:#6B5D4D">Renews: ${esc(sum.renew.join('; '))}</p>` : ''}` : '';
   try {
@@ -199,7 +190,7 @@ async function handleSquare(request, env, headers) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
     const headers = cors(env, origin);
     const url = new URL(request.url);
@@ -208,6 +199,7 @@ export default {
     if (request.method === 'POST' && url.pathname === '/square-webhook') return handleSquare(request, env, headers);
     if (request.method === 'POST' && url.pathname === '/checkout') return (env.CHECKOUT_ENABLED || 'no') === 'yes' ? handleCheckout(request, env, headers) : json(403, { error: 'online checkout is turned off' }, headers);
     if (request.method === 'POST' && url.pathname === '/order-request') return handleOrderRequest(request, env, headers);
+    if (url.pathname.startsWith('/crm/')) return handleCrm(request, env, headers, url);
     if (request.method !== 'POST' || url.pathname !== '/contact') return json(404, { error: 'not found' }, headers);
     if (!env.RESEND_API_KEY) return json(500, { error: 'mailer not configured' }, headers);
 
@@ -218,6 +210,9 @@ export default {
     const phone = clip(data.phone, 40), type = clip(data.type, 80), message = clip(data.message, 4000);
     const addons = clip(data.addons, 300);
     if (!name || !business || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { error: 'missing fields' }, headers);
+
+    // Save the lead in the CRM without holding up the reply (a CRM hiccup never blocks the email).
+    ctx.waitUntil(crmCaptureLead(env, { name, business, email, phone, type, message, addons }).catch(err => console.log('crm lead', err && err.message)));
 
     const to = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
     const lines = [['Name', name], ['Business', business], ['Email', email], ['Phone', phone || '—'], ['Type of business', type || '—'], ['Add-ons', addons || 'none']];

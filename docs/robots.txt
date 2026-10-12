@@ -2,5 +2,6 @@
 # All crawlers, including AI assistants and search crawlers, are welcome.
 User-agent: *
 Allow: /
+Disallow: /crm/
 
 Sitemap: https://digitaldoorwaymarketing.com/sitemap.xml
