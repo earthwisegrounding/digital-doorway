@@ -252,7 +252,7 @@
       var v = f.el.value.trim();
       var ok = true;
       if (key === 'phone') {
-        ok = v === '' || /^[+\d][\d\s().-]{6,}$/.test(v);
+        ok = v === '' || /^[+(\d][\d\s().-]{6,}$/.test(v);
       } else if (key === 'email') {
         ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
       } else {
