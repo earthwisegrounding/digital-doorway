@@ -125,7 +125,7 @@ function build() {
   ["copyLink", "preview", "copyMsg"].forEach((id) => $(id).setAttribute("aria-disabled", String(!ready)));
   if (!$("msg").dataset.edited) {
     $("msg").value = ready
-      ? `Hi! We built a new website for ${biz}, and it's ready for you to see. This page has a short video showing everything that's included:\n\n${url}`
+      ? `Hi! We built a new website for ${biz}, and it's ready for you to see. This page shows everything that's included:\n\n${url}`
       : "";
   }
   return url;

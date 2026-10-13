@@ -139,7 +139,7 @@ function emailHtml(biz, url, sender) {
 <tr><td style="padding:20px 32px 0;${font}color:#0E1A2B;">
 <h1 style="margin:0 0 16px;font-size:26px;line-height:1.25;color:#0B2A5B;${font}">Your new website is ready, ${b}.</h1>
 <p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#33415C;">Hi ${b} team,</p>
-<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#33415C;">We built a professional website for ${b}, and it's ready for you to see. Your personal page has a short video that walks through everything that's included.</p>
+<p style="margin:0 0 14px;font-size:16px;line-height:1.6;color:#33415C;">We built a professional website for ${b}, and it's ready for you to see. Your personal page walks through everything that's included.</p>
 <p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#33415C;">One payment of $499 covers the website plus your first two years of domain, hosting, SSL security, business email and local SEO.</p>
 </td></tr>
 <tr><td align="center" style="padding:0 32px 28px;">
@@ -157,7 +157,7 @@ function emailHtml(biz, url, sender) {
 }
 
 function emailText(biz, url, sender) {
-  return `Your new website is ready, ${biz}.\n\nHi ${biz} team,\n\nWe built a professional website for ${biz}, and it's ready for you to see. Your personal page has a short video that walks through everything that's included:\n\n${url}\n\nOne payment of $499 covers the website plus your first two years of domain, hosting, SSL security, business email and local SEO.\n\n${sender ? sender + "\nDigital Doorway Marketing" : "The Digital Doorway Marketing team"}\n(877) 853-1920`;
+  return `Your new website is ready, ${biz}.\n\nHi ${biz} team,\n\nWe built a professional website for ${biz}, and it's ready for you to see. Your personal page walks through everything that's included:\n\n${url}\n\nOne payment of $499 covers the website plus your first two years of domain, hosting, SSL security, business email and local SEO.\n\n${sender ? sender + "\nDigital Doorway Marketing" : "The Digital Doorway Marketing team"}\n(877) 853-1920`;
 }
 
 let current = null;

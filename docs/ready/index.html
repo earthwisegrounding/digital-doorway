@@ -31,6 +31,7 @@
     --shadow: 0 30px 60px -24px rgba(11, 42, 91, 0.28), 0 0 0 1px rgba(11, 42, 91, 0.06);
   }
   * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
   html { scroll-behavior: smooth; }
   body { margin: 0; font-family: Inter, system-ui, -apple-system, sans-serif; color: var(--ink); background: var(--bg); line-height: 1.55; -webkit-font-smoothing: antialiased; }
   img, video { max-width: 100%; display: block; }
@@ -307,12 +308,7 @@
         <span class="kicker">Prepared for <span data-biz>your business</span></span>
         <h1>Your new website is ready, <span class="biz" data-biz>your business</span>.</h1>
       </div>
-      <div class="video">
-        <video controls playsinline preload="metadata" poster="assets/poster.jpg">
-          <source src="assets/offer-video.mp4" type="video/mp4">
-        </video>
-      </div>
-      <p class="hero-sub">We built it first so you could see it first. Claim it for a one-time <b>$499</b>, and the next year of domain, hosting, email, SEO, your own CRM and more is already covered.</p>
+      <p class="hero-sub" style="margin-top:8px">We built it first so you could see it first. Claim it for a one-time <b>$499</b>, and the next year of domain, hosting, email, SEO, your own CRM and more is already covered.</p>
       <div class="hero-cta">
         <a class="btn btn-ghost-light site-chip" id="viewSite" href="#" target="_blank" rel="noopener" hidden><span class="dot"></span>View your new website ↗</a>
         <a class="btn btn-teal" href="#claim">Claim it for $499 →</a>
