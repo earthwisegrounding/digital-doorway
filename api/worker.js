@@ -20,22 +20,22 @@ const cors = (env, origin) => {
 /* ---- Checkout: $499 build + optional add-ons → a Square payment link for exactly that order ----
    Prices live here (server side) so the browser can't change what gets charged. */
 const CATALOG = {
-  build:   { name: 'Website design and build, including first 2 years of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, and an audio welcome message, plus the first year of CRM free (one-time)', cents: 49900, required: true },
-  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message (first month)', cents: 3499, renews: 'month', renewCents: 3499 },
-  hosting: { name: 'Website Hosting (first month)', cents: 1499, renews: 'month', renewCents: 1499 },
-  ssl:     { name: 'SSL Website Security (first month)', cents: 599, renews: 'month', renewCents: 599 },
-  email1:  { name: 'Professional Business Email: 1 account (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
-  email3:  { name: 'Professional Business Email: 3 accounts (first year)', cents: 12900, renews: 'year', renewCents: 12900 },
-  email5:  { name: 'Professional Business Email: 5 accounts (first year)', cents: 19900, renews: 'year', renewCents: 19900 },
-  domain:  { name: 'Domain name registration (priced after we check availability)', cents: 0 },
+  build:   { name: 'Website design and build, including the first year of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, an audio welcome message, and a customized CRM (one-time)', cents: 49900, required: true },
+  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM (first month)', cents: 4995, renews: 'month', renewCents: 4995 },
+  hosting: { name: 'Website Hosting (first month)', cents: 1495, renews: 'month', renewCents: 1495 },
+  ssl:     { name: 'SSL Website Security (first month)', cents: 595, renews: 'month', renewCents: 595 },
+      email5:  { name: 'Professional Business Email: 5 accounts (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
+  domain:  { name: 'Domain name registration (first year)', cents: 995, renews: 'year', renewCents: 995 },
+  seo:     { name: 'Local SEO (first month)', cents: 1995, renews: 'month', renewCents: 1995 },
+  qr:      { name: 'QR Code Generation (first month)', cents: 595, renews: 'month', renewCents: 595 },
+  audio:   { name: 'Professional Audio Welcome Message (first month)', cents: 995, renews: 'month', renewCents: 995 },
+  crm:     { name: 'Customized CRM (first month)', cents: 3495, renews: 'month', renewCents: 3495 },
 };
-function resolveItems(raw) {
+function resolveItems(raw, withBuild = true) {
   const want = new Set((Array.isArray(raw) ? raw : []).map(String).filter(k => CATALOG[k]));
-  want.add('build');
-  if (want.has('bundle')) ['hosting', 'ssl', 'email1', 'email3', 'email5'].forEach(k => want.delete(k));
-  const emails = ['email5', 'email3', 'email1'].filter(k => want.has(k));
-  emails.slice(1).forEach(k => want.delete(k));                       // at most one email plan (keep the largest)
-  return ['build', 'bundle', 'hosting', 'ssl', 'email1', 'email3', 'email5', 'domain'].filter(k => want.has(k));
+  if (withBuild) want.add('build');                                  // services-only orders skip the build
+  if (want.has('bundle')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm'].forEach(k => want.delete(k));   // the bundle already has them
+  return ['build', 'bundle', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm'].filter(k => want.has(k));
 }
 async function squareApi(env, method, path, body) {
   const r = await fetch('https://connect.squareup.com' + path, { method, headers: { 'Authorization': `Bearer ${env.SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2025-08-20', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
@@ -46,23 +46,27 @@ async function squareApi(env, method, path, body) {
 async function handleCheckout(request, env, headers) {
   if (!env.SQUARE_ACCESS_TOKEN) return json(500, { error: 'checkout not configured' }, headers);
   let data; try { data = await request.json(); } catch { return json(400, { error: 'bad json' }, headers); }
-  const keys = resolveItems(data.items);
+  const keys = resolveItems(data.items, data.build !== false);
+  if (!keys.length) return json(400, { error: 'pick at least one service' }, headers);
+  const hasBuild = keys.includes('build');
   const email = clip(data.email, 200);
+  const domainName = /^[a-z0-9.-]{3,100}$/.test(clip(data.domain, 100).toLowerCase()) ? clip(data.domain, 100).toLowerCase() : '';
   const monthly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'month' ? CATALOG[k].renewCents : 0), 0);
   const yearly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'year' ? CATALOG[k].renewCents : 0), 0);
   const lineItems = keys.filter(k => CATALOG[k].cents > 0).map(k => ({ name: CATALOG[k].name, quantity: '1', base_price_money: { amount: CATALOG[k].cents, currency: 'USD' } }));
   const selected = keys.filter(k => k !== 'build');
   const noteParts = [];
   if (selected.length) noteParts.push('Add-ons: ' + selected.map(k => CATALOG[k].name).join('; '));
+  if (domainName) noteParts.push('Domain wanted: ' + domainName);
   if (monthly) noteParts.push(`Renews: $${(monthly / 100).toFixed(2)}/month`);
   if (yearly) noteParts.push(`Email renews: $${(yearly / 100).toFixed(2)}/year`);
   const body = {
     idempotency_key: crypto.randomUUID(),
-    description: 'Digital Doorway Marketing: website build' + (selected.length ? ' and add-ons' : ''),
+    description: hasBuild ? 'Digital Doorway Marketing: website build' + (selected.length ? ' and add-ons' : '') : 'Digital Doorway Marketing: services',
     order: {
       location_id: env.SQUARE_LOCATION_ID,
       line_items: lineItems,
-      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no' },
+      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no', domain_name: domainName },
     },
     checkout_options: { allow_tipping: false, ask_for_shipping_address: false, redirect_url: 'https://digitaldoorwaymarketing.com/thank-you.html', merchant_support_email: 'info@digitaldoorwaymarketing.com' },
     payment_note: clip(noteParts.join(' | '), 500) || undefined,
@@ -81,15 +85,15 @@ async function handleOrderRequest(request, env, headers) {
   if (data.website) return json(200, { ok: true }, headers);                    // honeypot
   const name = clip(data.name, 120), business = clip(data.business, 160), email = clip(data.email, 200);
   if (!name || !business || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(400, { error: 'missing fields' }, headers);
-  const keys = resolveItems(data.items).filter(k => k !== 'hosting' && k !== 'domain');   // both included for 2 years
+  const keys = resolveItems(data.items).filter(k => k !== 'hosting' && k !== 'domain');   // both included for the first year
   const first = keys.reduce((s, k) => s + CATALOG[k].cents, 0);
   const monthly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'month' ? CATALOG[k].renewCents : 0), 0);
   const yearly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'year' ? CATALOG[k].renewCents : 0), 0);
   const usd = c => `$${(c / 100).toFixed(2)}`;
   const items = keys.map(k => ({ name: CATALOG[k].name, amount: usd(CATALOG[k].cents) }));
-  const renew = ['Hosting and domain: included for the first 2 years, then hosting $14.99/month and the domain renews yearly'];
+  const renew = ['Hosting and domain: included for the first year, then hosting $14.95/month and the domain $9.95/year'];
   if (monthly) renew.push(`${usd(monthly)}/month starting next month`);
-  if (yearly) renew.push(`${usd(yearly)}/year for business email`);
+  if (yearly) renew.push(`${usd(yearly)}/year for your domain and email`);
   const rowsHtml = items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('');
   const orderText = items.map(i => `- ${i.name}: ${i.amount}`).join('\n') + `\nFirst invoice total: ${usd(first)}\n` + renew.map(r => '* ' + r).join('\n');
   const admins = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -118,6 +122,47 @@ async function handleOrderRequest(request, env, headers) {
   return json(200, { ok: true }, headers);
 }
 
+/* ---- Domain search: is a name registered? Asks each registry's RDAP server (IANA's bootstrap list), no key needed.
+   200 = registered, 404 = not registered. .co, .us, .io and a few others publish no RDAP, so they come back "unknown". */
+const SUGGEST_TLDS = ['com', 'net', 'org', 'biz', 'online', 'store'];
+let rdapMap = null, rdapAt = 0;
+async function rdapServers() {
+  if (rdapMap && Date.now() - rdapAt < 864e5) return rdapMap;
+  const r = await fetch('https://data.iana.org/rdap/dns.json', { cf: { cacheTtl: 86400, cacheEverything: true } });
+  const d = await r.json();
+  rdapMap = {};
+  for (const [tlds, urls] of d.services) for (const t of tlds) rdapMap[t] = urls.find(u => u.startsWith('https')) || urls[0];
+  rdapAt = Date.now();
+  return rdapMap;
+}
+async function domainStatus(domain, servers) {
+  const base = servers[domain.split('.').pop()];
+  if (!base) return 'unknown';
+  try {
+    const r = await fetch(base.replace(/\/?$/, '/') + 'domain/' + domain, { headers: { Accept: 'application/rdap+json' }, signal: AbortSignal.timeout(6000), cf: { cacheTtl: 300 } });
+    return r.status === 200 ? 'taken' : r.status === 404 ? 'available' : 'unknown';
+  } catch { return 'unknown'; }
+}
+async function handleDomainCheck(url, headers) {
+  const q = clip(url.searchParams.get('q'), 100).toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/[/?#].*$/, '').replace(/\s+/g, '');
+  const LABEL = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
+  let domains;
+  if (q.includes('.')) {
+    const parts = q.split('.');
+    if (!parts.every(x => LABEL.test(x)) || !/^[a-z]{2,24}$/.test(parts[parts.length - 1])) return json(400, { error: 'That doesn’t look like a domain name.' }, headers);
+    const label = parts[0];
+    domains = [q, ...SUGGEST_TLDS.map(t => `${label}.${t}`).filter(d => d !== q)].slice(0, 6);
+  } else {
+    const label = q.replace(/[^a-z0-9-]/g, '').replace(/^-+|-+$/g, '').slice(0, 63);
+    if (!label || !LABEL.test(label)) return json(400, { error: 'Type a name using letters, numbers, or hyphens.' }, headers);
+    domains = SUGGEST_TLDS.map(t => `${label}.${t}`);
+  }
+  let servers;
+  try { servers = await rdapServers(); } catch { return json(502, { error: 'The domain registries didn’t answer. Try again in a moment.' }, headers); }
+  const results = await Promise.all(domains.map(async d => ({ domain: d, status: await domainStatus(d, servers) })));
+  return json(200, { query: q, results }, { ...headers, 'Cache-Control': 'no-store' });
+}
+
 async function orderSummary(env, orderId) {
   if (!orderId || !env.SQUARE_ACCESS_TOKEN) return null;
   try {
@@ -125,11 +170,11 @@ async function orderSummary(env, orderId) {
     const md = o.metadata || {};
     const items = (o.line_items || []).map(li => ({ name: li.name, amount: money(li.total_money || li.base_price_money) }));
     const keys = (md.items || '').split(',').filter(Boolean);
-    if (keys.includes('domain')) items.push({ name: CATALOG.domain.name, amount: 'to be quoted' });
-    const renew = [];
-    if (+md.monthly_cents) renew.push(`$${(md.monthly_cents / 100).toFixed(2)}/month for hosting and security`);
-    if (+md.yearly_cents) renew.push(`$${(md.yearly_cents / 100).toFixed(2)}/year for business email`);
-    return { items, renew };
+    if (md.domain_name) items.push({ name: 'Domain to register: ' + md.domain_name, amount: 'requested' });
+        const renew = [];
+    if (+md.monthly_cents) renew.push(`$${(md.monthly_cents / 100).toFixed(2)}/month for your services`);
+    if (+md.yearly_cents) renew.push(`$${(md.yearly_cents / 100).toFixed(2)}/year for your domain and email`);
+    return { items, renew, build: keys.includes('build') || !keys.length };
   } catch (err) { return null; }
 }
 
@@ -175,11 +220,11 @@ async function handleSquare(request, env, headers) {
   if (buyer) {
     try {
       await send(env, { from: env.MAIL_FROM, to: [buyer], reply_to: admins[admins.length - 1],
-        subject: 'Thank you — your website build is booked',
-        text: `Thank you for your payment of ${amount} to Digital Doorway Marketing.${itemsText}\n\nHere's what happens next: Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.\n\nSquare has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + p.receipt_number + ')' : ''}.\n\nQuestions in the meantime? Reply to this email or call (877) 853-1920.\n\n— Marv Reeves\nDigital Doorway Marketing\nhttps://digitaldoorwaymarketing.com`,
+        subject: sum && !sum.build ? 'Thank you — your services are confirmed' : 'Thank you — your website build is booked',
+        text: `Thank you for your payment of ${amount} to Digital Doorway Marketing.${itemsText}\n\n${sum && !sum.build ? "What happens next: we'll get your services set up and email you within one business day." : "Here\'s what happens next: Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch."}\n\nSquare has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + p.receipt_number + ')' : ''}.\n\nQuestions in the meantime? Reply to this email or call (877) 853-1920.\n\n— Marv Reeves\nDigital Doorway Marketing\nhttps://digitaldoorwaymarketing.com`,
         html: `<div style="font:16px/1.55 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:22px">Thank you. The light's on.</h2>
           <p>Your payment of <b>${esc(amount)}</b> to Digital Doorway Marketing went through.</p>${itemsHtml}${sum && sum.renew.length ? '<p>Your add-ons renew as shown above, and we\'ll be in touch before anything renews.</p>' : ''}
-          <p><b>What happens next:</b> Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.</p>
+          <p><b>What happens next:</b> ${sum && !sum.build ? 'We\'ll get your services set up and email you within one business day.' : 'Marv will email or call you within one business day to set up a short conversation about your business. From there we build the first version, you tell us what to change, and we launch.'}</p>
           <p>Square has sent a separate receipt for your records${p.receipt_number ? ' (receipt #' + esc(p.receipt_number) + ')' : ''}.</p>
           <p>Questions in the meantime? Reply to this email or call <a href="tel:+18778531920">(877) 853-1920</a>.</p>
           <p style="margin-top:24px">— Marv Reeves<br>Digital Doorway Marketing<br><a href="https://digitaldoorwaymarketing.com">digitaldoorwaymarketing.com</a></p></div>` });
@@ -200,6 +245,7 @@ export default {
     if (request.method === 'POST' && url.pathname === '/checkout') return (env.CHECKOUT_ENABLED || 'no') === 'yes' ? handleCheckout(request, env, headers) : json(403, { error: 'online checkout is turned off' }, headers);
     if (request.method === 'POST' && url.pathname === '/order-request') return handleOrderRequest(request, env, headers);
     if (url.pathname.startsWith('/crm/')) return handleCrm(request, env, headers, url);
+    if (request.method === 'GET' && url.pathname === '/domain-check') return handleDomainCheck(url, headers);
     if (request.method !== 'POST' || url.pathname !== '/contact') return json(404, { error: 'not found' }, headers);
     if (!env.RESEND_API_KEY) return json(500, { error: 'mailer not configured' }, headers);
 

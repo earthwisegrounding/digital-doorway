@@ -30,8 +30,8 @@
   const TYPE_NAMES = { open: 'Open', won: 'Paid', live: 'Launched', lost: 'Lost' };
   const OPEN_COLORS = ['#8AA6DA', '#5C88D2', '#2F6CC4', '#1553A8', '#0E3F86', '#0B3574'];
   const TYPE_COLORS = { won: '#12805A', live: '#14B4C4', lost: '#9C8870' };
-  const CRM_PLANS = [['', 'Not decided'], ['free', 'In free year'], ['paid', 'Kept it · $50/mo'], ['declined', 'Declined']];
-  const BUNDLE_PLANS = [['', 'Not decided'], ['bundle', 'Business Bundle · $34.99/mo'], ['individual', 'Individual services'], ['declined', 'Declined']];
+  const CRM_PLANS = [['', 'Not decided'], ['free', 'In free year'], ['paid', 'Kept it · $34.95/mo or in bundle'], ['declined', 'Declined']];
+  const BUNDLE_PLANS = [['', 'Not decided'], ['bundle', 'Business Bundle · $49.95/mo'], ['individual', 'Individual services'], ['declined', 'Declined']];
   const INDUSTRIES = ['Restaurant', 'Bakery or café', 'Catering', 'Salon or barber', 'Spa', 'Plumbing', 'HVAC', 'Electrical', 'Landscaping', 'Cleaning', 'Construction', 'Auto repair', 'Dental', 'Medical clinic', 'Chiropractic', 'Fitness', 'Real estate', 'Legal', 'Retail shop', 'Pet services', 'Photography', 'Other'];
   const SOURCES = ['Website form', 'Square checkout', 'Referral', 'Outreach', 'Phone call', 'Walk-in', 'Social media', 'Event'];
   const NAV = [['#/', 'Dashboard', 'dash'], ['#/pipeline', 'Pipeline', 'pipeline'], ['#/contacts', 'Contacts', 'users'], ['#/tasks', 'Tasks', 'check'], ['#/renewals', 'Renewals', 'repeat'], ['#/settings', 'Settings', 'sliders']];
@@ -331,7 +331,7 @@
   }
   function renewalRow(r) {
     return h('a', { class: 'link-row', href: '#/contacts/' + r.id },
-      h('span', { class: 'renew-kind ' + r.kind }, r.kind === 'crm' ? 'CRM' : '24 MO'),
+      h('span', { class: 'renew-kind ' + r.kind }, r.kind === 'crm' ? 'CRM' : 'SVCS'),
       h('span', { class: 'row-main' }, h('b', null, who(r)), h('small', null, (r.kind === 'crm' ? 'Free CRM year ends ' : 'Included services end ') + fmtDate(r.date))),
       countdown(r.date));
   }
@@ -367,7 +367,7 @@
         panel('Up next', h('a', { href: '#/tasks' }, 'All tasks'),
           s.upcoming.length ? h('div', { class: 'list' }, s.upcoming.map(t => taskRow(t))) : empty('You’re all caught up.', 'Nothing due in the next week.')),
         panel('Renewals coming up', h('a', { href: '#/renewals' }, 'See all'),
-          s.renewals.length ? h('div', { class: 'list' }, s.renewals.map(renewalRow)) : empty('Nothing in the next 60 days.', 'Free CRM years (month 12) and included services (month 24) that are about to end show up here.')),
+          s.renewals.length ? h('div', { class: 'list' }, s.renewals.map(renewalRow)) : empty('Nothing in the next 60 days.', 'Clients whose included first year of services and CRM is about to end show up here.')),
         panel('Recent activity', null,
           s.recent.length ? h('ul', { class: 'feed' }, s.recent.map(feedRow)) : empty('No activity yet.', 'Website inquiries and Square payments land here on their own. You can also add a contact with the New contact button.'))));
   }
@@ -677,11 +677,11 @@
         return h('div', { class: 'field' }, h('label', { for: 'sv-' + key }, label), sel);
       };
       services.replaceChildren(h('h2', null, h('span', null, 'Services and CRM')),
-        h('p', { class: 'panel-intro' }, 'The $499 covers 24 months of services and 12 months of CRM. The clocks start when they pay.'),
+        h('p', { class: 'panel-intro' }, 'The $499 covers 12 months of services and CRM. The clock starts when they pay.'),
         h('dl', { class: 'facts' }, h('dt', null, 'Paid'), h('dd', null, firstPay ? fmtDate(firstPay, true) : 'Not yet')),
         h('div', { class: 'form-grid' },
           dateField('crm_free_until', 'Free CRM until'), dateField('services_until', 'Included services until'),
-          planField('crm_plan', 'CRM after the free year', CRM_PLANS), planField('bundle_plan', 'After month 24', BUNDLE_PLANS),
+          planField('crm_plan', 'CRM after the free year', CRM_PLANS), planField('bundle_plan', 'Services after month 12', BUNDLE_PLANS),
           dateField('launched_on', 'Site launched')));
     }
 
@@ -798,9 +798,9 @@
     const crmRows = contacts.filter(c => c.crm_free_until).sort(by('crm_free_until'));
     const svcRows = contacts.filter(c => c.services_until).sort(by('services_until'));
     main.replaceChildren(
-      pageHead('Renewals', 'Each client’s free CRM year ends at month 12, and their included services end at month 24. Reach out about a month before either date.'),
-      panel('Free CRM year ending', h('span', { class: 'h2-aside' }, 'then $50/month if they keep it'), table(crmRows, 'crm_free_until', 'crm_plan', CRM_PLANS, ['', 'free'])),
-      panel('Included services ending', h('span', { class: 'h2-aside' }, 'Business Bundle $34.99/month, or individual services'), table(svcRows, 'services_until', 'bundle_plan', BUNDLE_PLANS, [''])));
+      pageHead('Renewals', 'Each client’s included services and free CRM end at month 12. Reach out about a month before.'),
+      panel('Free CRM year ending', h('span', { class: 'h2-aside' }, 'then $34.95/month, or included in the Business Bundle'), table(crmRows, 'crm_free_until', 'crm_plan', CRM_PLANS, ['', 'free'])),
+      panel('Included services ending', h('span', { class: 'h2-aside' }, 'Business Bundle $49.95/month (CRM included), or individual services'), table(svcRows, 'services_until', 'bundle_plan', BUNDLE_PLANS, [''])));
   }
 
   /* ---------- settings ---------- */
@@ -856,7 +856,7 @@
         h('div', { class: 'settings-side' },
           panel('How leads get here', null, h('ul', { class: 'how-list' },
             h('li', null, h('b', null, 'Website contact form: '), 'creates or updates the contact, logs their message, and adds a “reply” task for today.'),
-            h('li', null, h('b', null, 'Square payment: '), 'records the payment, moves the contact to Paid, starts the 12-month CRM and 24-month service clocks, and adds a “book the first call” task.'),
+            h('li', null, h('b', null, 'Square payment: '), 'records the payment, moves the contact to Paid, starts the 12-month service and CRM clock, and adds a “book the first call” task.'),
             h('li', null, h('b', null, 'Everything else: '), 'add contacts with the New contact button.'))),
           panel('Who can sign in', null, h('ul', { class: 'admins' }, admins.map(a => h('li', null, a))),
             h('p', { class: 'muted small' }, 'To change this list, edit CRM_ADMINS in api/wrangler.toml and redeploy the worker.')),

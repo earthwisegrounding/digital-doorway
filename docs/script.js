@@ -575,7 +575,7 @@
     });
   })();
 
-  /* ---------- Order: the $499 website (2 years of hosting, domain, SSL, 5 emails, local SEO, QR codes, audio welcome included), paid through Square ----------
+  /* ---------- Order: the $499 website (1 year of hosting, domain, SSL, 5 emails, local SEO, QR codes, audio welcome, and CRM included), paid through Square ----------
      The worker prices the order (api/worker.js CATALOG) and returns a Square payment link for it. */
   (function () {
     var form = document.querySelector('[data-checkout]'); if (!form) return;
@@ -586,12 +586,12 @@
     function selected() { return ['build']; }
     function render() {
       lines.innerHTML = '';
-      [['Website design and build', '$499.00'], ['7 services for 24 months', 'Included'], ['CRM for 12 months', 'Free']].forEach(function (row) {
+      [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['Customized CRM for 12 months', 'Free']].forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
         n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
       total.textContent = '$499.00';
-      renew.textContent = 'Nothing to pay monthly in your first year. After that, the CRM is $50 a month if you keep it, and everything else stays included through month 24. From month 25, the optional Business Bundle keeps it all running for $34.99 a month.';
+      renew.textContent = 'No monthly fees for your first 12 months. After that, the optional Business Bundle keeps everything running, CRM included, for $49.95 a month.';
       renew.hidden = false;
     }
 
@@ -616,35 +616,106 @@
     render();
   })();
 
-  /* ---------- 3D showpiece: load three.js, the loader, and the scene only when needed ----------
-     Nothing 3D downloads during the initial page load. The first scroll, tap, or key press,
-     or the section already being on screen, starts it. showpiece.js then fetches
-     the door model itself. */
+  /* ---------- Domain search: live registry lookup through the worker; an open name can go straight into the services order ---------- */
   (function () {
-    var section = document.getElementById('showcase'); if (!section) return;
-    var SCRIPTS = [
-      'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
-      'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js',
-      'showpiece.js?v=6'
-    ];
-    var started = false, events = ['scroll', 'wheel', 'touchstart', 'pointerdown', 'keydown'], io = null;
-    function load(i) {
-      if (i >= SCRIPTS.length) return;
-      var s = document.createElement('script'); s.src = SCRIPTS[i]; s.async = false;
-      s.onload = function () { load(i + 1); };
-      s.onerror = function () { section.classList.add('is-static'); };
-      document.body.appendChild(s);
+    var form = document.querySelector('[data-domain-search]'); if (!form) return;
+    var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
+    var input = document.getElementById('ds-q'), list = document.querySelector('[data-ds-results]'), status = document.querySelector('[data-ds-status]');
+    var LABEL = { available: 'Available', taken: 'Taken', unknown: 'Ask us' };
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var q = input.value.trim();
+      if (!q) { input.focus(); return; }
+      status.textContent = 'Checking…'; list.innerHTML = '';
+      fetch(API + '/domain-check?q=' + encodeURIComponent(q))
+        .then(function (r) { return r.json().then(function (d) { if (!r.ok) { var er = new Error(d.error || 'failed'); er.shown = !!d.error; throw er; } return d; }); })
+        .then(function (d) {
+          var open = d.results.filter(function (x) { return x.status === 'available'; }).length;
+          status.textContent = open ? open + (open === 1 ? ' name is' : ' names are') + ' open.' : 'Those are taken. Try a variation, like adding your city.';
+          d.results.forEach(function (x) {
+            var li = document.createElement('li'), name = document.createElement('span'), tag = document.createElement('b');
+            li.className = 'ds-row is-' + x.status;
+            name.className = 'ds-name'; name.textContent = x.domain;
+            tag.className = 'ds-tag'; tag.textContent = LABEL[x.status];
+            li.appendChild(name); li.appendChild(tag);
+            if (x.status === 'available') {
+              var add = document.createElement('button');
+              add.type = 'button'; add.className = 'btn btn-ghost ds-add'; add.textContent = 'Add to my order';
+              add.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('ddm:domain', { detail: x.domain })); });
+              li.appendChild(add);
+            } else if (x.status === 'unknown') {
+              var a = document.createElement('a'); a.className = 'link-hand ds-ask'; a.href = '#contact'; a.textContent = 'We’ll check this one';
+              li.appendChild(a);
+            }
+            list.appendChild(li);
+          });
+        })
+        .catch(function (err) { status.textContent = err.shown ? err.message : 'We couldn’t check right now. Please try again in a moment.'; });
+    });
+  })();
+
+  /* ---------- Buy services individually: pick services (or the bundle), pay the first month or year through Square ----------
+     Display prices only; the worker (api/worker.js CATALOG) sets what is charged. */
+  (function () {
+    var form = document.querySelector('[data-services-checkout]'); if (!form) return;
+    var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
+    var P = {
+      bundle: ['Business Bundle', 4995, 'month'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
+      ssl: ['SSL security certificate', 595, 'month'], email5: ['5 professional email addresses', 5900, 'year'], seo: ['Local SEO', 1995, 'month'],
+      qr: ['QR code generation', 595, 'month'], audio: ['Professional audio welcome message', 995, 'month'], crm: ['Customized CRM', 3495, 'month']
+    };
+    var boxes = Array.prototype.slice.call(form.querySelectorAll('input[name="sv"]'));
+    var bundle = form.querySelector('input[value="bundle"]');
+    var lines = document.querySelector('[data-sv-lines]'), total = document.querySelector('[data-sv-total]'), renew = document.querySelector('[data-sv-renew]');
+    var pay = document.querySelector('[data-sv-pay]'), err = document.querySelector('[data-sv-error]'), inEmail = document.getElementById('sv-email');
+    function usd(c) { return '$' + (c / 100).toFixed(2); }
+    function selected() { return bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle; }).map(function (b) { return b.value; }); }
+    var domainName = '';
+    document.addEventListener('ddm:domain', function (e) {
+      domainName = e.detail;
+      var box = form.querySelector('input[value="domain"]');
+      if (!bundle.checked) box.checked = true;
+      render();
+      document.getElementById('buy-services').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+    function render() {
+      form.classList.toggle('is-bundled', bundle.checked);
+      boxes.forEach(function (b) { if (b !== bundle) b.disabled = bundle.checked; });
+      var keys = selected(), sum = 0, mo = 0, yr = 0;
+      lines.innerHTML = '';
+      keys.forEach(function (k) {
+        var it = P[k], li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
+        n.textContent = it[0] + ((k === 'domain' || k === 'bundle') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[2] === 'month' ? '/mo' : '/yr');
+        li.appendChild(n); li.appendChild(v); lines.appendChild(li);
+        sum += it[1]; if (it[2] === 'month') mo += it[1]; else yr += it[1];
+      });
+      if (!keys.length) { var li = document.createElement('li'); li.textContent = 'Pick a service to get started.'; lines.appendChild(li); }
+      total.textContent = usd(sum);
+      var parts = [];
+      if (mo) parts.push(usd(mo) + ' a month');
+      if (yr) parts.push(usd(yr) + ' a year');
+      renew.textContent = parts.length ? 'Today covers the first ' + (mo && yr ? 'month and year' : mo ? 'month' : 'year') + '. After that, ' + parts.join(' plus ') + '. We’ll confirm each renewal with you before it’s due.' : '';
+      renew.hidden = !parts.length;
+      pay.disabled = !keys.length;
     }
-    function go() {
-      if (started) return; started = true;
-      events.forEach(function (ev) { window.removeEventListener(ev, go, { passive: true }); });
-      if (io) io.disconnect();
-      load(0);
-    }
-    events.forEach(function (ev) { window.addEventListener(ev, go, { passive: true, once: true }); });
-    if ('IntersectionObserver' in window) {
-      io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) go(); });   // visible now (tall screens); otherwise the first scroll starts it
-      io.observe(section);
-    } else go();
+    form.addEventListener('change', render);
+    pay.addEventListener('click', function () {
+      err.hidden = true;
+      var email = (inEmail.value || '').trim(), field = inEmail.closest('.field');
+      var ok = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      field.classList.toggle('has-error', !ok);
+      if (!ok) { err.textContent = 'That email doesn’t look right. Fix it or leave it blank; Square will ask for it.'; err.hidden = false; return; }
+      pay.setAttribute('aria-busy', 'true');
+      var label = pay.firstChild.textContent; pay.firstChild.textContent = 'Opening secure checkout… ';
+      fetch(API + '/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selected(), build: false, email: email, domain: domainName }) })
+        .then(function (r) { return r.json().then(function (d) { if (!r.ok || !d.url) throw new Error(d.detail || d.error || 'failed'); return d; }); })
+        .then(function (d) { window.location.href = d.url; })
+        .catch(function () {
+          pay.removeAttribute('aria-busy'); pay.firstChild.textContent = label;
+          err.textContent = 'We couldn’t open checkout just now. Please try again in a moment, or call (877) 853-1920.';
+          err.hidden = false;
+        });
+    });
+    render();
   })();
 })();

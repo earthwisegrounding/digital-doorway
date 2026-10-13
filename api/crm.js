@@ -10,8 +10,8 @@ const SESSION_DAYS = 30;
 const CODE_TTL_MS = 10 * 60 * 1000;
 const CODE_TRIES = 3;
 const CODES_PER_DAY = 10;
-const CRM_MONTHLY_CENTS = 5000;
-const BUNDLE_MONTHLY_CENTS = 3499;
+const CRM_MONTHLY_CENTS = 3495;        // CRM on its own, from month 13
+const BUNDLE_MONTHLY_CENTS = 4995;     // Business Bundle (includes the CRM), from month 13
 
 export const DEFAULT_STAGES = [
   { key: 'new', label: 'New lead', type: 'open' },
@@ -129,11 +129,11 @@ function pickContact(body, stages) {
   return out;
 }
 
-/* Paid or launched → start the clocks: 24 months of included services, 12 months of free CRM (from the day it happens). */
+/* Paid or launched → start the clocks: 12 months of included services and CRM (from the day it happens). */
 function stageEffects(cur, stageKey, stages, on = today()) {
   const t = stageOf(stages, stageKey).type, set = {};
   if (t === 'won' || t === 'live') {
-    if (!cur.services_until) set.services_until = addMonths(on, 24);
+    if (!cur.services_until) set.services_until = addMonths(on, 12);
     if (!cur.crm_free_until) set.crm_free_until = addMonths(on, 12);
     if (!cur.crm_plan) set.crm_plan = 'free';
   }
@@ -212,7 +212,7 @@ async function summary(env) {
   const [byStage, won, plans, due, upcoming, dated, recent] = (await env.DB.batch([
     env.DB.prepare('SELECT stage, COUNT(*) AS n, COALESCE(SUM(value_cents), 0) AS v FROM contacts WHERE archived = 0 GROUP BY stage'),
     env.DB.prepare('SELECT COUNT(*) AS n, COALESCE(SUM(amount_cents), 0) AS v FROM payments WHERE paid_on >= ?').bind(monthStart),
-    env.DB.prepare("SELECT COALESCE(SUM(crm_plan = 'paid'), 0) AS crm, COALESCE(SUM(bundle_plan = 'bundle'), 0) AS bundle FROM contacts WHERE archived = 0"),
+    env.DB.prepare("SELECT COALESCE(SUM(crm_plan = 'paid'), 0) AS crm, COALESCE(SUM(crm_plan = 'paid' AND bundle_plan <> 'bundle'), 0) AS crmOnly, COALESCE(SUM(bundle_plan = 'bundle'), 0) AS bundle FROM contacts WHERE archived = 0"),
     env.DB.prepare('SELECT COALESCE(SUM(due_on < ?), 0) AS overdue, COALESCE(SUM(due_on = ?), 0) AS today FROM tasks WHERE done = 0').bind(d, d),
     env.DB.prepare('SELECT t.id, t.title, t.due_on, t.contact_id, c.business, c.name, c.email FROM tasks t LEFT JOIN contacts c ON c.id = t.contact_id WHERE t.done = 0 AND (t.due_on IS NULL OR t.due_on <= ?) ORDER BY t.due_on IS NULL, t.due_on, t.id LIMIT 8').bind(week),
     env.DB.prepare("SELECT id, name, business, email, crm_free_until, crm_plan, services_until, bundle_plan FROM contacts WHERE archived = 0 AND ((crm_free_until IS NOT NULL AND crm_plan IN ('', 'free')) OR (services_until IS NOT NULL AND bundle_plan = ''))"),
@@ -233,7 +233,7 @@ async function summary(env) {
     openValue: open.reduce((a, r) => a + r.v, 0),
     wonMonth: { n: won[0].n, v: won[0].v },
     crmPaid: plans[0].crm, bundles: plans[0].bundle,
-    mrrCents: plans[0].crm * CRM_MONTHLY_CENTS + plans[0].bundle * BUNDLE_MONTHLY_CENTS,
+    mrrCents: plans[0].crmOnly * CRM_MONTHLY_CENTS + plans[0].bundle * BUNDLE_MONTHLY_CENTS,
     tasksOverdue: due[0].overdue, tasksToday: due[0].today,
     upcoming, renewals: renewals.slice(0, 8), recent,
   };
