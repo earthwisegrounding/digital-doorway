@@ -1261,3 +1261,6 @@ h2 > .eyebrow { display: block; }
 .ds-ask { font-size: .9375rem; }
 .ds-note { margin: 1rem auto 0; text-align: center; color: var(--muted); font-size: .9375rem; }
 @media (max-width: 559px) { .ds-form { flex-direction: column; } .ds-row { flex-wrap: wrap; } .ds-add { width: 100%; } }
+[data-sv-domain-field][hidden] { display: none; }
+.sv-hint { display: block; margin-top: .35rem; font-size: .8125rem; line-height: 1.45; color: rgba(246,239,227,.7); }
+.sv-hint .link-hand { color: var(--bg); }

@@ -671,8 +671,12 @@
     function usd(c) { return '$' + (c / 100).toFixed(2); }
     function selected() { return bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle; }).map(function (b) { return b.value; }); }
     var domainName = '';
+    var domainField = document.querySelector('[data-sv-domain-field]'), inDomain = document.getElementById('sv-domain');
+    var DOMAIN_RE = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*\.[a-z]{2,24}$/;
+    function cleanDomain(v) { return (v || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/[\/?#].*$/, ''); }
+    inDomain.addEventListener('input', function () { domainName = cleanDomain(inDomain.value); domainField.classList.remove('has-error'); err.hidden = true; render(); });
     document.addEventListener('ddm:domain', function (e) {
-      domainName = e.detail;
+      domainName = e.detail; inDomain.value = e.detail;
       var box = form.querySelector('input[value="domain"]');
       if (!bundle.checked) box.checked = true;
       render();
@@ -697,6 +701,7 @@
       renew.textContent = parts.length ? 'Today covers the first ' + (mo && yr ? 'month and year' : mo ? 'month' : 'year') + '. After that, ' + parts.join(' plus ') + '. We’ll confirm each renewal with you before it’s due.' : '';
       renew.hidden = !parts.length;
       pay.disabled = !keys.length;
+      domainField.hidden = !(keys.indexOf('domain') > -1 || keys.indexOf('bundle') > -1);
     }
     form.addEventListener('change', render);
     pay.addEventListener('click', function () {
@@ -705,6 +710,13 @@
       var ok = !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       field.classList.toggle('has-error', !ok);
       if (!ok) { err.textContent = 'That email doesn’t look right. Fix it or leave it blank; Square will ask for it.'; err.hidden = false; return; }
+      // A domain order needs a name; with the bundle it's optional (they may already own one).
+      var needsName = selected().indexOf('domain') > -1, badName = domainName && !DOMAIN_RE.test(domainName);
+      if ((needsName && !domainName) || badName) {
+        domainField.classList.add('has-error');
+        err.textContent = badName ? 'That domain doesn’t look right. Try something like yourbusiness.com.' : 'Which domain would you like? Type it in, like yourbusiness.com, or search for one above.';
+        err.hidden = false; inDomain.focus(); return;
+      }
       pay.setAttribute('aria-busy', 'true');
       var label = pay.firstChild.textContent; pay.firstChild.textContent = 'Opening secure checkout… ';
       fetch(API + '/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: selected(), build: false, email: email, domain: domainName }) })
