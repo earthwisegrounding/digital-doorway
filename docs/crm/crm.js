@@ -31,7 +31,7 @@
   const OPEN_COLORS = ['#8AA6DA', '#5C88D2', '#2F6CC4', '#1553A8', '#0E3F86', '#0B3574'];
   const TYPE_COLORS = { won: '#12805A', live: '#14B4C4', lost: '#9C8870' };
   const CRM_PLANS = [['', 'Not decided'], ['free', 'In free year'], ['paid', 'Kept it · $34.95/mo or in bundle'], ['declined', 'Declined']];
-  const BUNDLE_PLANS = [['', 'Not decided'], ['bundle', 'Business Bundle · $49.95/mo'], ['individual', 'Individual services'], ['declined', 'Declined']];
+  const BUNDLE_PLANS = [['', 'Not decided'], ['bundle', 'Business Bundle · $49.95/mo'], ['bundle_year', 'Business Bundle · $539.46/yr'], ['individual', 'Individual services'], ['declined', 'Declined']];
   const INDUSTRIES = ['Restaurant', 'Bakery or café', 'Catering', 'Salon or barber', 'Spa', 'Plumbing', 'HVAC', 'Electrical', 'Landscaping', 'Cleaning', 'Construction', 'Auto repair', 'Dental', 'Medical clinic', 'Chiropractic', 'Fitness', 'Real estate', 'Legal', 'Retail shop', 'Pet services', 'Photography', 'Other'];
   const SOURCES = ['Website form', 'Square checkout', 'Referral', 'Outreach', 'Phone call', 'Walk-in', 'Social media', 'Event'];
   const NAV = [['#/', 'Dashboard', 'dash'], ['#/pipeline', 'Pipeline', 'pipeline'], ['#/contacts', 'Contacts', 'users'], ['#/tasks', 'Tasks', 'check'], ['#/renewals', 'Renewals', 'repeat'], ['#/settings', 'Settings', 'sliders']];

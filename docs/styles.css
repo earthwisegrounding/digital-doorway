@@ -1292,3 +1292,13 @@ h2 > .eyebrow { display: block; }
 .cb-quote { margin-top: clamp(1.75rem, 3vw, 2.5rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: var(--radius-lg); background: var(--grad-walnut); color: var(--bg); box-shadow: var(--shadow-lift); }
 .cb-quote p { margin: 0; flex: 1 1 22rem; font-size: clamp(1.0625rem, 1.4vw, 1.2rem); line-height: 1.5; color: rgba(246,239,227,.85); }
 .cb-quote strong { color: var(--bg); font-weight: 600; }
+
+/* ---------- First-year value callout ---------- */
+.inc-value { display: flex; align-items: center; gap: 1.25rem 1.75rem; flex-wrap: wrap; padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1.25rem, 2.5vw, 2rem); border-radius: var(--radius-lg); background: var(--grad-walnut); color: var(--bg); box-shadow: var(--shadow-lift); }
+@media (min-width: 900px) { .included-grid .inc-value { grid-column: 2; } }
+.inc-value-num { margin: 0; font: 600 clamp(2.75rem, 5vw, 3.75rem)/1 var(--serif); letter-spacing: -.03em; color: var(--bg); }
+.inc-value-num::first-letter { color: var(--mustard); }
+.inc-value-text { flex: 1 1 18rem; margin: 0; font-size: .9688rem; line-height: 1.55; color: rgba(246,239,227,.8); }
+.inc-value-text strong { display: block; margin-bottom: .2rem; font-size: 1.0625rem; color: var(--bg); font-weight: 600; }
+.bundle-year { margin: 0; padding: .55rem .85rem; border-radius: 10px; background: rgba(20,180,196,.14); border: 1px solid rgba(20,180,196,.4); color: var(--bg); font-size: .9375rem; font-weight: 500; max-width: 26ch; }
+.bundle-year b { color: var(--mustard); }

@@ -22,6 +22,7 @@ const cors = (env, origin) => {
 const CATALOG = {
   build:   { name: 'Website design and build, including the first year of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, an audio welcome message, and a customized CRM (one-time)', cents: 49900, required: true },
   bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM (first month)', cents: 4995, renews: 'month', renewCents: 4995 },
+  bundle_year: { name: 'Business Bundle, paid yearly (10% off): domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM (one year)', cents: 53946, renews: 'year', renewCents: 53946 },
   hosting: { name: 'Website Hosting (first month)', cents: 1495, renews: 'month', renewCents: 1495 },
   ssl:     { name: 'SSL Website Security (first month)', cents: 595, renews: 'month', renewCents: 595 },
       email5:  { name: 'Professional Business Email: 5 accounts (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
@@ -34,8 +35,9 @@ const CATALOG = {
 function resolveItems(raw, withBuild = true) {
   const want = new Set((Array.isArray(raw) ? raw : []).map(String).filter(k => CATALOG[k]));
   if (withBuild) want.add('build');                                  // services-only orders skip the build
-  if (want.has('bundle')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm'].forEach(k => want.delete(k));   // the bundle already has them
-  return ['build', 'bundle', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm'].filter(k => want.has(k));
+  if (want.has('bundle_year')) want.delete('bundle');                  // one bundle: yearly wins
+  if (want.has('bundle') || want.has('bundle_year')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm'].forEach(k => want.delete(k));   // the bundle already has them
+  return ['build', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm'].filter(k => want.has(k));
 }
 async function squareApi(env, method, path, body) {
   const r = await fetch('https://connect.squareup.com' + path, { method, headers: { 'Authorization': `Bearer ${env.SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2025-08-20', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });

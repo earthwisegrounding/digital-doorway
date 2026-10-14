@@ -323,13 +323,13 @@
       <div class="center rv">
         <span class="kicker">Included for your first year</span>
         <h2>Everything your business needs online, <span class="accent">covered for 12 months.</span></h2>
-        <p class="lead">Your $499 doesn't just buy a website. It also covers every service below, including a CRM set up for your industry, for your first 12 months, with nothing extra to pay.</p>
+        <p class="lead">Your $499 doesn't just buy a website. It also covers every service below, including a CRM set up for your industry, for your first 12 months. At our regular prices that's $1,169.35 worth of services, with nothing extra to pay.</p>
       </div>
       <div class="value-banner rv">
         <span>✓ <b>8 services</b> included</span>
         <span>✓ Covered for <b>12 months</b></span>
         <span>✓ <b>Customized CRM</b> included</span>
-        <span>✓ Over <b>$1,100 in value</b></span>
+        <span>✓ <b>$1,169 in value</b></span>
       </div>
       <div class="services" id="serviceGrid"></div>
     </div>
@@ -418,7 +418,7 @@
         <details class="rv"><summary>What does the CRM do?</summary><p>It keeps every lead, follow-up, and customer in one place, set up around how your industry works. Messages from your website's contact form land in it on their own. It's included for your first 12 months (a $419 value). After that it's part of the Business Bundle, or $34.95 a month on its own.</p></details>
         <details class="rv"><summary>What happens when the first year is up?</summary><p>You keep the website. The included services (domain, hosting, SSL, email, local SEO, QR codes, audio welcome message and CRM) are no longer covered. You can keep any of them individually, or continue with everything through the Business Bundle for $49.95 a month.</p></details>
         <details class="rv"><summary>Do I have to sign up for the Business Bundle?</summary><p>No. The bundle is completely optional, and it's only relevant after your first 12 months. It's simply the easiest and most affordable way to keep everything running in one place.</p></details>
-        <details class="rv"><summary>What's included in the Business Bundle?</summary><p>Domain name registration, website hosting, SSL certificate, five business email addresses on your domain, local SEO, QR codes, your audio welcome message and your customized CRM, all for $49.95 a month.</p></details>
+        <details class="rv"><summary>What's included in the Business Bundle?</summary><p>Domain name registration, website hosting, SSL certificate, five business email addresses on your domain, local SEO, QR codes, your audio welcome message and your customized CRM, all for $49.95 a month, or $539.46 a year if you pay up front (10% off).</p></details>
         <details class="rv"><summary>How do I pay?</summary><p>Click "Claim my website" and pay securely by card. Payments are processed by Square.</p></details>
       </div>
     </div>
@@ -557,7 +557,7 @@ $("#costRows").innerHTML = priced.map((s) => `<tr><td>${s.name}<small>${s.priceN
   <td class="m">${money(s.price)}/${s.per}</td><td class="y">${money(yearly(s))}</td></tr>`).join("");
 $("#costMonthly").textContent = money(totMo) + "/mo";
 $("#costYearly").textContent = money(totYr);
-$("#bundleYr").textContent = `That's ${money(bundleYr)} a year for everything below.`;
+$("#bundleYr").textContent = `That's ${money(bundleYr)} a year for everything below, or ${money(Math.round(bundleYr * 90) / 100)} if you pay the year up front (10% off).`;
 $("#bundleList").innerHTML = priced.map((s) => `<li>${CHECK()}${s.name.replace("5 professional email addresses", "5 business emails on your domain")}</li>`).join("");
 $("#saveYr").textContent = money(totYr - bundleYr) + " a year";
 $("#savePct").textContent = Math.round((1 - bundleYr / totYr) * 100);

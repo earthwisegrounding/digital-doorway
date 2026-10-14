@@ -29,7 +29,7 @@
   <link rel="preload" href="assets/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/inter-tight-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=15">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -86,6 +86,16 @@
               "price": "49.95",
               "priceCurrency": "USD",
               "unitText": "month"
+            }
+          },
+          {
+            "@type": "Offer",
+            "name": "Business Bundle paid yearly, 10% off: domain, hosting, SSL security, 5 business email accounts, local SEO, QR codes, audio welcome message, and customized CRM (from month 13)",
+            "priceSpecification": {
+              "@type": "UnitPriceSpecification",
+              "price": "539.46",
+              "priceCurrency": "USD",
+              "unitText": "year"
             }
           },
           {
@@ -401,6 +411,11 @@
           </li>
         </ol>
 
+        <div class="inc-value" data-reveal>
+          <p class="inc-value-num">$1,169</p>
+          <p class="inc-value-text"><strong>in services, included with your $499 website.</strong> At our regular prices, your first year of these eight services is worth $1,169.35: $749.95 for the seven core services plus $419.40 for your CRM. You pay $499, once.</p>
+        </div>
+
         <div class="addons" data-reveal>
           <p><strong>Optional add-ons available:</strong> online booking, menus, galleries, ongoing updates.</p>
           <a class="link-hand" href="#pricing">See the one price</a>
@@ -535,7 +550,7 @@
             <div class="work-shot">
               <div class="work-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
               <picture><source type="image/webp" srcset="assets/work/p2-640.webp 640w, assets/work/p2-1280.webp 1280w" sizes="(min-width: 760px) 560px, calc(100vw - 2.5rem)"><img src="assets/work/p2-960.jpg" alt="P2 Firearms Training website home page" width="1280" height="800" loading="lazy" decoding="async"></picture>
-              <span class="work-badge">Custom build</span>
+              <span class="work-badge">Advanced build</span>
             </div>
             <figcaption>
               <span class="work-kind">Training school &middot; Surprise, AZ</span>
@@ -548,7 +563,7 @@
             <div class="work-shot">
               <div class="work-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
               <picture><source type="image/webp" srcset="assets/work/hudson-640.webp 640w, assets/work/hudson-1280.webp 1280w" sizes="(min-width: 760px) 560px, calc(100vw - 2.5rem)"><img src="assets/work/hudson-960.jpg" alt="Hudson Auto & RV Center website home page" width="1280" height="800" loading="lazy" decoding="async"></picture>
-              <span class="work-badge">Custom build</span>
+              <span class="work-badge">Advanced build</span>
             </div>
             <figcaption>
               <span class="work-kind">Car and RV dealer &middot; Poulsbo, WA</span>
@@ -561,7 +576,7 @@
             <div class="work-shot">
               <div class="work-chrome" aria-hidden="true"><span></span><span></span><span></span></div>
               <picture><source type="image/webp" srcset="assets/work/tfp-640.webp 640w, assets/work/tfp-1280.webp 1280w" sizes="(min-width: 760px) 560px, calc(100vw - 2.5rem)"><img src="assets/work/tfp-960.jpg" alt="True Frequency Products website home page" width="1280" height="800" loading="lazy" decoding="async"></picture>
-              <span class="work-badge">Custom build</span>
+              <span class="work-badge">Advanced build</span>
             </div>
             <figcaption>
               <span class="work-kind">Online store &middot; buytfp.com</span>
@@ -660,7 +675,7 @@
                 <span class="price-figure">$499</span>
                 <span class="price-term">one-time</span>
               </div>
-              <p class="price-line">Includes a year of hosting, domain, SSL, email, local SEO, QR codes, an audio welcome message, and a custom CRM. You own it.</p>
+              <p class="price-line">Includes a year of hosting, domain, SSL, email, local SEO, QR codes, an audio welcome message, and a custom CRM: $1,169 worth of services. You own it.</p>
               <ul class="price-list" role="list">
                 <li><svg aria-hidden="true"><use href="#i-check"/></svg>Custom design, not a template</li>
                 <li><svg aria-hidden="true"><use href="#i-check"/></svg>Mobile-first build</li>
@@ -679,7 +694,7 @@
             </div>
             <p class="price-tape" aria-hidden="true"></p>
           </div>
-          <p class="price-caption">No monthly fees for your first 12 months. After that, keep everything running, CRM included, with the Business Bundle for $49.95 a month, or choose services individually. <a class="link-hand" href="#addons">See your options</a></p>
+          <p class="price-caption">No monthly fees for your first 12 months. After that, keep everything running, CRM included, with the Business Bundle for $49.95 a month, or $539.46 a year when you pay up front (10% off). Or choose services individually. <a class="link-hand" href="#addons">See your options</a></p>
         </div>
       </div>
     </section>
@@ -712,6 +727,7 @@
           <div class="bundle-side">
             <p class="bundle-price"><span>$49.95</span>/month</p>
             <p class="bundle-save">About half the cost of buying every service separately ($97.45 a month).</p>
+            <p class="bundle-year">Or pay a year up front: <b>$539.46</b>, 10% off.</p>
             <p class="bundle-when">Optional. Starts only after your first 12 months.</p>
           </div>
         </article>
@@ -795,6 +811,11 @@
                   <span class="co-name">Business Bundle <em class="co-badge">Save 49%</em><small>All eight services below, customized CRM included.</small></span>
                   <span class="co-price">$49.95<small>/mo</small></span>
                 </label>
+                <label class="co-opt co-best">
+                  <input type="checkbox" name="sv" value="bundle_year">
+                  <span class="co-name">Business Bundle, paid yearly <em class="co-badge">10% off</em><small>The same bundle for a full year up front: $539.46 instead of $599.40.</small></span>
+                  <span class="co-price">$539.46<small>/yr</small></span>
+                </label>
               </fieldset>
               <fieldset class="co-group" data-in-bundle>
                 <legend>Or choose services</legend>
@@ -865,7 +886,7 @@
         <div class="section-head co-head" data-reveal>
           <p class="eyebrow">Your order</p>
           <h2 id="checkout-title">Claim your website.</h2>
-          <p class="section-intro">One payment of $499 covers your website plus a year of hosting, domain, SSL, five business email addresses, local SEO, QR codes, an audio welcome message, and a CRM set up for your industry. No monthly fees for 12 months.</p>
+          <p class="section-intro">One payment of $499 covers your website plus a year of hosting, domain, SSL, five business email addresses, local SEO, QR codes, an audio welcome message, and a CRM set up for your industry: $1,169 worth of services. No monthly fees for 12 months.</p>
         </div>
 
         <div class="co-grid">
@@ -980,7 +1001,7 @@
           </details>
           <details class="faq-item" data-reveal style="--i:1">
             <summary><span>Is $499 really the whole price?</span><svg class="faq-plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-            <div class="faq-body"><p>Yes. The $499 covers the build plus your first year of hosting, domain registration, SSL security, five business email addresses, local SEO, QR codes, an audio welcome message, and a CRM set up for your industry. There are no monthly fees for 12 months. After that, you can keep everything running, CRM included, with the Business Bundle for $49.95 a month, or choose services individually, and we'll remind you before anything renews.</p></div>
+            <div class="faq-body"><p>Yes. The $499 covers the build plus your first year of hosting, domain registration, SSL security, five business email addresses, local SEO, QR codes, an audio welcome message, and a CRM set up for your industry. At our regular prices, that first year of services alone is worth $1,169. There are no monthly fees for 12 months. After that, you can keep everything running, CRM included, with the Business Bundle for $49.95 a month ($539.46 a year if you pay up front, 10% off), or choose services individually, and we'll remind you before anything renews.</p></div>
           </details>
           <details class="faq-item" data-reveal style="--i:2">
             <summary><span>What's the CRM, and what does it cost?</span><svg class="faq-plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
@@ -1005,7 +1026,7 @@
           </details>
           <details class="faq-item" data-reveal style="--i:7">
             <summary><span>What about my domain and hosting?</span><svg class="faq-plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
-            <div class="faq-body"><p>Your first year of hosting and domain registration is included in the $499, along with SSL security, five business email addresses, local SEO, QR codes, an audio welcome message, and your CRM. If you already own a domain, we connect it; if not, we register one for you. From month 13, keep everything with the Business Bundle for $49.95 a month, or individually: hosting $14.95 a month, domain $9.95 a year, SSL $5.95 a month, five business emails $59 a year, local SEO $19.95 a month, QR codes $5.95 a month, the audio welcome message $9.95 a month, and the CRM $34.95 a month. Either way, the site is yours.</p></div>
+            <div class="faq-body"><p>Your first year of hosting and domain registration is included in the $499, along with SSL security, five business email addresses, local SEO, QR codes, an audio welcome message, and your CRM. If you already own a domain, we connect it; if not, we register one for you. From month 13, keep everything with the Business Bundle for $49.95 a month or $539.46 a year paid up front, or individually: hosting $14.95 a month, domain $9.95 a year, SSL $5.95 a month, five business emails $59 a year, local SEO $19.95 a month, QR codes $5.95 a month, the audio welcome message $9.95 a month, and the CRM $34.95 a month. Either way, the site is yours.</p></div>
           </details>
           <details class="faq-item" data-reveal style="--i:8">
             <summary><span>Can I update it myself later?</span><svg class="faq-plus" aria-hidden="true"><use href="#i-plus"/></svg></summary>
@@ -1185,6 +1206,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=19"></script>
+  <script src="script.js?v=20"></script>
 </body>
 </html>

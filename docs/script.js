@@ -660,16 +660,17 @@
     var form = document.querySelector('[data-services-checkout]'); if (!form) return;
     var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
     var P = {
-      bundle: ['Business Bundle', 4995, 'month'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
+      bundle: ['Business Bundle', 4995, 'month'], bundle_year: ['Business Bundle, paid yearly (10% off)', 53946, 'year'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
       ssl: ['SSL security certificate', 595, 'month'], email5: ['5 professional email addresses', 5900, 'year'], seo: ['Local SEO', 1995, 'month'],
       qr: ['QR code generation', 595, 'month'], audio: ['Professional audio welcome message', 995, 'month'], crm: ['Customized CRM', 3495, 'month']
     };
     var boxes = Array.prototype.slice.call(form.querySelectorAll('input[name="sv"]'));
-    var bundle = form.querySelector('input[value="bundle"]');
+    var bundle = form.querySelector('input[value="bundle"]'), bundleYear = form.querySelector('input[value="bundle_year"]');
+    function bundled() { return bundle.checked || bundleYear.checked; }
     var lines = document.querySelector('[data-sv-lines]'), total = document.querySelector('[data-sv-total]'), renew = document.querySelector('[data-sv-renew]');
     var pay = document.querySelector('[data-sv-pay]'), err = document.querySelector('[data-sv-error]'), inEmail = document.getElementById('sv-email');
     function usd(c) { return '$' + (c / 100).toFixed(2); }
-    function selected() { return bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle; }).map(function (b) { return b.value; }); }
+    function selected() { return bundleYear.checked ? ['bundle_year'] : bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle && b !== bundleYear; }).map(function (b) { return b.value; }); }
     var domainName = '';
     var domainField = document.querySelector('[data-sv-domain-field]'), inDomain = document.getElementById('sv-domain');
     var DOMAIN_RE = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*\.[a-z]{2,24}$/;
@@ -678,18 +679,18 @@
     document.addEventListener('ddm:domain', function (e) {
       domainName = e.detail; inDomain.value = e.detail;
       var box = form.querySelector('input[value="domain"]');
-      if (!bundle.checked) box.checked = true;
+      if (!bundled()) box.checked = true;
       render();
       document.getElementById('buy-services').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     });
     function render() {
-      form.classList.toggle('is-bundled', bundle.checked);
-      boxes.forEach(function (b) { if (b !== bundle) b.disabled = bundle.checked; });
+      form.classList.toggle('is-bundled', bundled());
+      boxes.forEach(function (b) { if (b !== bundle && b !== bundleYear) b.disabled = bundled(); });
       var keys = selected(), sum = 0, mo = 0, yr = 0;
       lines.innerHTML = '';
       keys.forEach(function (k) {
         var it = P[k], li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
-        n.textContent = it[0] + ((k === 'domain' || k === 'bundle') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[2] === 'month' ? '/mo' : '/yr');
+        n.textContent = it[0] + ((k === 'domain' || k === 'bundle' || k === 'bundle_year') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[2] === 'month' ? '/mo' : '/yr');
         li.appendChild(n); li.appendChild(v); lines.appendChild(li);
         sum += it[1]; if (it[2] === 'month') mo += it[1]; else yr += it[1];
       });
@@ -701,9 +702,14 @@
       renew.textContent = parts.length ? 'Today covers the first ' + (mo && yr ? 'month and year' : mo ? 'month' : 'year') + '. After that, ' + parts.join(' plus ') + '. We’ll confirm each renewal with you before it’s due.' : '';
       renew.hidden = !parts.length;
       pay.disabled = !keys.length;
-      domainField.hidden = !(keys.indexOf('domain') > -1 || keys.indexOf('bundle') > -1);
+      domainField.hidden = !(keys.indexOf('domain') > -1 || keys.indexOf('bundle') > -1 || keys.indexOf('bundle_year') > -1);
     }
-    form.addEventListener('change', render);
+    form.addEventListener('change', function (e) {
+      // monthly and yearly bundle are one choice
+      if (e.target === bundle && bundle.checked) bundleYear.checked = false;
+      if (e.target === bundleYear && bundleYear.checked) bundle.checked = false;
+      render();
+    });
     pay.addEventListener('click', function () {
       err.hidden = true;
       var email = (inEmail.value || '').trim(), field = inEmail.closest('.field');
