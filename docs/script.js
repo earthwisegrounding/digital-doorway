@@ -616,6 +616,11 @@
     render();
   })();
 
+  /* ---------- Client sites: hide the "Scroll" hint once a visitor scrolls inside one ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.work-scroll'), function (box) {
+    box.addEventListener('scroll', function () { if (box.scrollTop > 40) box.classList.add('is-scrolled'); }, { passive: true });
+  });
+
   /* ---------- Domain search: live registry lookup through the worker; an open name can go straight into the services order ---------- */
   (function () {
     var form = document.querySelector('[data-domain-search]'); if (!form) return;

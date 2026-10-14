@@ -1302,3 +1302,11 @@ h2 > .eyebrow { display: block; }
 .inc-value-text strong { display: block; margin-bottom: .2rem; font-size: 1.0625rem; color: var(--bg); font-weight: 600; }
 .bundle-year { margin: 0; padding: .55rem .85rem; border-radius: 10px; background: rgba(20,180,196,.14); border: 1px solid rgba(20,180,196,.4); color: var(--bg); font-size: .9375rem; font-weight: 500; max-width: 26ch; }
 .bundle-year b { color: var(--mustard); }
+
+/* ---------- Scrollable client sites ---------- */
+.work-scroll { position: relative; display: block; aspect-ratio: 16 / 10; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: auto; scrollbar-width: thin; scrollbar-color: rgba(16,33,63,.35) transparent; background: var(--surface); }
+.work-scroll:focus-visible { outline: 3px solid var(--mustard); outline-offset: -3px; }
+.work-scroll img { display: block; width: 100%; height: auto; aspect-ratio: auto; object-fit: initial; }
+.work-hint { position: sticky; bottom: 12px; float: right; margin: -2.4rem 12px 0 0; display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .75rem; border-radius: 999px; background: rgba(16,33,63,.82); color: #FFFDF8; font: 600 .75rem/1 var(--sans); letter-spacing: .06em; pointer-events: none; transition: opacity .3s; }
+.work-hint::after { content: "\2193"; }
+.work-scroll.is-scrolled .work-hint { opacity: 0; }
