@@ -1264,3 +1264,31 @@ h2 > .eyebrow { display: block; }
 [data-sv-domain-field][hidden] { display: none; }
 .sv-hint { display: block; margin-top: .35rem; font-size: .8125rem; line-height: 1.45; color: rgba(246,239,227,.7); }
 .sv-hint .link-hand { color: var(--bg); }
+
+/* ---------- Real client sites ---------- */
+.work-grid { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem) clamp(1.25rem, 2.5vw, 2rem); }
+@media (min-width: 760px) { .work-grid { grid-template-columns: 1fr 1fr; } }
+.work { margin: 0; display: flex; flex-direction: column; gap: 1rem; }
+.work-shot { position: relative; overflow: hidden; border-radius: var(--radius); border: 1.5px solid var(--rule); background: var(--surface); box-shadow: var(--shadow); transition: transform .3s var(--ease-out), box-shadow .3s; }
+.work-chrome { display: flex; gap: 6px; padding: 10px 12px; background: var(--bg-2); border-bottom: 1px solid var(--rule); }
+.work-chrome span { width: 9px; height: 9px; border-radius: 50%; background: var(--rule-strong); opacity: .55; }
+.work-shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+@media (hover: hover) { .work:hover .work-shot { transform: translateY(-4px); box-shadow: var(--shadow-lift); } }
+.work-badge { position: absolute; top: 44px; right: 12px; padding: .4rem .7rem; border-radius: 999px; background: var(--mustard); color: #0B2447; font: 700 .6875rem/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; box-shadow: var(--shadow-sm); }
+.work figcaption { display: grid; gap: .3rem; }
+.work-kind { font: 600 .75rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.work-name { font: 600 clamp(1.2rem, 1.7vw, 1.4rem)/1.2 var(--serif); color: var(--ink); }
+.work-desc { color: var(--muted); font-size: .9688rem; line-height: 1.55; }
+.work-link { justify-self: start; font-weight: 600; font-size: .9375rem; margin-top: .2rem; }
+.work-link::after { content: " \2197"; }
+
+/* ---------- Bigger builds ---------- */
+.cb-grid { display: grid; gap: clamp(1rem, 2vw, 1.5rem); }
+@media (min-width: 900px) { .cb-grid { grid-template-columns: repeat(3, 1fr); } }
+.cb-card { display: flex; flex-direction: column; gap: .7rem; padding: clamp(1.4rem, 2.5vw, 2rem); background: var(--surface); border: 1.5px solid var(--rule); border-radius: var(--radius); box-shadow: var(--shadow-sm); }
+.cb-label { font: 700 .75rem/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); max-width: none; }
+.cb-card h3 { font-size: clamp(1.25rem, 1.8vw, 1.5rem); }
+.cb-card p:not(.cb-label) { color: var(--muted); font-size: .9688rem; line-height: 1.6; }
+.cb-quote { margin-top: clamp(1.75rem, 3vw, 2.5rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem 2rem; padding: clamp(1.5rem, 3vw, 2.25rem); border-radius: var(--radius-lg); background: var(--grad-walnut); color: var(--bg); box-shadow: var(--shadow-lift); }
+.cb-quote p { margin: 0; flex: 1 1 22rem; font-size: clamp(1.0625rem, 1.4vw, 1.2rem); line-height: 1.5; color: rgba(246,239,227,.85); }
+.cb-quote strong { color: var(--bg); font-weight: 600; }
