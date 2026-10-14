@@ -57,7 +57,7 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 
 - `docs/work/prolawn/` (Direction A) and `docs/work/prolawn/b/` (Direction B) are copies of the two ProLawn builds from `~/Documents/landscaping/prolawn` (repo verdura). Photos recompressed; unused camera originals left out. Both pages carry `noindex` so they don't compete with the client's own site in search.
 - Their "Design your yard in 3D" links point to the live studio at earthwisegrounding.github.io/verdura (its 3D models are ~59 MB, so it is not copied). Inside the comparison, the studio and any other link that leaves the page open in a new tab; if a frame ever navigates away anyway, a "Back to the comparison" button reloads both and re-syncs.
-- The homepage "One business. Two directions." section loads both in stacked frames with a draggable divider; because they're on the same domain, scrolling either side scrolls both in step, and only one welcome message plays at a time.
+- The homepage "One business. Two directions." comparison section was removed on 2026-10-14; the two builds still live at these paths.
 - If the ProLawn sites change, re-copy them into `docs/work/prolawn/` (keep the noindex tag and the studio links).
 
 ## Orders and online payment (Square)
