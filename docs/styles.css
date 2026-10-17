@@ -238,6 +238,11 @@ section[id], .band[id] { scroll-margin-top: 80px; }
 .mobile-links a:hover { color: var(--accent); }
 .mobile-menu-foot { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; padding-top: 2rem; }
 .mobile-phone { color: var(--muted); font-weight: 500; padding: .5rem 0; }
+/* Staff sign-in for the team workspace: quiet, never competing with "Get your site". */
+.nav-team { display: none; color: var(--muted); font-weight: 500; font-size: .9375rem; min-height: 44px; align-items: center; white-space: nowrap; }
+@media (min-width: 1200px) { .nav-team { display: inline-flex; } }
+.footer-team { margin-left: auto; color: rgba(246,239,227,.75); text-decoration: underline; text-underline-offset: 3px; min-height: 44px; display: inline-flex; align-items: center; }
+.footer-team:hover, .footer-team:focus-visible { color: #F6EFE3; }
 body.menu-open { overflow: hidden; }
 @media (max-height: 720px) {
   .mobile-menu { padding-top: calc(var(--nav-h) + .25rem); }
