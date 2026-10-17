@@ -1317,3 +1317,8 @@ h2 > .eyebrow { display: block; }
 .work-scroll.is-scrolled .work-hint { opacity: 0; }
 /* the longer hero line wraps on narrow screens */
 @media (max-width: 899px) { .hero-eyebrow span { white-space: normal; text-align: center; } }
+/* Laptop+: tagline sits closer to the nav, with more room before the headline */
+@media (min-width: 900px) {
+  .hero { padding-top: calc(var(--nav-h) + clamp(1.25rem, 2.5vw, 2.25rem)); }
+  .hero-eyebrow { margin-bottom: clamp(2rem, 3.5vw, 3rem); }
+}
