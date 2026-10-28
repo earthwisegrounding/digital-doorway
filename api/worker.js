@@ -31,13 +31,14 @@ const CATALOG = {
   qr:      { name: 'QR Code Generation (first month)', cents: 595, renews: 'month', renewCents: 595 },
   audio:   { name: 'Professional Audio Welcome Message (first month)', cents: 995, renews: 'month', renewCents: 995 },
   crm:     { name: 'Customized CRM (first month)', cents: 3495, renews: 'month', renewCents: 3495 },
+  card:    { name: 'Digital business card: $29 setup + first month (then $4.95/month)', cents: 3395, renews: 'month', renewCents: 495 },
 };
 function resolveItems(raw, withBuild = true) {
   const want = new Set((Array.isArray(raw) ? raw : []).map(String).filter(k => CATALOG[k]));
   if (withBuild) want.add('build');                                  // services-only orders skip the build
   if (want.has('bundle_year')) want.delete('bundle');                  // one bundle: yearly wins
   if (want.has('bundle') || want.has('bundle_year')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm'].forEach(k => want.delete(k));   // the bundle already has them
-  return ['build', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm'].filter(k => want.has(k));
+  return ['build', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm', 'card'].filter(k => want.has(k));
 }
 async function squareApi(env, method, path, body) {
   const r = await fetch('https://connect.squareup.com' + path, { method, headers: { 'Authorization': `Bearer ${env.SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2025-08-20', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
@@ -209,14 +210,17 @@ async function handleSquare(request, env, headers) {
   const sum = await orderSummary(env, p.order_id);
   try { await crmRecordPayment(env, p, sum); results.crm = 'recorded'; } catch (err) { results.crm = 'failed: ' + err.message; }
   const itemsText = sum && sum.items.length ? '\n\nOrder:\n' + sum.items.map(i => `- ${i.name}: ${i.amount}`).join('\n') + (sum.renew.length ? '\nRenews: ' + sum.renew.join('; ') : '') : '';
+  // A digital card in the order: the team sets it up in the team workspace, which emails the client a link to design it.
+  const hasCard = Boolean(sum && sum.items.some(i => /digital business card/i.test(i.name)));
+  const cardStep = hasCard ? `\n\nDigital business card: create it at https://team.digitaldoorwaymarketing.com/cards (Create a card for someone, billing "Billed with their website"). They'll be emailed a link to design it.` : '';
   const itemsHtml = sum && sum.items.length ? `<table style="border-collapse:collapse;margin:12px 0">${sum.items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('')}</table>${sum.renew.length ? `<p style="margin:0 0 8px;color:#6B5D4D">Renews: ${esc(sum.renew.join('; '))}</p>` : ''}` : '';
   try {
     await send(env, { from: env.MAIL_FROM, to: admins, reply_to: buyer || undefined,
       subject: `New sale: ${amount} from ${buyer || 'a customer'}`,
-      text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}${itemsText}\n\nNext step: reach out within one business day to book the first call.`,
+      text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}${itemsText}${cardStep}\n\nNext step: reach out within one business day to book the first call.`,
       html: `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:20px">New sale: ${esc(amount)}</h2>
         <table style="border-collapse:collapse">${[['Customer', buyer || '(no email on the payment)'], ['When', when + ' (Pacific)'], ['Receipt', p.receipt_number || '—'], ['Payment ID', p.id]].map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#6B5D4D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join('')}</table>${itemsHtml}
-        ${receipt ? `<p><a href="${esc(receipt)}">View the Square receipt</a></p>` : ''}<p style="margin-top:20px">Next step: reach out within one business day to book the first call.</p></div>` });
+        ${receipt ? `<p><a href="${esc(receipt)}">View the Square receipt</a></p>` : ''}${hasCard ? `<p><b>Digital business card:</b> create it at <a href="https://team.digitaldoorwaymarketing.com/cards">team.digitaldoorwaymarketing.com/cards</a> (Create a card for someone, billing "Billed with their website"). They'll be emailed a link to design it.</p>` : ''}<p style="margin-top:20px">Next step: reach out within one business day to book the first call.</p></div>` });
     results.admins = 'sent';
   } catch (err) { results.admins = 'failed: ' + err.message; }
   if (buyer) {

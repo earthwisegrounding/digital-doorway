@@ -583,18 +583,23 @@
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
     var inEmail = document.getElementById('co-email');
-    function selected() { return ['build']; }
+    var cardBox = form.querySelector('input[name="addon"][value="card"]');
+    function selected() { return cardBox && cardBox.checked ? ['build', 'card'] : ['build']; }
     function render() {
       lines.innerHTML = '';
-      [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['Customized CRM for 12 months', 'Free']].forEach(function (row) {
+      var withCard = cardBox && cardBox.checked;
+      var rows = [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['Customized CRM for 12 months', 'Free']];
+      if (withCard) rows.push(['Digital business card: $29 setup + first month', '$33.95']);
+      rows.forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
         n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
-      total.textContent = '$499.00';
-      renew.textContent = 'No monthly fees for your first 12 months. After that, the optional Business Bundle keeps everything running, CRM included, for $49.95 a month.';
+      total.textContent = withCard ? '$532.95' : '$499.00';
+      renew.textContent = 'No monthly fees for your first 12 months' + (withCard ? ' except your digital card ($4.95 a month)' : '') + '. After that, the optional Business Bundle keeps everything running, CRM included, for $49.95 a month.';
       renew.hidden = false;
     }
 
+    form.addEventListener('change', render);
     pay.addEventListener('click', function () {
       err.hidden = true;
       var email = (inEmail.value || '').trim(), field = inEmail.closest('.field');
@@ -667,7 +672,8 @@
     var P = {
       bundle: ['Business Bundle', 4995, 'month'], bundle_year: ['Business Bundle, paid yearly (10% off)', 53946, 'year'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
       ssl: ['SSL security certificate', 595, 'month'], email5: ['5 professional email addresses', 5900, 'year'], seo: ['Local SEO', 1995, 'month'],
-      qr: ['QR code generation', 595, 'month'], audio: ['Professional audio welcome message', 995, 'month'], crm: ['Customized CRM', 3495, 'month']
+      qr: ['QR code generation', 595, 'month'], audio: ['Professional audio welcome message', 995, 'month'], crm: ['Customized CRM', 3495, 'month'],
+      card: ['Digital business card: $29 setup + first month', 3395, 'month', 495]
     };
     var boxes = Array.prototype.slice.call(form.querySelectorAll('input[name="sv"]'));
     var bundle = form.querySelector('input[value="bundle"]'), bundleYear = form.querySelector('input[value="bundle_year"]');
@@ -675,7 +681,12 @@
     var lines = document.querySelector('[data-sv-lines]'), total = document.querySelector('[data-sv-total]'), renew = document.querySelector('[data-sv-renew]');
     var pay = document.querySelector('[data-sv-pay]'), err = document.querySelector('[data-sv-error]'), inEmail = document.getElementById('sv-email');
     function usd(c) { return '$' + (c / 100).toFixed(2); }
-    function selected() { return bundleYear.checked ? ['bundle_year'] : bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle && b !== bundleYear; }).map(function (b) { return b.value; }); }
+    // The card is an add-on: it isn't part of the bundle, so it can go with it.
+    var cardSv = form.querySelector('input[name="sv"][value="card"]');
+    function selected() {
+      var keys = bundleYear.checked ? ['bundle_year'] : bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle && b !== bundleYear && b !== cardSv; }).map(function (b) { return b.value; });
+      return cardSv && cardSv.checked ? keys.concat('card') : keys;
+    }
     var domainName = '';
     var domainField = document.querySelector('[data-sv-domain-field]'), inDomain = document.getElementById('sv-domain');
     var DOMAIN_RE = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)*\.[a-z]{2,24}$/;
@@ -690,14 +701,15 @@
     });
     function render() {
       form.classList.toggle('is-bundled', bundled());
-      boxes.forEach(function (b) { if (b !== bundle && b !== bundleYear) b.disabled = bundled(); });
+      boxes.forEach(function (b) { if (b !== bundle && b !== bundleYear && b !== cardSv) b.disabled = bundled(); });
       var keys = selected(), sum = 0, mo = 0, yr = 0;
       lines.innerHTML = '';
       keys.forEach(function (k) {
         var it = P[k], li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
-        n.textContent = it[0] + ((k === 'domain' || k === 'bundle' || k === 'bundle_year') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[2] === 'month' ? '/mo' : '/yr');
+        n.textContent = it[0] + ((k === 'domain' || k === 'bundle' || k === 'bundle_year') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[3] ? '' : it[2] === 'month' ? '/mo' : '/yr');
         li.appendChild(n); li.appendChild(v); lines.appendChild(li);
-        sum += it[1]; if (it[2] === 'month') mo += it[1]; else yr += it[1];
+        var again = it[3] || it[1];
+        sum += it[1]; if (it[2] === 'month') mo += again; else yr += again;
       });
       if (!keys.length) { var li = document.createElement('li'); li.textContent = 'Pick a service to get started.'; lines.appendChild(li); }
       total.textContent = usd(sum);
