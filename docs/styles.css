@@ -295,6 +295,8 @@ body.menu-open { overflow: hidden; }
 .hero-title .line:nth-child(2) { animation-delay: 120ms; }
 .hero-title .line:nth-child(3) { animation-delay: 200ms; }
 .hero-title .line:nth-child(4) { animation-delay: 280ms; }
+.hero-title .hero-offer { max-width: 26ch; margin-top: .5em; font-size: .46em; line-height: 1.2; letter-spacing: -.01em; color: var(--walnut); text-wrap: balance; }
+.hero-offer strong { color: var(--accent); font-weight: 700; white-space: nowrap; }
 
 .hl-word { position: relative; display: inline-block; font-style: italic; font-weight: 400; z-index: 0; padding-inline: .04em; }
 .hl-text { position: relative; z-index: 1; }
