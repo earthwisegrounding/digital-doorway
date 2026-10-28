@@ -69,7 +69,8 @@ async function handleCheckout(request, env, headers) {
     order: {
       location_id: env.SQUARE_LOCATION_ID,
       line_items: lineItems,
-      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no', domain_name: domainName },
+      // Square rejects empty metadata values, so domain_name is only sent when there is one.
+      metadata: { items: keys.join(','), monthly_cents: String(monthly), yearly_cents: String(yearly), domain_requested: keys.includes('domain') ? 'yes' : 'no', ...(domainName ? { domain_name: domainName } : {}) },
     },
     checkout_options: { allow_tipping: false, ask_for_shipping_address: false, redirect_url: 'https://digitaldoorwaymarketing.com/thank-you.html', merchant_support_email: 'info@digitaldoorwaymarketing.com' },
     payment_note: clip(noteParts.join(' | '), 500) || undefined,
