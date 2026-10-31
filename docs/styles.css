@@ -1415,3 +1415,5 @@ h2 > .eyebrow { display: block; }
 .cta-slim-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
 .hero-video video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: #06142E; }
 .hero-video-tour { margin: 0 auto; animation: none; }
+/* an odd card out at the end of the add-on grid sits centered under the pair above */
+@media (min-width: 760px) { .addon-grid > .addon:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - clamp(1rem, 2vw, 1.5rem) / 2); } }
