@@ -20,9 +20,9 @@ const cors = (env, origin) => {
 /* ---- Checkout: $499 build + optional add-ons → a Square payment link for exactly that order ----
    Prices live here (server side) so the browser can't change what gets charged. */
 const CATALOG = {
-  build:   { name: 'Website design and build, including the first year of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, an audio welcome message, and a customized CRM (one-time)', cents: 49900, required: true },
-  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM (first month)', cents: 4995, renews: 'month', renewCents: 4995 },
-  bundle_year: { name: 'Business Bundle, paid yearly (10% off): domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM (one year)', cents: 53946, renews: 'year', renewCents: 53946 },
+  build:   { name: 'Website design and build, including the first year of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, an audio welcome message, a customized CRM, a digital business card, and a 15-second promo video (one-time)', cents: 49900, required: true },
+  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM, digital business card (first month)', cents: 4995, renews: 'month', renewCents: 4995 },
+  bundle_year: { name: 'Business Bundle, paid yearly (10% off): domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM, digital business card (one year)', cents: 53946, renews: 'year', renewCents: 53946 },
   hosting: { name: 'Website Hosting (first month)', cents: 1495, renews: 'month', renewCents: 1495 },
   ssl:     { name: 'SSL Website Security (first month)', cents: 595, renews: 'month', renewCents: 595 },
       email5:  { name: 'Professional Business Email: 5 accounts (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
@@ -32,13 +32,30 @@ const CATALOG = {
   audio:   { name: 'Professional Audio Welcome Message (first month)', cents: 995, renews: 'month', renewCents: 995 },
   crm:     { name: 'Customized CRM (first month)', cents: 3495, renews: 'month', renewCents: 3495 },
   card:    { name: 'Digital business card: $29 setup + first month (then $4.95/month)', cents: 3395, renews: 'month', renewCents: 495 },
+  // Promo videos on their own, and the upgrades for a website order, which already includes a 15-second video ($249 credit).
+  video15: { name: 'Professional promo video: 15 seconds', cents: 24900 },
+  video30: { name: 'Professional promo video: 30 seconds', cents: 39900 },
+  video60: { name: 'Professional promo video: 60 seconds', cents: 59900 },
+  video90: { name: 'Professional promo video: 90 seconds', cents: 79900 },
+  vup30:   { name: 'Promo video upgrade: 15 to 30 seconds ($399 less the $249 included video)', cents: 15000 },
+  vup60:   { name: 'Promo video upgrade: 15 to 60 seconds ($599 less the $249 included video)', cents: 35000 },
+  vup90:   { name: 'Promo video upgrade: 15 to 90 seconds ($799 less the $249 included video)', cents: 55000 },
 };
+const VIDEOS = ['video15', 'video30', 'video60', 'video90'], UPGRADES = ['vup30', 'vup60', 'vup90'];
 function resolveItems(raw, withBuild = true) {
   const want = new Set((Array.isArray(raw) ? raw : []).map(String).filter(k => CATALOG[k]));
   if (withBuild) want.add('build');                                  // services-only orders skip the build
   if (want.has('bundle_year')) want.delete('bundle');                  // one bundle: yearly wins
-  if (want.has('bundle') || want.has('bundle_year')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm'].forEach(k => want.delete(k));   // the bundle already has them
-  return ['build', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm', 'card'].filter(k => want.has(k));
+  if (want.has('bundle') || want.has('bundle_year')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm', 'card'].forEach(k => want.delete(k));   // the bundle already has them
+  if (want.has('build')) {
+    want.delete('card');                                               // the website includes the card for a year
+    VIDEOS.forEach(k => want.delete(k));                               // and a 15-second video; longer ones are upgrades
+    UPGRADES.slice(0, -1).forEach((k, i) => { if (UPGRADES.slice(i + 1).some(u => want.has(u))) want.delete(k); });   // one upgrade: the longest
+  } else {
+    UPGRADES.forEach(k => want.delete(k));                             // upgrades only make sense with a website
+    VIDEOS.slice(0, -1).forEach((k, i) => { if (VIDEOS.slice(i + 1).some(v => want.has(v))) want.delete(k); });      // one video: the longest
+  }
+  return ['build', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm', 'card', ...VIDEOS, ...UPGRADES].filter(k => want.has(k));
 }
 async function squareApi(env, method, path, body) {
   const r = await fetch('https://connect.squareup.com' + path, { method, headers: { 'Authorization': `Bearer ${env.SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2025-08-20', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
@@ -212,16 +229,21 @@ async function handleSquare(request, env, headers) {
   try { await crmRecordPayment(env, p, sum); results.crm = 'recorded'; } catch (err) { results.crm = 'failed: ' + err.message; }
   const itemsText = sum && sum.items.length ? '\n\nOrder:\n' + sum.items.map(i => `- ${i.name}: ${i.amount}`).join('\n') + (sum.renew.length ? '\nRenews: ' + sum.renew.join('; ') : '') : '';
   // A digital card in the order: the team sets it up in the team workspace, which emails the client a link to design it.
-  const hasCard = Boolean(sum && sum.items.some(i => /digital business card/i.test(i.name)));
+  // (the website includes one; the bundle keeps an existing one running, so it doesn't count)
+  const hasCard = Boolean(sum && sum.items.some(i => /digital business card/i.test(i.name) && !/business bundle/i.test(i.name)));
+  // Every website includes a 15-second promo video; the order may upgrade it or buy one on its own.
+  const videoItem = sum && sum.items.find(i => /promo video( upgrade)?:/i.test(i.name));
+  const videoLen = videoItem ? ([...videoItem.name.matchAll(/(\d+) seconds/g)].pop() || [])[1] : (sum && sum.items.some(i => /website design and build/i.test(i.name)) ? '15' : '');
+  const videoStep = videoLen ? `\n\nPromo video: ${videoLen} seconds. Schedule it with the client.` : '';
   const cardStep = hasCard ? `\n\nDigital business card: create it at https://team.digitaldoorwaymarketing.com/cards (Create a card for someone, billing "Billed with their website"). They'll be emailed a link to design it.` : '';
   const itemsHtml = sum && sum.items.length ? `<table style="border-collapse:collapse;margin:12px 0">${sum.items.map(i => `<tr><td style="padding:4px 16px 4px 0">${esc(i.name)}</td><td style="padding:4px 0;text-align:right"><b>${esc(i.amount)}</b></td></tr>`).join('')}</table>${sum.renew.length ? `<p style="margin:0 0 8px;color:#6B5D4D">Renews: ${esc(sum.renew.join('; '))}</p>` : ''}` : '';
   try {
     await send(env, { from: env.MAIL_FROM, to: admins, reply_to: buyer || undefined,
       subject: `New sale: ${amount} from ${buyer || 'a customer'}`,
-      text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}${itemsText}${cardStep}\n\nNext step: reach out within one business day to book the first call.`,
+      text: `A payment just came in through the Square link.\n\nAmount: ${amount}\nCustomer: ${buyer || '(no email on the payment)'}\nWhen: ${when} (Pacific)\nReceipt: ${p.receipt_number || '—'}${receipt ? ' ' + receipt : ''}\nSquare payment ID: ${p.id}${itemsText}${cardStep}${videoStep}\n\nNext step: reach out within one business day to book the first call.`,
       html: `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:560px"><h2 style="margin:0 0 12px;font-size:20px">New sale: ${esc(amount)}</h2>
         <table style="border-collapse:collapse">${[['Customer', buyer || '(no email on the payment)'], ['When', when + ' (Pacific)'], ['Receipt', p.receipt_number || '—'], ['Payment ID', p.id]].map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#6B5D4D">${k}</td><td style="padding:4px 0"><b>${esc(v)}</b></td></tr>`).join('')}</table>${itemsHtml}
-        ${receipt ? `<p><a href="${esc(receipt)}">View the Square receipt</a></p>` : ''}${hasCard ? `<p><b>Digital business card:</b> create it at <a href="https://team.digitaldoorwaymarketing.com/cards">team.digitaldoorwaymarketing.com/cards</a> (Create a card for someone, billing "Billed with their website"). They'll be emailed a link to design it.</p>` : ''}<p style="margin-top:20px">Next step: reach out within one business day to book the first call.</p></div>` });
+        ${receipt ? `<p><a href="${esc(receipt)}">View the Square receipt</a></p>` : ''}${hasCard ? `<p><b>Digital business card:</b> create it at <a href="https://team.digitaldoorwaymarketing.com/cards">team.digitaldoorwaymarketing.com/cards</a> (Create a card for someone, billing "Billed with their website"). They'll be emailed a link to design it.</p>` : ''}${videoLen ? `<p><b>Promo video:</b> ${videoLen} seconds. Schedule it with the client.</p>` : ''}<p style="margin-top:20px">Next step: reach out within one business day to book the first call.</p></div>` });
     results.admins = 'sent';
   } catch (err) { results.admins = 'failed: ' + err.message; }
   if (buyer) {

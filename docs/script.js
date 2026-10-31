@@ -2,6 +2,13 @@
    Nav state, mobile menu, scroll reveals, threshold dividers, process path,
    active-section tracking, smooth anchors, FAQ accordion, contact form. */
 (function () {
+  /* ---------- Old one-page links (/#pricing, /#faq, …) go to the page that now holds that section ---------- */
+  (function () {
+    var MOVED = { included: '/whats-included/', crm: '/whats-included/#crm', examples: '/examples/', 'custom-builds': '/examples/#custom-builds', pricing: '/pricing/', addons: '/pricing/#addons', checkout: '/pricing/#checkout', 'buy-services': '/pricing/#buy-services', 'domain-search': '/pricing/#domain-search', faq: '/faq/', contact: '/contact/', who: '/contact/#who' };
+    var id = location.hash.slice(1);
+    if ((location.pathname === '/' || location.pathname === '/index.html') && MOVED[id] && !document.getElementById(id)) location.replace(MOVED[id]);
+  })();
+
   'use strict';
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -583,21 +590,30 @@
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
     var inEmail = document.getElementById('co-email');
-    var cardBox = form.querySelector('input[name="addon"][value="card"]');
-    function selected() { return cardBox && cardBox.checked ? ['build', 'card'] : ['build']; }
+    // Every website includes a 15-second video; a longer one costs the difference (the $249 is a credit).
+    var UP = { vup30: ['Promo video upgrade to 30 seconds ($399 less your $249 credit)', 15000], vup60: ['Promo video upgrade to 60 seconds ($599 less your $249 credit)', 35000], vup90: ['Promo video upgrade to 90 seconds ($799 less your $249 credit)', 55000] };
+    function upgrade() { var r = form.querySelector('input[name="video"]:checked'); return r && UP[r.value] ? r.value : ''; }
+    function selected() { return upgrade() ? ['build', upgrade()] : ['build']; }
     function render() {
       lines.innerHTML = '';
-      var withCard = cardBox && cardBox.checked;
-      var rows = [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['Customized CRM for 12 months', 'Free']];
-      if (withCard) rows.push(['Digital business card: $29 setup + first month', '$33.95']);
+      var up = upgrade();
+      var rows = [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['CRM and digital business card for 12 months', 'Free'], ['15-second promo video', 'Included']];
+      if (up) rows.push([UP[up][0], '$' + (UP[up][1] / 100).toFixed(2)]);
       rows.forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
         n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
-      total.textContent = withCard ? '$532.95' : '$499.00';
-      renew.textContent = 'No monthly fees for your first 12 months' + (withCard ? ' except your digital card ($4.95 a month)' : '') + '. After that, the optional Business Bundle keeps everything running, CRM included, for $49.95 a month.';
+      total.textContent = '$' + ((49900 + (up ? UP[up][1] : 0)) / 100).toFixed(2);
+      renew.textContent = 'No monthly fees for your first 12 months. After that, the optional Business Bundle keeps everything running, CRM and digital card included, for $49.95 a month.';
       renew.hidden = false;
     }
+    // "Choose" buttons in the video price list pick the upgrade here.
+    Array.prototype.forEach.call(document.querySelectorAll('[data-pick-video]'), function (a) {
+      a.addEventListener('click', function () {
+        var r = form.querySelector('input[name="video"][value="' + a.getAttribute('data-pick-video') + '"]');
+        if (r) { r.checked = true; render(); }
+      });
+    });
 
     form.addEventListener('change', render);
     pay.addEventListener('click', function () {
@@ -654,7 +670,7 @@
               add.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('ddm:domain', { detail: x.domain })); });
               li.appendChild(add);
             } else if (x.status === 'unknown') {
-              var a = document.createElement('a'); a.className = 'link-hand ds-ask'; a.href = '#contact'; a.textContent = 'We’ll check this one';
+              var a = document.createElement('a'); a.className = 'link-hand ds-ask'; a.href = '/contact/'; a.textContent = 'We’ll check this one';
               li.appendChild(a);
             }
             list.appendChild(li);
@@ -673,7 +689,8 @@
       bundle: ['Business Bundle', 4995, 'month'], bundle_year: ['Business Bundle, paid yearly (10% off)', 53946, 'year'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
       ssl: ['SSL security certificate', 595, 'month'], email5: ['5 professional email addresses', 5900, 'year'], seo: ['Local SEO', 1995, 'month'],
       qr: ['QR code generation', 595, 'month'], audio: ['Professional audio welcome message', 995, 'month'], crm: ['Customized CRM', 3495, 'month'],
-      card: ['Digital business card: $29 setup + first month', 3395, 'month', 495]
+      card: ['Digital business card: $29 setup + first month', 3395, 'month', 495],
+      video15: ['Promo video: 15 seconds', 24900, 'once'], video30: ['Promo video: 30 seconds', 39900, 'once'], video60: ['Promo video: 60 seconds', 59900, 'once'], video90: ['Promo video: 90 seconds', 79900, 'once']
     };
     var boxes = Array.prototype.slice.call(form.querySelectorAll('input[name="sv"]'));
     var bundle = form.querySelector('input[value="bundle"]'), bundleYear = form.querySelector('input[value="bundle_year"]');
@@ -681,11 +698,11 @@
     var lines = document.querySelector('[data-sv-lines]'), total = document.querySelector('[data-sv-total]'), renew = document.querySelector('[data-sv-renew]');
     var pay = document.querySelector('[data-sv-pay]'), err = document.querySelector('[data-sv-error]'), inEmail = document.getElementById('sv-email');
     function usd(c) { return '$' + (c / 100).toFixed(2); }
-    // The card is an add-on: it isn't part of the bundle, so it can go with it.
-    var cardSv = form.querySelector('input[name="sv"][value="card"]');
+    // A promo video is a one-time extra that can go with anything, the bundle included.
+    function video() { var r = form.querySelector('input[name="sv-video"]:checked'); return r && P[r.value] ? r.value : ''; }
     function selected() {
-      var keys = bundleYear.checked ? ['bundle_year'] : bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle && b !== bundleYear && b !== cardSv; }).map(function (b) { return b.value; });
-      return cardSv && cardSv.checked ? keys.concat('card') : keys;
+      var keys = bundleYear.checked ? ['bundle_year'] : bundle.checked ? ['bundle'] : boxes.filter(function (b) { return b.checked && b !== bundle && b !== bundleYear; }).map(function (b) { return b.value; });
+      return video() ? keys.concat(video()) : keys;
     }
     var domainName = '';
     var domainField = document.querySelector('[data-sv-domain-field]'), inDomain = document.getElementById('sv-domain');
@@ -701,15 +718,15 @@
     });
     function render() {
       form.classList.toggle('is-bundled', bundled());
-      boxes.forEach(function (b) { if (b !== bundle && b !== bundleYear && b !== cardSv) b.disabled = bundled(); });
+      boxes.forEach(function (b) { if (b !== bundle && b !== bundleYear) b.disabled = bundled(); });
       var keys = selected(), sum = 0, mo = 0, yr = 0;
       lines.innerHTML = '';
       keys.forEach(function (k) {
         var it = P[k], li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
-        n.textContent = it[0] + ((k === 'domain' || k === 'bundle' || k === 'bundle_year') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[3] ? '' : it[2] === 'month' ? '/mo' : '/yr');
+        n.textContent = it[0] + ((k === 'domain' || k === 'bundle' || k === 'bundle_year') && domainName ? ' (' + domainName + ')' : ''); v.textContent = usd(it[1]) + (it[3] || it[2] === 'once' ? '' : it[2] === 'month' ? '/mo' : '/yr');
         li.appendChild(n); li.appendChild(v); lines.appendChild(li);
         var again = it[3] || it[1];
-        sum += it[1]; if (it[2] === 'month') mo += again; else yr += again;
+        sum += it[1]; if (it[2] === 'month') mo += again; else if (it[2] === 'year') yr += again;
       });
       if (!keys.length) { var li = document.createElement('li'); li.textContent = 'Pick a service to get started.'; lines.appendChild(li); }
       total.textContent = usd(sum);

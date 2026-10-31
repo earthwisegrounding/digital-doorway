@@ -1,27 +1,29 @@
 # Digital Doorway Marketing
 
-> Digital Doorway Marketing designs and builds custom websites for local businesses (restaurants, salons, trades, clinics, gyms, shops, landscapers, and more) for a flat $499, one-time. The price includes the first year of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, a professional audio welcome message, and a CRM customized for the client's industry. Founded by Marv Reeves, based in Seattle, WA.
+> Digital Doorway Marketing designs and builds custom websites for local businesses (restaurants, salons, trades, clinics, gyms, shops, landscapers, and more) for a flat $499, one-time. The price includes the first year of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, a professional audio welcome message, a CRM customized for the client's industry, and a digital business card, plus a 15-second professional promo video. Founded by Marv Reeves, based in Seattle, WA.
 
 ## The $499 website
 
-- Price: $499, one-time. Includes the first year (12 months) of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, a professional audio welcome message, and a customized CRM. No monthly fees for 12 months. At Digital Doorway's regular prices that first year of services is worth $1,169.35 ($749.95 for the seven core services plus $419.40 for the CRM).
+- Price: $499, one-time. Includes the first year (12 months) of hosting, domain registration, SSL security, 5 business email addresses, local SEO, QR code generation, a professional audio welcome message, a customized CRM, and a digital business card, plus a 15-second professional promo video. No monthly fees for 12 months. At Digital Doorway's regular prices that package is worth $1,526.75 ($749.95 for the seven core services, $419.40 for the CRM, $108.40 for the digital business card, and $249 for the promo video).
 - Included: custom design (not a template), mobile-first build, copywriting help, Google-ready SEO basics (titles, descriptions, speed, map listing hookup), contact forms and click-to-call, two rounds of changes, launch, and a walkthrough of the finished site. The client owns the site.
 - CRM: set up for the client's industry, with stages, fields, and reminders that match how the business works (for example quotes and jobs for trades, appointments and rebooking for salons, inquiries and events for caterers). Website contact-form inquiries land in it automatically. Included for the first 12 months (a $419 value).
+- Digital business card: a card at card.digitaldoorwaymarketing.com/name with one-tap save to contacts, photo, video, voice greeting, QR code sharing, an Exchange contact form that sends leads to the CRM, and view/save stats. Included for the first 12 months (a $108 value), then in the Business Bundle or $4.95/month.
+- Promo video: a professionally scripted, narrated, and edited 15-second video for the website, social media, and Google profile (a $249 value), the client's to keep. Longer videos: 30 seconds $399, 60 seconds $599, 90 seconds $799 on their own; with the $499 website the included $249 is credited, so upgrades cost $150 (30 s), $350 (60 s), or $550 (90 s).
 - Every client gets more than one design direction to choose from.
 - Payment: online at checkout on the website, through Square (card, Apple Pay, or Google Pay).
 
 ## After the first year (optional)
 
-- Business Bundle: $49.95/month, or $539.46/year paid up front (10% off). Domain, hosting, SSL security, 5 business email accounts, local SEO, QR codes, the audio welcome message, and the customized CRM.
-- Or individually: website hosting $14.95/month, domain name registration $9.95/year, SSL security $5.95/month, 5 professional email addresses $59/year, local SEO $19.95/month, QR code generation $5.95/month, audio welcome message $9.95/month, customized CRM $34.95/month.
-- Services can be bought individually on the homepage (#buy-services) through Square.
+- Business Bundle: $49.95/month, or $539.46/year paid up front (10% off). Domain, hosting, SSL security, 5 business email accounts, local SEO, QR codes, the audio welcome message, the customized CRM, and the digital business card.
+- Or individually: website hosting $14.95/month, domain name registration $9.95/year, SSL security $5.95/month, 5 professional email addresses $59/year, local SEO $19.95/month, QR code generation $5.95/month, audio welcome message $9.95/month, customized CRM $34.95/month, digital business card $4.95/month. Promo videos can also be ordered on their own.
+- Services and promo videos can be bought individually on the pricing page (https://digitaldoorwaymarketing.com/pricing/#buy-services) through Square.
 
 ## How it works
 
 1. Tell us about your business (a short conversation).
 2. We design your site.
 3. You say what to change (two rounds).
-4. We launch it, with hosting, your domain, SSL, business email, local SEO, QR codes, your audio welcome message, and your CRM set up.
+4. We launch it, with hosting, your domain, SSL, business email, local SEO, QR codes, your audio welcome message, your CRM, and your digital business card set up, and your promo video delivered.
 
 ## Contact
 
@@ -32,11 +34,9 @@
 
 ## Pages
 
-- [Homepage](https://digitaldoorwaymarketing.com/): offer, examples, process, pricing, add-ons, FAQ, and contact form
-- [Pricing](https://digitaldoorwaymarketing.com/#pricing)
-- [Free CRM](https://digitaldoorwaymarketing.com/#crm)
-- [Add-ons and individual services](https://digitaldoorwaymarketing.com/#addons)
-- [Buy services individually](https://digitaldoorwaymarketing.com/#buy-services)
-- [Examples](https://digitaldoorwaymarketing.com/#examples)
-- [FAQ](https://digitaldoorwaymarketing.com/#faq)
-- [Contact](https://digitaldoorwaymarketing.com/#contact)
+- [Homepage](https://digitaldoorwaymarketing.com/): the offer, why it matters, what's included, examples, process, price, and contact form
+- [What's included](https://digitaldoorwaymarketing.com/whats-included/): the ten things in the $499 package, the digital business card, the promo video, and the CRM
+- [Examples](https://digitaldoorwaymarketing.com/examples/): client websites and bigger custom builds
+- [Pricing](https://digitaldoorwaymarketing.com/pricing/): the $499 website, checkout, promo video prices and upgrades, the Business Bundle, and individual services
+- [FAQ](https://digitaldoorwaymarketing.com/faq/)
+- [Contact](https://digitaldoorwaymarketing.com/contact/)
