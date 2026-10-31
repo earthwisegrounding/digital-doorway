@@ -29,7 +29,7 @@
   <link rel="preload" href="/assets/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/inter-tight-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
-  <link rel="stylesheet" href="/styles.css?v=21">
+  <link rel="stylesheet" href="/styles.css?v=22">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -406,12 +406,12 @@
             <a class="btn btn-ghost btn-lg" href="/examples/">See example sites</a>
           </div>
 
-          <div class="hero-video" data-video="mJB_y9vjI24">
+          <div class="hero-video" data-video-file="/assets/video/promo-1min.mp4">
             <div class="hero-video-frame">
-            <button class="hero-video-poster" type="button" aria-label="Watch the 4-minute tour: custom websites for local businesses, with domain, hosting, email, and CRM included">
-              <picture><source type="image/webp" srcset="/assets/video/tour-poster-320.webp 320w, /assets/video/tour-poster-640.webp 640w, /assets/video/tour-poster-1280.webp 1280w" sizes="(min-width: 900px) 820px, calc(100vw - 2.5rem)"><img src="/assets/video/tour-poster-1280.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
+            <button class="hero-video-poster" type="button" aria-label="Watch the one-minute overview: what a $499 website includes">
+              <img src="/assets/video/promo-poster.jpg" alt="" width="1280" height="720" decoding="async">
               <span class="hero-video-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
-              <span class="hero-video-label" aria-hidden="true">Watch the 4-minute tour</span>
+              <span class="hero-video-label" aria-hidden="true">Watch the 1-minute overview</span>
             </button>
             </div>
           </div>
@@ -465,10 +465,16 @@
           </article>
         </div>
         <figure class="promo-film" data-reveal>
-          <video controls playsinline preload="none" poster="/assets/video/promo-poster.jpg" width="1280" height="720">
-            <source src="/assets/video/promo-1min.mp4" type="video/mp4">
-          </video>
-          <figcaption>What your $499 gets you, in one minute. <span>We made this video, the same way we&rsquo;ll make yours.</span></figcaption>
+          <div class="hero-video hero-video-tour" data-video="mJB_y9vjI24">
+            <div class="hero-video-frame">
+            <button class="hero-video-poster" type="button" aria-label="Watch the 4-minute tour: custom websites for local businesses, with domain, hosting, email, and CRM included">
+              <picture><source type="image/webp" srcset="/assets/video/tour-poster-320.webp 320w, /assets/video/tour-poster-640.webp 640w, /assets/video/tour-poster-1280.webp 1280w" sizes="(min-width: 900px) 820px, calc(100vw - 2.5rem)"><img src="/assets/video/tour-poster-1280.jpg" alt="" width="1280" height="720" loading="lazy" decoding="async"></picture>
+              <span class="hero-video-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+              <span class="hero-video-label" aria-hidden="true">Watch the 4-minute tour</span>
+            </button>
+            </div>
+          </div>
+          <figcaption>Want the full picture? Founder Marv Reeves walks through everything in 4 minutes. <span>Real client sites, the CRM, and how it all works.</span></figcaption>
         </figure>
       </div>
     </section>
@@ -833,6 +839,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=23"></script>
+  <script src="/script.js?v=24"></script>
 </body>
 </html>

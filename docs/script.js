@@ -401,6 +401,17 @@
     });
   });
 
+  /* ---------- Self-hosted video: the poster swaps for the player on click ---------- */
+  document.querySelectorAll('[data-video-file]').forEach(function (box) {
+    var poster = box.querySelector('.hero-video-poster'); if (!poster) return;
+    poster.addEventListener('click', function () {
+      var v = document.createElement('video');
+      v.src = box.getAttribute('data-video-file'); v.controls = true; v.autoplay = true; v.playsInline = true;
+      v.setAttribute('poster', poster.querySelector('img').getAttribute('src'));
+      poster.parentNode.replaceChild(v, poster); v.focus();
+    });
+  });
+
   /* ---------- Add-on buttons pre-tick the matching box in the contact form ---------- */
   document.querySelectorAll('[data-addon]').forEach(function (a) {
     a.addEventListener('click', function () {

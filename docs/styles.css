@@ -1413,3 +1413,5 @@ h2 > .eyebrow { display: block; }
 .cta-slim .eyebrow { color: var(--mustard); }
 .cta-slim p:not(.eyebrow) { color: rgba(246,239,227,.8); max-width: 52ch; }
 .cta-slim-actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+.hero-video video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; background: #06142E; }
+.hero-video-tour { margin: 0 auto; animation: none; }
