@@ -31,7 +31,7 @@
   </main>
 <script type="text/javascript">
   // GoAffPro conversion: Square returns buyers here with ?order=<order id>; the worker confirms the
-  // order is paid and returns its real number and total before anything is reported.
+  // order is paid and includes the $499 package, and returns its real number and total.
   (function () {
     var id = new URLSearchParams(location.search).get('order');
     if (!id) return;
@@ -42,7 +42,7 @@
     }
     function lookup(tries) {
       fetch(API + '/paid-order?id=' + encodeURIComponent(id)).then(function (r) { return r.json(); }).then(function (d) {
-        if (d.paid) {
+        if (d.paid && d.affiliate) {   // only orders with the $499 website package earn commission
           window.goaffpro_order = { number: d.number, total: d.total };
           report(window.goaffpro_order, 20);
         } else if (d.paid === false && tries > 0) setTimeout(function () { lookup(tries - 1); }, 3000);   // payment still settling

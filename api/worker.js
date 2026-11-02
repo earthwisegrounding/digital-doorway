@@ -201,7 +201,10 @@ async function handlePaidOrder(url, env, headers) {
     if (env.SQUARE_LOCATION_ID && o.location_id !== env.SQUARE_LOCATION_ID) return json(404, { error: 'not found' }, h);
     const paid = o.state === 'COMPLETED' || (o.tenders || []).length > 0;
     if (!paid) return json(202, { paid: false }, h);
-    return json(200, { paid: true, number: o.id, total: (o.total_money ? o.total_money.amount : 0) / 100 }, h);
+    // Affiliates earn only on orders that include the $499 website package.
+    const keys = ((o.metadata || {}).items || '').split(',');
+    if (!keys.includes('build')) return json(200, { paid: true, affiliate: false }, h);
+    return json(200, { paid: true, affiliate: true, number: o.id, total: (o.total_money ? o.total_money.amount : 0) / 100 }, h);
   } catch (err) { return json(404, { error: 'not found' }, h); }
 }
 
