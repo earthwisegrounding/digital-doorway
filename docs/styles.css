@@ -1417,3 +1417,9 @@ h2 > .eyebrow { display: block; }
 .hero-video-tour { margin: 0 auto; animation: none; }
 /* an odd card out at the end of the add-on grid sits centered under the pair above */
 @media (min-width: 760px) { .addon-grid > .addon:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - clamp(1rem, 2vw, 1.5rem) / 2); } }
+
+/* Affiliate program */
+.aff-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 1.75rem; }
+.footer-refer { display: inline-block; margin-top: .9rem; font-weight: 600; color: var(--mustard); }
+.footer-refer:hover { text-decoration: underline; }
+.footer-team + .footer-team { margin-left: 0; }
