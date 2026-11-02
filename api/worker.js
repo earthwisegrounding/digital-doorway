@@ -95,7 +95,14 @@ async function handleCheckout(request, env, headers) {
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) body.pre_populated_data = { buyer_email: email };
   try {
     const r = await squareApi(env, 'POST', '/v2/online-checkout/payment-links', body);
-    return json(200, { ok: true, url: r.payment_link.url }, headers);
+    const link = r.payment_link;
+    // Point the redirect at this order so the thank-you page can report the sale to GoAffPro.
+    // If the update fails the buyer still lands on the plain thank-you page.
+    try {
+      await squareApi(env, 'PUT', '/v2/online-checkout/payment-links/' + link.id, { payment_link: { version: link.version,
+        checkout_options: { ...body.checkout_options, redirect_url: body.checkout_options.redirect_url + '?order=' + encodeURIComponent(link.order_id) } } });
+    } catch (err) { console.log('redirect update failed', err.message); }
+    return json(200, { ok: true, url: link.url }, headers);
   } catch (err) {
     return json(502, { error: 'checkout failed', detail: String(err.message || err) }, headers);
   }
@@ -182,6 +189,20 @@ async function handleDomainCheck(url, headers) {
   try { servers = await rdapServers(); } catch { return json(502, { error: 'The domain registries didn’t answer. Try again in a moment.' }, headers); }
   const results = await Promise.all(domains.map(async d => ({ domain: d, status: await domainStatus(d, servers) })));
   return json(200, { query: q, results }, { ...headers, 'Cache-Control': 'no-store' });
+}
+
+/* ---- Paid order lookup for the thank-you page (affiliate conversion): only paid orders return a total ---- */
+async function handlePaidOrder(url, env, headers) {
+  const id = url.searchParams.get('id') || '';
+  const h = { ...headers, 'Cache-Control': 'no-store' };
+  if (!/^[A-Za-z0-9]{10,64}$/.test(id) || !env.SQUARE_ACCESS_TOKEN) return json(400, { error: 'bad id' }, h);
+  try {
+    const o = (await squareApi(env, 'GET', '/v2/orders/' + id)).order;
+    if (env.SQUARE_LOCATION_ID && o.location_id !== env.SQUARE_LOCATION_ID) return json(404, { error: 'not found' }, h);
+    const paid = o.state === 'COMPLETED' || (o.tenders || []).length > 0;
+    if (!paid) return json(202, { paid: false }, h);
+    return json(200, { paid: true, number: o.id, total: (o.total_money ? o.total_money.amount : 0) / 100 }, h);
+  } catch (err) { return json(404, { error: 'not found' }, h); }
 }
 
 async function orderSummary(env, orderId) {
@@ -275,6 +296,7 @@ export default {
     if (request.method === 'POST' && url.pathname === '/order-request') return handleOrderRequest(request, env, headers);
     if (url.pathname.startsWith('/crm/')) return handleCrm(request, env, headers, url);
     if (request.method === 'GET' && url.pathname === '/domain-check') return handleDomainCheck(url, headers);
+    if (request.method === 'GET' && url.pathname === '/paid-order') return handlePaidOrder(url, env, headers);
     if (request.method !== 'POST' || url.pathname !== '/contact') return json(404, { error: 'not found' }, headers);
     if (!env.RESEND_API_KEY) return json(500, { error: 'mailer not configured' }, headers);
 
