@@ -191,6 +191,28 @@ async function handleDomainCheck(url, headers) {
   return json(200, { query: q, results }, { ...headers, 'Cache-Control': 'no-store' });
 }
 
+/* ---- GoAffPro webhook: a new affiliate signed up → email the managers (NOTIFY_TO) ---- */
+async function handleAffiliateSignup(request, env, headers) {
+  let d; try { d = await request.json(); } catch { return json(400, { error: 'bad json' }, headers); }
+  const a = d.affiliate || d.data || d;
+  const name = clip(a.name || [a.first_name, a.last_name].filter(Boolean).join(' '), 120);
+  const email = clip(a.email, 200);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(200, { ok: true, handled: 'ignored: no affiliate email' }, headers);
+  const code = clip(a.ref_code || a.referral_code || a.coupon || '', 80);
+  const status = clip(a.status || '', 40);
+  const admins = (env.NOTIFY_TO || '').split(',').map(s => s.trim()).filter(Boolean);
+  const rows = [['Name', name || '(not given)'], ['Email', email], ...(a.phone ? [['Phone', clip(a.phone, 40)]] : []), ...(a.company_name ? [['Company', clip(a.company_name, 120)]] : []), ...(a.city || a.state ? [['Location', clip([a.city, a.state].filter(Boolean).join(', '), 120)]] : []), ...(a.partner_website ? [['Website', clip(a.partner_website, 200)]] : []), ...(code ? [['Referral code', code]] : []), ...(status ? [['Status', status]] : [])];
+  try {
+    await send(env, { from: env.MAIL_FROM, to: admins, reply_to: email,
+      subject: `New affiliate: ${name || email}`,
+      text: `A new affiliate joined the Digital Doorway Marketing program.\n\n${rows.map(r => r[0] + ': ' + r[1]).join('\n')}\n\nManage affiliates: https://app.goaffpro.com/affiliates`,
+      html: `<div style="font:15px/1.5 -apple-system,Segoe UI,sans-serif;color:#1F1A14;max-width:600px"><h2 style="margin:0 0 10px;font-size:20px">New affiliate: ${esc(name || email)}</h2>
+        <table style="border-collapse:collapse">${rows.map(r => `<tr><td style="padding:3px 16px 3px 0;color:#6B5D4D">${esc(r[0])}</td><td style="padding:3px 0"><b>${esc(r[1])}</b></td></tr>`).join('')}</table>
+        <p style="margin-top:16px">They earn $100 for each $499 website package sold through their link. <a href="https://app.goaffpro.com/affiliates">Manage affiliates in GoAffPro</a>. Reply to this email to reach them.</p></div>` });
+  } catch (err) { return json(502, { error: 'send failed', detail: String(err.message || err) }, headers); }
+  return json(200, { ok: true, handled: 'affiliate' }, headers);
+}
+
 /* ---- Paid order lookup for the thank-you page (affiliate conversion): only paid orders return a total ---- */
 async function handlePaidOrder(url, env, headers) {
   const id = url.searchParams.get('id') || '';
@@ -300,6 +322,7 @@ export default {
     if (url.pathname.startsWith('/crm/')) return handleCrm(request, env, headers, url);
     if (request.method === 'GET' && url.pathname === '/domain-check') return handleDomainCheck(url, headers);
     if (request.method === 'GET' && url.pathname === '/paid-order') return handlePaidOrder(url, env, headers);
+    if (request.method === 'POST' && url.pathname === '/goaffpro-webhook') return handleAffiliateSignup(request, env, headers);
     if (request.method !== 'POST' || url.pathname !== '/contact') return json(404, { error: 'not found' }, headers);
     if (!env.RESEND_API_KEY) return json(500, { error: 'mailer not configured' }, headers);
 
