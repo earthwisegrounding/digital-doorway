@@ -601,14 +601,14 @@
     var lines = document.querySelector('[data-co-lines]'), total = document.querySelector('[data-co-total]');
     var renew = document.querySelector('[data-co-renew]'), pay = document.querySelector('[data-co-pay]'), err = document.querySelector('[data-co-error]');
     var inEmail = document.getElementById('co-email');
-    // Every website includes a 15-second video; a longer one costs the difference (the $249 is a credit).
-    var UP = { vup30: ['Promo video upgrade to 30 seconds ($399 less your $249 credit)', 15000], vup60: ['Promo video upgrade to 60 seconds ($599 less your $249 credit)', 35000], vup90: ['Promo video upgrade to 90 seconds ($799 less your $249 credit)', 55000] };
+    // A promo video is sold separately; one can be added to the website order.
+    var UP = { video15: ['Promo video: 15 seconds', 24900], video30: ['Promo video: 30 seconds', 39900], video60: ['Promo video: 60 seconds', 59900], video90: ['Promo video: 90 seconds', 79900] };
     function upgrade() { var r = form.querySelector('input[name="video"]:checked'); return r && UP[r.value] ? r.value : ''; }
     function selected() { return upgrade() ? ['build', upgrade()] : ['build']; }
     function render() {
       lines.innerHTML = '';
       var up = upgrade();
-      var rows = [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['CRM and digital business card for 12 months', 'Free'], ['15-second promo video', 'Included']];
+      var rows = [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['CRM and digital business card for 12 months', 'Free']];
       if (up) rows.push([UP[up][0], '$' + (UP[up][1] / 100).toFixed(2)]);
       rows.forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
@@ -618,7 +618,7 @@
       renew.textContent = 'No monthly fees for your first 12 months. After that, the optional Business Bundle keeps everything running, CRM and digital card included, for $49.95 a month.';
       renew.hidden = false;
     }
-    // "Choose" buttons in the video price list pick the upgrade here.
+    // "Choose" buttons in the video price list add that video here.
     Array.prototype.forEach.call(document.querySelectorAll('[data-pick-video]'), function (a) {
       a.addEventListener('click', function () {
         var r = form.querySelector('input[name="video"][value="' + a.getAttribute('data-pick-video') + '"]');
