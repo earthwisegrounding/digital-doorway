@@ -507,6 +507,8 @@ html:not(.js) .sd-cap-with { display: inline; }
   .show:hover .m-btn, .show:hover .m-phone, .show:hover .m-round, .show:hover .m-chip { transform: translateX(2px); }
 }
 .showcase-cta { margin-top: clamp(2rem, 4vw, 3rem); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1rem 1.5rem; max-width: none; }
+/* homepage: How it works shares the background, so it starts right after the examples button */
+#examples:has(+ #how) { padding-bottom: 0; }
 .showcase-cta-line { font: italic 400 clamp(1.5rem, 2.6vw, 2.1rem)/1.2 var(--serif); font-variation-settings: "opsz" 96, "SOFT" 40; color: var(--ink); letter-spacing: -.01em; }
 
 /* --- Mini sites (cqw-scaled) --- */
