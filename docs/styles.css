@@ -34,7 +34,7 @@
 
   --container: 1200px;
   --pad: clamp(1.25rem, 5vw, 4rem);
-  --section: clamp(5rem, 10vw, 9rem);
+  --section: clamp(3rem, 5vw, 4.5rem);
   --nav-h: 94px;
 }
 
