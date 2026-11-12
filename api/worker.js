@@ -21,8 +21,9 @@ const cors = (env, origin) => {
    Prices live here (server side) so the browser can't change what gets charged. */
 const CATALOG = {
   build:   { name: 'Website design and build, including the first year of hosting, domain, SSL, 5 email addresses, local SEO, QR codes, an audio welcome message, a customized CRM, and a digital business card (one-time)', cents: 49900, required: true },
-  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM, digital business card (first month)', cents: 4995, renews: 'month', renewCents: 4995 },
-  bundle_year: { name: 'Business Bundle, paid yearly (10% off): domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM, digital business card (one year)', cents: 53946, renews: 'year', renewCents: 53946 },
+  build_monthly: { name: 'Monthly Plan: website design and build, plus hosting, domain, SSL, 5 email addresses, local SEO, QR codes, an audio welcome message, a customized CRM, and a digital business card (first month of a 12-month commitment, then $49.99/month)', cents: 4999, renews: 'month', renewCents: 4999 },
+  bundle:  { name: 'Business Bundle: domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM, digital business card (first month)', cents: 4999, renews: 'month', renewCents: 4999 },
+  bundle_year: { name: 'Business Bundle, paid yearly (10% off): domain, hosting, SSL, 5 email accounts, local SEO, QR codes, audio welcome message, customized CRM, digital business card (one year)', cents: 53989, renews: 'year', renewCents: 53989 },
   hosting: { name: 'Website Hosting (first month)', cents: 1495, renews: 'month', renewCents: 1495 },
   ssl:     { name: 'SSL Website Security (first month)', cents: 595, renews: 'month', renewCents: 595 },
       email5:  { name: 'Professional Business Email: 5 accounts (first year)', cents: 5900, renews: 'year', renewCents: 5900 },
@@ -41,12 +42,14 @@ const CATALOG = {
 const VIDEOS = ['video15', 'video30', 'video60', 'video90'];
 function resolveItems(raw, withBuild = true) {
   const want = new Set((Array.isArray(raw) ? raw : []).map(String).filter(k => CATALOG[k]));
-  if (withBuild) want.add('build');                                  // services-only orders skip the build
+  if (want.has('build_monthly')) want.delete('build');                // one website plan: monthly or upfront
+  else if (withBuild) want.add('build');                             // services-only orders skip the build
   if (want.has('bundle_year')) want.delete('bundle');                  // one bundle: yearly wins
   if (want.has('bundle') || want.has('bundle_year')) ['hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm', 'card'].forEach(k => want.delete(k));   // the bundle already has them
+  if (want.has('build_monthly')) ['bundle', 'bundle_year', 'hosting', 'ssl', 'email5', 'domain', 'seo', 'qr', 'audio', 'crm', 'card'].forEach(k => want.delete(k));   // the monthly plan already has them
   if (want.has('build')) want.delete('card');                          // the website includes the card for a year
   VIDEOS.slice(0, -1).forEach((k, i) => { if (VIDEOS.slice(i + 1).some(v => want.has(v))) want.delete(k); });        // one video: the longest
-  return ['build', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm', 'card', ...VIDEOS].filter(k => want.has(k));
+  return ['build', 'build_monthly', 'bundle', 'bundle_year', 'hosting', 'domain', 'ssl', 'email5', 'seo', 'qr', 'audio', 'crm', 'card', ...VIDEOS].filter(k => want.has(k));
 }
 async function squareApi(env, method, path, body) {
   const r = await fetch('https://connect.squareup.com' + path, { method, headers: { 'Authorization': `Bearer ${env.SQUARE_ACCESS_TOKEN}`, 'Square-Version': '2025-08-20', 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
@@ -59,13 +62,13 @@ async function handleCheckout(request, env, headers) {
   let data; try { data = await request.json(); } catch { return json(400, { error: 'bad json' }, headers); }
   const keys = resolveItems(data.items, data.build !== false);
   if (!keys.length) return json(400, { error: 'pick at least one service' }, headers);
-  const hasBuild = keys.includes('build');
+  const hasBuild = keys.includes('build') || keys.includes('build_monthly');
   const email = clip(data.email, 200);
   const domainName = /^[a-z0-9.-]{3,100}$/.test(clip(data.domain, 100).toLowerCase()) ? clip(data.domain, 100).toLowerCase() : '';
   const monthly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'month' ? CATALOG[k].renewCents : 0), 0);
   const yearly = keys.reduce((s, k) => s + (CATALOG[k].renews === 'year' ? CATALOG[k].renewCents : 0), 0);
   const lineItems = keys.filter(k => CATALOG[k].cents > 0).map(k => ({ name: CATALOG[k].name, quantity: '1', base_price_money: { amount: CATALOG[k].cents, currency: 'USD' } }));
-  const selected = keys.filter(k => k !== 'build');
+  const selected = keys.filter(k => k !== 'build' && k !== 'build_monthly');
   const noteParts = [];
   if (selected.length) noteParts.push('Add-ons: ' + selected.map(k => CATALOG[k].name).join('; '));
   if (domainName) noteParts.push('Domain wanted: ' + domainName);
@@ -232,7 +235,7 @@ async function orderSummary(env, orderId) {
         const renew = [];
     if (+md.monthly_cents) renew.push(`$${(md.monthly_cents / 100).toFixed(2)}/month for your services`);
     if (+md.yearly_cents) renew.push(`$${(md.yearly_cents / 100).toFixed(2)}/year for your domain and email`);
-    return { items, renew, build: keys.includes('build') || !keys.length };
+    return { items, renew, build: keys.includes('build') || keys.includes('build_monthly') || !keys.length };
   } catch (err) { return null; }
 }
 

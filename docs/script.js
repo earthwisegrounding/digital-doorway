@@ -615,18 +615,24 @@
     // A promo video is sold separately; one can be added to the website order.
     var UP = { video15: ['Promo video: 15 seconds', 24900], video30: ['Promo video: 30 seconds', 39900], video60: ['Promo video: 60 seconds', 59900], video90: ['Promo video: 90 seconds', 79900] };
     function upgrade() { var r = form.querySelector('input[name="video"]:checked'); return r && UP[r.value] ? r.value : ''; }
-    function selected() { return upgrade() ? ['build', upgrade()] : ['build']; }
+    // Two ways to pay for the website: $499 up front, or $49.99 a month (first month today).
+    function monthly() { var r = form.querySelector('input[name="plan"]:checked'); return !!r && r.value === 'monthly'; }
+    function selected() { var b = monthly() ? 'build_monthly' : 'build'; return upgrade() ? [b, upgrade()] : [b]; }
     function render() {
       lines.innerHTML = '';
       var up = upgrade();
-      var rows = [['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['CRM and digital business card for 12 months', 'Free']];
+      var m = monthly(), buildPrice = form.querySelector('[data-co-build-price]');
+      if (buildPrice) buildPrice.innerHTML = m ? '$49.99<small>per month</small>' : '$499<small>one-time</small>';
+      var rows = [m ? ['Monthly Plan: first month', '$49.99'] : ['Website design and build', '$499.00'], ['7 services for 12 months', 'Included'], ['CRM and digital business card for 12 months', 'Free']];
       if (up) rows.push([UP[up][0], '$' + (UP[up][1] / 100).toFixed(2)]);
       rows.forEach(function (row) {
         var li = document.createElement('li'), n = document.createElement('span'), v = document.createElement('b');
         n.textContent = row[0]; v.textContent = row[1]; li.appendChild(n); li.appendChild(v); lines.appendChild(li);
       });
-      total.textContent = '$' + ((49900 + (up ? UP[up][1] : 0)) / 100).toFixed(2);
-      renew.textContent = 'No monthly fees for your first 12 months. After that, the optional Business Bundle keeps everything running, CRM and digital card included, for $49.95 a month.';
+      total.textContent = '$' + (((m ? 4999 : 49900) + (up ? UP[up][1] : 0)) / 100).toFixed(2);
+      renew.textContent = m
+        ? 'Then $49.99 a month for the rest of your 12-month commitment. Services continue at $49.99 a month beginning in month 13.'
+        : 'Paying up front saves you $100 in year one. Services continue at $49.99 a month beginning in month 13, or choose services individually.';
       renew.hidden = false;
     }
     // "Choose" buttons in the video price list add that video here.
@@ -708,7 +714,7 @@
     var form = document.querySelector('[data-services-checkout]'); if (!form) return;
     var API = 'https://digital-doorway-mail.angie-tatum-api.workers.dev';
     var P = {
-      bundle: ['Business Bundle', 4995, 'month'], bundle_year: ['Business Bundle, paid yearly (10% off)', 53946, 'year'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
+      bundle: ['Business Bundle', 4999, 'month'], bundle_year: ['Business Bundle, paid yearly (10% off)', 53989, 'year'], hosting: ['Website hosting', 1495, 'month'], domain: ['Domain name registration', 995, 'year'],
       ssl: ['SSL security certificate', 595, 'month'], email5: ['5 professional email addresses', 5900, 'year'], seo: ['Local SEO', 1995, 'month'],
       qr: ['QR code generation', 595, 'month'], audio: ['Professional audio welcome message', 995, 'month'], crm: ['Customized CRM', 3495, 'month'],
       card: ['Digital business card: $29 setup + first month', 3395, 'month', 495],

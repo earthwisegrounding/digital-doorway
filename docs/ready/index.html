@@ -213,6 +213,7 @@
   .order-row { display: flex; justify-content: space-between; padding: 9px 0; font-size: 15px; color: var(--muted); }
   .order-row.total { border-top: 1px solid var(--line); margin-top: 6px; padding-top: 16px; color: var(--ink); font-weight: 800; font-size: 20px; }
   .order .btn { width: 100%; margin-top: 18px; font-size: 18px; padding: 18px; }
+  .btn-link { display: block; width: 100%; margin-top: 12px; padding: 6px; border: 0; background: none; color: var(--ink); font: inherit; font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
   .secure { display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 13px; margin-top: 12px; }
 
   /* checkout modal */
@@ -343,11 +344,11 @@
         <small>Your website package</small>
         <ul id="receiptList"></ul>
         <div class="tot"><b>Total due today</b><div><div class="price">$499</div></div></div>
-        <div class="once">One-time payment · No monthly fees for 12 months</div>
+        <div class="once">One-time payment · Save $100 in year one vs. $49.99 a month</div>
       </div>
       <div class="rv">
         <span class="kicker">What $499 gets you</span>
-        <h2>One payment. <span class="accent">A full year covered.</span></h2>
+        <h2>Pay once and save $100. <span class="accent">A full year covered.</span></h2>
         <ul class="points">
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#14C3D6"/><path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>It's already built</b><span>No guessing what you'll get. You've seen your website before paying anything.</span></div></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#14C3D6"/><path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>The website is yours to keep</b><span>Claim it once, and it belongs to your business.</span></div></li>
@@ -391,7 +392,7 @@
           <div class="ribbon">BETTER OPTION · SAVE <span id="savePct">48</span>%</div>
           <div class="opt-label">Option 2</div>
           <h3>Business Bundle</h3>
-          <div class="bundle-price"><b>$49.95</b><span>/ month</span></div>
+          <div class="bundle-price"><b>$49.99</b><span>/ month</span></div>
           <div class="bundle-yr" id="bundleYr"></div>
           <ul class="bundle-list" id="bundleList"></ul>
           <div class="save">You save<b id="saveYr"></b>compared with buying separately</div>
@@ -414,12 +415,12 @@
         <h2>Good questions to ask</h2>
       </div>
       <div class="faq">
-        <details class="rv"><summary>Do I own the website after I pay?</summary><p>Yes. Once you claim it for $499, the website is yours to keep, during your first year and after.</p></details>
-        <details class="rv"><summary>Are there any monthly fees during the first year?</summary><p>No. Your one-time $499 covers the website plus all eight included services, CRM included, for 12 months.</p></details>
+        <details class="rv"><summary>Do I own the website after I pay?</summary><p>Yes. Once you claim it, the website is yours to keep, during your first year and after.</p></details>
+        <details class="rv"><summary>Can I pay monthly instead?</summary><p>Yes. Pay $499 up front, or $49.99 a month with a 12-month initial commitment. Both plans cover the website plus all eight included services, CRM included, for 12 months. Paying up front saves you $100 in year one.</p></details>
         <details class="rv"><summary>What does the CRM do?</summary><p>It keeps every lead, follow-up, and customer in one place, set up around how your industry works. Messages from your website's contact form land in it on their own. It's included for your first 12 months (a $419 value). After that it's part of the Business Bundle, or $34.95 a month on its own.</p></details>
-        <details class="rv"><summary>What happens when the first year is up?</summary><p>You keep the website. The included services (domain, hosting, SSL, email, local SEO, QR codes, audio welcome message and CRM) are no longer covered. You can keep any of them individually, or continue with everything through the Business Bundle for $49.95 a month.</p></details>
+        <details class="rv"><summary>What happens when the first year is up?</summary><p>You keep the website. The included services (domain, hosting, SSL, email, local SEO, QR codes, audio welcome message and CRM) are no longer covered. You can keep any of them individually, or continue with everything through the Business Bundle for $49.99 a month.</p></details>
         <details class="rv"><summary>Do I have to sign up for the Business Bundle?</summary><p>No. The bundle is completely optional, and it's only relevant after your first 12 months. It's simply the easiest and most affordable way to keep everything running in one place.</p></details>
-        <details class="rv"><summary>What's included in the Business Bundle?</summary><p>Domain name registration, website hosting, SSL certificate, five business email addresses on your domain, local SEO, QR codes, your audio welcome message and your customized CRM, all for $49.95 a month, or $539.46 a year if you pay up front (10% off).</p></details>
+        <details class="rv"><summary>What's included in the Business Bundle?</summary><p>Domain name registration, website hosting, SSL certificate, five business email addresses on your domain, local SEO, QR codes, your audio welcome message and your customized CRM, all for $49.99 a month, or $539.89 a year if you pay up front (10% off).</p></details>
         <details class="rv"><summary>How do I pay?</summary><p>Click "Claim my website" and pay securely by card. Payments are processed by Square.</p></details>
       </div>
     </div>
@@ -437,9 +438,10 @@
         <div class="order-site"><div class="fav" id="favInitial">Y</div><div><b data-biz>your business</b><span data-domain>yourbusiness.com</span></div></div>
         <div class="order-row"><span>Custom professional website</span><span>Included</span></div>
         <div class="order-row"><span>8 services for 12 months, CRM included</span><span>Included</span></div>
-        <div class="order-row"><span>Monthly fees for 12 months</span><span>$0</span></div>
+        <div class="order-row"><span>Monthly fees for 12 months</span><span>$0 when you pay up front</span></div>
         <div class="order-row total"><span>Total due today</span><span>$499.00</span></div>
         <button class="btn btn-primary" type="button" data-checkout>Claim my website · $499</button>
+        <button class="btn-link" type="button" data-checkout-monthly>Or pay $49.99 a month (12-month commitment)</button>
         <div class="secure"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Secure checkout powered by Square</div>
       </div>
     </div>
@@ -450,12 +452,12 @@
   <div class="wrap">
     <p style="margin:0;color:#fff;font-weight:700">Digital Doorway Marketing</p>
     <p style="margin:0">We handle the technical stuff. You focus on your customers.</p>
-    <p style="margin:0">Included services and CRM cover 12 months from purchase. Individual prices are our standalone rates for each service. The Business Bundle is optional and starts only after your first 12 months.</p>
+    <p style="margin:0">Pay $499 up front, or $49.99 a month with a 12-month initial commitment. Included services and CRM cover 12 months from purchase. Individual prices are our standalone rates for each service. The Business Bundle is optional and starts only after your first 12 months.</p>
     <p style="margin:0">© <span id="yr">2026</span> Digital Doorway Marketing</p>
   </div>
 </footer>
 
-<div class="sticky" id="sticky"><span>Claim <b data-domain>yourbusiness.com</b> for a one-time $499</span><button class="btn btn-teal" type="button" data-checkout>Claim my website →</button></div>
+<div class="sticky" id="sticky"><span>Claim <b data-domain>yourbusiness.com</b> for $499, or $49.99 a month</span><button class="btn btn-teal" type="button" data-checkout>Claim my website →</button></div>
 
 <!-- CHECKOUT -->
 <dialog id="checkout" aria-labelledby="coTitle">
@@ -482,7 +484,7 @@
 //  CONFIG: edit prices, services and payments here
 // ═════════════════════════════════════════════════════════════════════════
 const PRICE = 499;
-const BUNDLE_MONTHLY = 49.95;
+const BUNDLE_MONTHLY = 49.99;
 
 // Square settings. mode "worker" = ask the site's Cloudflare Worker (/checkout) to create a
 // Square checkout for $499 under the Digital Doorway location, then send the buyer there.
@@ -631,13 +633,13 @@ function loadSquare() {
 
 // ── Checkout through the Worker: creates a fresh Square checkout and redirects to it ──
 let checkingOut = false;
-async function workerCheckout() {
+async function workerCheckout(items = ["build"]) {
   if (checkingOut) return;
   checkingOut = true;
-  const btns = $$("[data-checkout]"), labels = btns.map((b) => b.textContent);
+  const btns = $$("[data-checkout], [data-checkout-monthly]"), labels = btns.map((b) => b.textContent);
   btns.forEach((b) => { b.textContent = "Opening secure checkout…"; b.setAttribute("aria-busy", "true"); });
   try {
-    const res = await fetch(SQUARE.checkoutEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items: ["build"] }) });
+    const res = await fetch(SQUARE.checkoutEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ items }) });
     const d = await res.json().catch(() => ({}));
     if (!res.ok || !d.url) throw new Error(d.detail || d.error || "checkout failed");
     location.href = d.url;
@@ -708,6 +710,8 @@ function showReceipt(p, c) {
   $("#sticky").remove();
 }
 $$("[data-checkout]").forEach((b) => b.addEventListener("click", openCheckout));
+// The Monthly Plan: $49.99 today, then $49.99 a month for the rest of the 12-month commitment.
+$$("[data-checkout-monthly]").forEach((b) => b.addEventListener("click", () => workerCheckout(["build_monthly"])));
 dlg.addEventListener("click", (e) => { if (e.target === dlg || e.target.closest("[data-close]")) dlg.close(); });
 dlg.addEventListener("close", () => card?.destroy?.());
 

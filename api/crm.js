@@ -11,8 +11,8 @@ const CODE_TTL_MS = 10 * 60 * 1000;
 const CODE_TRIES = 3;
 const CODES_PER_DAY = 10;
 const CRM_MONTHLY_CENTS = 3495;        // CRM on its own, from month 13
-const BUNDLE_MONTHLY_CENTS = 4995;     // Business Bundle (includes the CRM), from month 13
-const BUNDLE_YEARLY_CENTS = 53946;     // the same bundle paid a year up front (10% off)
+const BUNDLE_MONTHLY_CENTS = 4999;     // Business Bundle (includes the CRM), from month 13
+const BUNDLE_YEARLY_CENTS = 53989;     // the same bundle paid a year up front (10% off)
 
 export const DEFAULT_STAGES = [
   { key: 'new', label: 'New lead', type: 'open' },

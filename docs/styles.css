@@ -321,6 +321,16 @@ body.menu-open { overflow: hidden; }
 .hl-underline path { fill: none; stroke: var(--mustard); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .6s var(--ease-out) 450ms both; }
 
 .hero-lead { margin-bottom: 2rem; max-width: 52ch; animation: fadeUp .5s var(--ease-out) 600ms both; }
+.hero-plans { max-width: 640px; margin: 0 auto 2rem; text-align: center; animation: fadeUp .5s var(--ease-out) 600ms both; }
+.hero-plans-title { margin: 0 0 1rem; font: 700 .875rem/1.3 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.hero-plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+.hero-plan { padding: 1.25rem 1rem; border-radius: var(--radius); background: var(--surface); border: 1.5px solid var(--rule); box-shadow: var(--shadow-sm); }
+.hero-plan h2, .hero-plan h3 { margin: 0; font: 700 clamp(1.05rem, 2.6vw, 1.3rem)/1.2 var(--sans); color: var(--ink); }
+.hero-plan-price { margin: .35rem 0 0; font: 700 clamp(2rem, 6vw, 2.75rem)/1.1 var(--sans); color: var(--accent); letter-spacing: -.02em; }
+.hero-plan-per { margin: .2rem 0 0; color: var(--muted); font-weight: 500; }
+.hero-plan-note { margin: .6rem 0 0; font-weight: 600; color: var(--ink); }
+.price-plans { width: 100%; margin: 1.5rem auto 2rem; }
+.hero-plans-foot { margin: 1rem auto 0; max-width: 52ch; color: var(--muted); font-size: .9375rem; }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: .85rem; animation: fadeUp .5s var(--ease-out) 650ms both; }
 .hero-trust { margin-top: 1.4rem; font-size: .9375rem; font-weight: 500; color: var(--muted); animation: fadeUp .5s var(--ease-out) 720ms both; }
 
@@ -900,7 +910,7 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .sd-result { transition: none; }
   .hl-word::before { transform: skew(-4deg) rotate(-1deg) scaleX(1); animation: none; }
-  .hero-audio, .hero-eyebrow, .hero-title .line, .hero-lead, .hero-ctas, .hero-trust { animation: none; opacity: 1; transform: none; }
+  .hero-audio, .hero-eyebrow, .hero-title .line, .hero-lead, .hero-plans, .hero-ctas, .hero-trust { animation: none; opacity: 1; transform: none; }
   .show:hover .arch-frame, .card:hover, .btn-primary:hover { transform: none; }
   .success-leaf { animation: none; transform: scaleX(.4) skewY(-16deg); }
 }
