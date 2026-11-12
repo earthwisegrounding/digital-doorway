@@ -412,6 +412,17 @@
     });
   });
 
+  /* ---------- Hero audio message: one button toggles play / pause ---------- */
+  document.querySelectorAll('.hero-audio').forEach(function (box) {
+    var btn = box.querySelector('.hero-audio-btn'), a = box.querySelector('audio'); if (!btn || !a) return;
+    var label = btn.querySelector('.hero-audio-label'), idle = label.textContent;
+    function sync(playing) { btn.setAttribute('aria-pressed', playing ? 'true' : 'false'); btn.classList.toggle('is-playing', playing); label.textContent = playing ? 'Pause message' : idle; }
+    btn.addEventListener('click', function () { if (a.paused) a.play(); else a.pause(); });
+    a.addEventListener('play', function () { sync(true); });
+    a.addEventListener('pause', function () { sync(false); });
+    a.addEventListener('ended', function () { a.currentTime = 0; sync(false); });
+  });
+
   /* ---------- Add-on buttons pre-tick the matching box in the contact form ---------- */
   document.querySelectorAll('[data-addon]').forEach(function (a) {
     a.addEventListener('click', function () {

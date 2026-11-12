@@ -290,6 +290,14 @@ body.menu-open { overflow: hidden; }
 .hero-eyebrow span, .hero-trust span { white-space: nowrap; position: relative; }
 .hero-eyebrow span::before, .hero-trust span::before { content: "\00B7"; position: absolute; left: -.6em; transform: translateX(-50%); opacity: .6; }
 .hero-title { margin-bottom: 1.5rem; }
+.hero-audio { display: flex; justify-content: center; margin-bottom: 1.25rem; animation: fadeUp .5s var(--ease-out) both; }
+.hero-audio-btn { display: inline-flex; align-items: center; gap: .7rem; min-height: 44px; padding: .4rem 1.1rem .4rem .4rem; border: 1px solid var(--rule-strong); border-radius: 999px; background: transparent; color: var(--forest); font: 600 .8125rem/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: border-color .2s, background .2s; }
+.hero-audio-btn:hover { border-color: var(--accent); }
+.hero-audio-icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent); flex: none; }
+.hero-audio-icon svg { width: 16px; height: 16px; fill: #fff; }
+.hero-audio-btn .i-pause, .hero-audio-btn.is-playing .i-play { display: none; }
+.hero-audio-btn.is-playing .i-pause { display: block; }
+@media (min-width: 900px) { .hero-audio { margin-bottom: clamp(2rem, 3.5vw, 3rem); } }
 .hero-title .line { max-width: 14ch; margin-inline: auto; }
 .hero-title .line { display: block; animation: riseIn .7s var(--ease-out) both; }
 .hero-title .line:nth-child(2) { animation-delay: 120ms; }
@@ -892,7 +900,7 @@ html:not(.js) .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .cta-leaf { transform: scaleX(.45) skewY(-18deg); }
   .sd-result { transition: none; }
   .hl-word::before { transform: skew(-4deg) rotate(-1deg) scaleX(1); animation: none; }
-  .hero-eyebrow, .hero-title .line, .hero-lead, .hero-ctas, .hero-trust { animation: none; opacity: 1; transform: none; }
+  .hero-audio, .hero-eyebrow, .hero-title .line, .hero-lead, .hero-ctas, .hero-trust { animation: none; opacity: 1; transform: none; }
   .show:hover .arch-frame, .card:hover, .btn-primary:hover { transform: none; }
   .success-leaf { animation: none; transform: scaleX(.4) skewY(-16deg); }
 }

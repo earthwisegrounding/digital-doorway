@@ -29,7 +29,7 @@
   <link rel="preload" href="/assets/fonts/fraunces-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/inter-tight-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>document.documentElement.classList.add('js');</script>
-  <link rel="stylesheet" href="/styles.css?v=24">
+  <link rel="stylesheet" href="/styles.css?v=25">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -396,8 +396,14 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
         <div class="hero-copy">
+          <div class="hero-audio">
+            <button class="hero-audio-btn" type="button" aria-pressed="false">
+              <span class="hero-audio-icon" aria-hidden="true"><svg class="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg><svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></span>
+              <span class="hero-audio-label">Hear a quick message from us</span>
+            </button>
+            <audio src="/assets/welcome-message.mp3" preload="none"></audio>
+          </div>
           <h1 id="hero-title" class="hero-title">
-            <span class="eyebrow hero-eyebrow"><span>Affordable Websites &amp; Marketing for Businesses &amp; Sales Professionals!</span> <span>All for only $499.00</span></span>
             <span class="line">You&rsquo;ll Love Your</span>
             <span class="line">New <em class="hl-word"><span class="hl-text">Website!</span><svg class="hl-underline" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M3 11 C 60 3, 130 15, 200 8 S 280 6, 297 9" pathLength="1"/></svg></em></span>
             <span class="line hero-offer">Only <strong>$499.00</strong> With Over <strong>$1,250</strong> in Free Services</span>
@@ -832,6 +838,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=24"></script>
+  <script src="/script.js?v=25"></script>
 </body>
 </html>
