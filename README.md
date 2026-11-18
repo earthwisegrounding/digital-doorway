@@ -89,3 +89,7 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 ## Client work: Capstone Fence
 
 - `docs/capstone/` is the redesigned Capstone Fence concept (Panama City Beach fence contractor), live at https://digitaldoorwaymarketing.com/capstone/. Static page: `index.html`, `assets/css/site.css`, `assets/js/site.js`, photos and logos in `assets/img/`. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
+
+## Client work: Rapid Neighborhood Plumbing
+
+- `docs/rapid/` is the redesigned Rapid Neighborhood Plumbing concept (Colorado Springs plumber), live at https://digitaldoorwaymarketing.com/rapid/. Static page: `index.html`, `styles.css`, `script.js`, the job photo and Digital Doorway logos in `assets/`. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
