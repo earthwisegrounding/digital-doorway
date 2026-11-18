@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    /* The page follows Charlotte's clock: light by day, dark at night. Runs before paint. */
+    (function () {
+      var scheme = null;
+      try { scheme = sessionStorage.getItem('scheme'); } catch (e) {}
+      if (!scheme) {
+        try {
+          var h = +new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', hourCycle: 'h23' }).format(new Date()) % 24;
+          scheme = (h >= 19 || h < 6) ? 'dark' : 'light';
+        } catch (e) {}
+      }
+      if (scheme) document.querySelector('meta[name="color-scheme"]').content = scheme;
+    })();
+  </script>
+
+  <title>24 HR Emergency Plumber Charlotte | Open 24 hours | (704) 703-2321</title>
+  <meta name="description" content="Emergency plumbing in Charlotte, NC, open 24 hours. Burst pipes, drain cleaning, water heaters, leak detection and sewer camera inspection. Call (704) 703-2321 for a free estimate.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#EEF2F1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#06181F" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="24 HR Emergency Plumber Charlotte">
+  <meta property="og:description" content="Whatever the hour in Charlotte, a plumber is on call. (704) 703-2321.">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B2530'/%3E%3Ccircle cx='16' cy='16' r='10' fill='none' stroke='%23DDB65C' stroke-width='3'/%3E%3Cpath d='M16 16 21 10' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Newsreader:ital,opsz,wght@1,6..72,400..500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Plumber",
+    "name": "24 HR Emergency Plumber Charlotte",
+    "telephone": "+1-704-703-2321",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "1960 Randolph Rd",
+      "addressLocality": "Charlotte",
+      "addressRegion": "NC",
+      "postalCode": "28207",
+      "addressCountry": "US"
+    },
+    "areaServed": "Charlotte, NC",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "00:00",
+      "closes": "23:59"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap header-row">
+      <a class="wordmark" href="#top" aria-label="24 HR Emergency Plumber Charlotte, home">
+        <svg class="wordmark-dial" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="16" class="wd-ring"/>
+          <line x1="20" y1="20" x2="20" y2="9" class="wd-hand" data-hand/>
+          <circle cx="20" cy="20" r="2.4" class="wd-hub"/>
+        </svg>
+        <span class="wordmark-text">
+          <span>24 HR Emergency Plumber</span>
+          <span>Charlotte</span>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="Sections">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <a class="btn btn-primary header-call" href="tel:+17047032321">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3h3l1.6 4.6-2 1.5a12 12 0 0 0 5.7 5.7l1.5-2L21 14.4v3A3.6 3.6 0 0 1 17.4 21 14.4 14.4 0 0 1 3 6.600 3.600 3.600 0 0 1 6.600 3Z"/></svg>
+        <span class="header-call-label">Call</span> <span class="header-call-number">(704) 703-2321</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" id="top">
+      <div class="hero-tile" aria-hidden="true"></div>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1 id="now-line">
+            <span class="now-a" data-now-a>Whatever the hour in Charlotte,</span>
+            <span class="now-b" data-now-b>a plumber is on call.</span>
+          </h1>
+          <p class="hero-lede">Professional plumbing for Charlotte and the surrounding communities. Burst pipe, backed-up sewer or a cold shower, call any time and we'll send help.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="tel:+17047032321">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3h3l1.6 4.6-2 1.5a12 12 0 0 0 5.7 5.7l1.5-2L21 14.4v3A3.6 3.6 0 0 1 17.4 21 14.4 14.4 0 0 1 3 6.600 3.600 3.600 0 0 1 6.600 3Z"/></svg>
+              Call (704) 703-2321
+            </a>
+            <a class="btn btn-ghost btn-lg" href="#services">See what we fix</a>
+          </div>
+        </div>
+
+        <figure class="dial-figure">
+          <svg class="dial" viewBox="0 0 400 400" role="img" aria-labelledby="dial-title dial-desc">
+            <title id="dial-title">24-hour dial</title>
+            <desc id="dial-desc">A 24-hour clock face. A full ring shows that we are open all 24 hours. A short arc marks usual business hours, 8 a.m. to 5 p.m. The hand points to the current time in Charlotte.</desc>
+            <path class="dial-night" d="M50 200A150 150 0 0 1 350 200Z"/>
+            <circle class="dial-ring" cx="200" cy="200" r="190"/>
+            <circle class="dial-ticks" cx="200" cy="200" r="172"/>
+            <circle class="dial-ticks-major" cx="200" cy="200" r="169"/>
+            <path class="dial-usual" d="M310.85 264A128 128 0 0 1 76.36 233.13"/>
+            <g class="dial-labels">
+              <text x="200" y="66" text-anchor="middle">12 am</text>
+              <text x="342" y="205" text-anchor="end">6 am</text>
+              <text x="200" y="348" text-anchor="middle">12 pm</text>
+              <text x="58" y="205" text-anchor="start">6 pm</text>
+            </g>
+            <path class="dial-glyph" d="M206 104a11 11 0 1 1-12.500-10.900 8.600 8.600 0 0 0 12.500 10.900Z"/>
+            <g class="dial-glyph-line">
+              <circle cx="200" cy="296" r="6.500"/>
+              <path d="M200 281v-4M200 315v-4M185 296h-4M219 296h-4M189.400 285.400l-2.800-2.800M213.400 309.400l-2.800-2.800M189.400 306.600l-2.800 2.800M213.400 282.600l-2.800 2.800"/>
+            </g>
+            <g class="dial-hand" data-hand>
+              <line x1="200" y1="222" x2="200" y2="52"/>
+            </g>
+            <circle class="dial-hub" cx="200" cy="200" r="10"/>
+          </svg>
+          <figcaption class="dial-caption">
+            <ul class="dial-legend">
+              <li><span class="swatch swatch-ours" aria-hidden="true"></span>Our hours: all 24</li>
+              <li><span class="swatch swatch-usual" aria-hidden="true"></span>Usual business hours: 8 to 5</li>
+            </ul>
+            <p class="dial-note">
+              This page keeps Charlotte time, light by day and dark at night.
+              <button type="button" class="link-btn" data-scheme-toggle hidden>
+                <span class="when-light">See it at night</span>
+                <span class="when-dark">See it by day</span>
+              </button>
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="wrap">
+        <ul class="proof">
+          <li>
+            <a href="https://www.google.com/maps/search/?api=1&query=24+HR+Emergency+Plumber+Charlotte+1960+Randolph+Rd" target="_blank" rel="noopener">
+              <span class="stars" aria-hidden="true">
+                <svg viewBox="0 0 100 20"><path id="s" d="M10 1.500l2.600 5.400 5.900.8-4.300 4.100 1 5.800L10 14.900l-5.200 2.700 1-5.800L1.500 7.700l5.900-.8Z"/><use href="#s" x="20"/><use href="#s" x="40"/><use href="#s" x="60"/><use href="#s" x="80"/></svg>
+              </span>
+              5.0 on Google
+            </a>
+          </li>
+          <li>15 verified reviews</li>
+          <li>Licensed and insured</li>
+          <li>Free estimates</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Services as triage -->
+    <section class="section" id="services">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What's going on?</h2>
+          <p>Pick the closest match to see how we fix it.</p>
+        </div>
+
+        <div class="triage" data-triage>
+          <h3 class="triage-item">
+            <button type="button" aria-expanded="true" aria-controls="t-burst" id="b-burst">A pipe burst and water is pouring</button>
+          </h3>
+          <div class="triage-panel" id="t-burst" role="region" aria-labelledby="b-burst">
+            <p class="panel-service">24/7 emergency plumbing</p>
+            <p class="panel-desc">Rapid dispatch for burst pipes, sewage backups, and catastrophic plumbing emergencies.</p>
+            <a class="btn btn-primary" href="tel:+17047032321">Call (704) 703-2321</a>
+          </div>
+
+          <h3 class="triage-item">
+            <button type="button" aria-expanded="false" aria-controls="t-drain" id="b-drain">A drain is clogged or slow</button>
+          </h3>
+          <div class="triage-panel" id="t-drain" role="region" aria-labelledby="b-drain" hidden>
+            <p class="panel-service">Drain cleaning and jetting</p>
+            <p class="panel-desc">High-pressure hydro-jetting and rooter service to clear severe pipe clogs and blockages.</p>
+            <a class="btn btn-primary" href="tel:+17047032321">Call (704) 703-2321</a>
+          </div>
+
+          <h3 class="triage-item">
+            <button type="button" aria-expanded="false" aria-controls="t-heater" id="b-heater">No hot water, or the heater is leaking</button>
+          </h3>
+          <div class="triage-panel" id="t-heater" role="region" aria-labelledby="b-heater" hidden>
+            <p class="panel-service">Water heater repair and install</p>
+            <p class="panel-desc">Same-day troubleshooting, tankless upgrades, and traditional water heater replacements.</p>
+            <a class="btn btn-primary" href="tel:+17047032321">Call (704) 703-2321</a>
+          </div>
+
+          <h3 class="triage-item">
+            <button type="button" aria-expanded="false" aria-controls="t-pipe" id="b-pipe">A pipe is leaking or frozen</button>
+          </h3>
+          <div class="triage-panel" id="t-pipe" role="region" aria-labelledby="b-pipe" hidden>
+            <p class="panel-service">Pipe repair and repiping</p>
+            <p class="panel-desc">Durable copper and PEX repiping, pinhole leak repair, and frozen pipe restoration.</p>
+            <a class="btn btn-primary" href="tel:+17047032321">Call (704) 703-2321</a>
+          </div>
+
+          <h3 class="triage-item">
+            <button type="button" aria-expanded="false" aria-controls="t-leak" id="b-leak">Damp spots, or a water bill that jumped</button>
+          </h3>
+          <div class="triage-panel" id="t-leak" role="region" aria-labelledby="b-leak" hidden>
+            <p class="panel-service">Non-invasive leak detection</p>
+            <p class="panel-desc">Acoustic and thermal electronic detection to pinpoint hidden slab and wall leaks without damage.</p>
+            <a class="btn btn-primary" href="tel:+17047032321">Call (704) 703-2321</a>
+          </div>
+
+          <h3 class="triage-item">
+            <button type="button" aria-expanded="false" aria-controls="t-sewer" id="b-sewer">Sewage smell, or drains backing up</button>
+          </h3>
+          <div class="triage-panel" id="t-sewer" role="region" aria-labelledby="b-sewer" hidden>
+            <p class="panel-service">Sewer camera inspection</p>
+            <p class="panel-desc">High-definition video sewer camera inspections to assess pipe health, fractures, and root intrusion.</p>
+            <a class="btn btn-primary" href="tel:+17047032321">Call (704) 703-2321</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section class="section section-tight" id="work">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>On the job</h2>
+          <p>Repairs, installs and replacements around Charlotte. Select a photo to enlarge it.</p>
+        </div>
+        <ul class="work-grid" data-gallery>
+          <li class="work-tall">
+            <button type="button" data-full="assets/work-tall.jpg" data-caption="Replacing a water heater in a garage.">
+              <img src="assets/work-tall.jpg" width="1200" height="1600" alt="A plumber kneeling beside a water heater in a garage, mid-installation." loading="lazy">
+            </button>
+          </li>
+          <li>
+            <button type="button" data-full="assets/work-2dc67449.jpg" data-caption="Connecting supply lines at a wall valve.">
+              <img src="assets/work-2dc67449.jpg" width="640" height="640" alt="A plumber connecting red supply lines to a wall-mounted valve." loading="lazy">
+            </button>
+          </li>
+          <li>
+            <button type="button" data-full="assets/work-77749767.jpg" data-caption="Inspecting pipework on a tiled wall.">
+              <img src="assets/work-77749767.jpg" width="640" height="640" alt="A plumber in a white hard hat inspecting pipes on a tiled wall." loading="lazy">
+            </button>
+          </li>
+          <li>
+            <button type="button" data-full="assets/work-68bbd511.jpg" data-caption="Fitting a pipe elbow beside a control box.">
+              <img src="assets/work-68bbd511.jpg" width="640" height="640" alt="A plumber in a red hard hat fitting a pipe elbow on a wall." loading="lazy">
+            </button>
+          </li>
+          <li>
+            <button type="button" data-full="assets/work-95e7bbc5.jpg" data-caption="Tightening a supply fitting under a tank.">
+              <img src="assets/work-95e7bbc5.jpg" width="640" height="640" alt="A hand tightening a braided supply line under a wall-hung tank." loading="lazy">
+            </button>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="wrap about-grid">
+        <h2>About 24 HR Emergency Plumber Charlotte</h2>
+        <div class="about-body">
+          <p class="about-statement">24 HR Emergency Plumber Charlotte provides professional, reliable plumbing services throughout Charlotte, NC. Specializing in emergency plumbing solutions, our team is committed to delivering prompt, dependable service and quality workmanship when you need it most.</p>
+          <dl class="facts">
+            <div>
+              <dt>Licensed and insured</dt>
+              <dd>Every job is covered, from a drip to a full repipe.</dd>
+            </div>
+            <div>
+              <dt>Free estimates</dt>
+              <dd>Call for a price before any work starts.</dd>
+            </div>
+            <div>
+              <dt>Local experts</dt>
+              <dd>Based on Randolph Road, serving Charlotte and nearby communities.</dd>
+            </div>
+            <div>
+              <dt>5-star service</dt>
+              <dd>Rated 5.0 on Google across 15 reviews.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="section section-tight" id="reviews">
+      <div class="wrap">
+        <div class="section-head section-head-row">
+          <h2>What clients say</h2>
+          <p>
+            Rated 5.0 on Google from 15 verified reviews.
+            <a href="https://www.google.com/maps/search/?api=1&query=24+HR+Emergency+Plumber+Charlotte+1960+Randolph+Rd" target="_blank" rel="noopener">Read them on Google</a>
+          </p>
+        </div>
+
+        <figure class="review review-lead">
+          <blockquote>
+            <p>We'd stopped using the guest bathroom sink because it smelled unpleasant despite regular cleaning. The plumber found a problem with the trap connection and corrected it. A week later, the smell still hasn't returned. I'm relieved that we can leave the bathroom door open again instead of wondering what visitors will notice.</p>
+          </blockquote>
+          <figcaption><span class="review-name">Louis Mason</span><span class="review-when">3 weeks ago</span></figcaption>
+        </figure>
+
+        <div class="review-columns">
+          <figure class="review">
+            <blockquote><p>We had a pipe burst under our kitchen sink. 24 HR Emergency Plumber Charlotte arrived quickly and did a fantastic job with the repair and cleanup.</p></blockquote>
+            <figcaption><span class="review-name">Shyanne Allisson</span><span class="review-when">A year ago</span></figcaption>
+          </figure>
+          <figure class="review">
+            <blockquote><p>I had a leaking pipe in my garage causing a puddle to form on the floor. I called a plumber and he arrived within a couple of hours. He quickly located the source of the leak and replaced the damaged section of pipe. He also checked the other pipes in the garage to ensure there were no additional leaks. The service was quick and efficient and I was very impressed with his professionalism and expertise.</p></blockquote>
+            <figcaption><span class="review-name">Gregory Miller</span><span class="review-when">2 years ago</span></figcaption>
+          </figure>
+          <figure class="review">
+            <blockquote><p>A commercial property in South Park, Charlotte, NC needed plumbing attention without slowing business down. They handled it efficiently and kept everything running as usual.</p></blockquote>
+            <figcaption><span class="review-name">Anglea Anderson</span><span class="review-when">6 months ago</span></figcaption>
+          </figure>
+          <figure class="review">
+            <blockquote><p>Dreaded replacing the garbage disposal seemed like a huge job. The plumber assured me it wouldn't be a problem and they were right! Quick efficient and even explained how to maintain it properly to avoid future issues.</p></blockquote>
+            <figcaption><span class="review-name">Thomas Robinson</span><span class="review-when">2 years ago</span></figcaption>
+          </figure>
+          <figure class="review">
+            <blockquote><p>I needed plumbing help quickly, and the service I received was outstanding. The plumber was professional, quick, and did a great job. Everything is now working perfectly.</p></blockquote>
+            <figcaption><span class="review-name">Steven Fowler</span><span class="review-when">2 years ago</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact" id="contact">
+      <div class="wrap contact-grid">
+        <div class="contact-copy">
+          <h2>Call any hour</h2>
+          <p class="contact-lede">Talk through the problem, get a free quote, or book a visit.</p>
+          <a class="contact-phone" href="tel:+17047032321">(704) 703-2321</a>
+          <dl class="contact-facts">
+            <div>
+              <dt>Hours</dt>
+              <dd><span class="open-dot" aria-hidden="true"></span>Open 24 hours</dd>
+            </div>
+            <div>
+              <dt>Location</dt>
+              <dd>
+                <address>1960 Randolph Rd<br>Charlotte, NC 28207</address>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=1960+Randolph+Rd,+Charlotte,+NC+28207" target="_blank" rel="noopener">Get directions</a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+        <div class="map">
+          <iframe title="Map showing 1960 Randolph Rd, Charlotte, NC 28207" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=1960%20Randolph%20Rd%2C%20Charlotte%2C%20NC%2028207&z=13&output=embed"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-row">
+      <p class="footer-name">24 HR Emergency Plumber Charlotte</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <p class="footer-copy">© 2026 24 HR Emergency Plumber Charlotte</p>
+    </div>
+    <div class="wrap">
+      <a class="credit" href="https://digitaldoorwaymarketing.com/" target="_blank" rel="noopener">
+        <span class="credit-logo"><img src="assets/ddm-logo.png" width="159" height="120" alt="Digital Doorway Marketing logo" loading="lazy"></span>
+        <span>This site was designed and built by Digital Doorway Marketing</span>
+      </a>
+    </div>
+  </footer>
+
+  <a class="callbar btn btn-primary btn-lg" href="tel:+17047032321">
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3h3l1.6 4.6-2 1.5a12 12 0 0 0 5.7 5.7l1.5-2L21 14.4v3A3.6 3.6 0 0 1 17.4 21 14.4 14.4 0 0 1 3 6.600 3.600 3.600 0 0 1 6.600 3Z"/></svg>
+    Call (704) 703-2321
+  </a>
+
+  <dialog class="lightbox" id="lightbox" closedby="any" aria-label="Photo">
+    <form method="dialog">
+      <button class="lightbox-close" aria-label="Close photo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
+      </button>
+    </form>
+    <figure>
+      <img alt="" data-lightbox-img>
+      <figcaption data-lightbox-caption></figcaption>
+    </figure>
+  </dialog>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

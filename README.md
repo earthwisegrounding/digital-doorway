@@ -101,3 +101,7 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 ## Client work: Toliny Plumbing and Electric
 
 - `docs/toliny/` is the redesigned Toliny Plumbing and Electric concept (Matthews, NC plumbing and electrical contractor), live at https://digitaldoorwaymarketing.com/toliny/. Static page: `index.html`, `styles.css`, `script.js`, the job photos and the Toliny and Digital Doorway logos in `assets/`. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
+
+## Client work: 24 HR Emergency Plumber Charlotte
+
+- `docs/charlotte/` is the redesigned 24 HR Emergency Plumber Charlotte concept (Charlotte, NC emergency plumber), live at https://digitaldoorwaymarketing.com/charlotte/. Static page: `index.html`, `styles.css`, `script.js`, the job photos and Digital Doorway logo in `assets/`. The hero shows the live Charlotte time and the page switches between a day and a night theme on that clock. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
