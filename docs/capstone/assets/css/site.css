@@ -1,0 +1,561 @@
+/* Capstone Fence
+   Palette: Emerald Coast water, sugar-white sand, fresh cedar, galvanized steel.
+   Type: the Sofia Sans family at three widths. Extra Condensed caps stand like pickets. */
+
+:root {
+  --deep: #0a2f2b;
+  --deeper: #062220;
+  --emerald: #124a42;
+  --cedar: #dda05c;
+  --cedar-dark: #8a5418;
+  --galv: #c4cdcb;
+  --sand: #f1f4f1;
+  --ink: #0b1f1d;
+
+  --display: "Sofia Sans Extra Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --cond: "Sofia Sans Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body: "Sofia Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --max: 88rem;
+  --ear: 0.5rem; /* the dog-ear cut shared by pickets, buttons and photos */
+  --dog-ear: polygon(0 var(--ear), var(--ear) 0, calc(100% - var(--ear)) 0, 100% var(--ear), 100% 100%, 0 100%);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--deep);
+  color: var(--sand);
+  font: 400 1.125rem/1.55 var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, ul, ol, figure, blockquote, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--cedar);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip {
+  position: absolute;
+  left: var(--gutter);
+  top: -4rem;
+  z-index: 50;
+  padding: 0.6rem 1rem;
+  background: var(--cedar);
+  color: var(--ink);
+  font-weight: 700;
+}
+.skip:focus { top: 0.5rem; }
+
+.display {
+  font-family: var(--display);
+  font-weight: 800;
+  line-height: 0.86;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.band { padding-block: clamp(4.5rem, 10vw, 8.5rem); }
+.on-sand { background: var(--sand); color: var(--ink); }
+.on-cedar { background: var(--cedar); color: var(--ink); }
+
+.icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Buttons carry the same dog-ear as the pickets. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.6rem 0.95rem;
+  background: var(--cedar);
+  color: var(--ink);
+  font: 700 1.2rem/1 var(--cond);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  clip-path: var(--dog-ear);
+  transition: background-color 0.15s;
+}
+.btn:hover { background: var(--sand); }
+.btn:focus-visible { outline-color: var(--ink); outline-offset: -6px; }
+.btn-small { padding: 0.7rem 1.1rem 0.65rem; font-size: 1.05rem; }
+
+.link {
+  font: 700 1.2rem/1 var(--cond);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+  text-decoration-color: var(--cedar);
+}
+.link:hover { color: var(--cedar); }
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: 0.7rem var(--gutter);
+  background: color-mix(in srgb, var(--deep) 86%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.brand { flex: none; }
+.brand img { height: 3.6rem; width: auto; }
+
+.site-nav {
+  display: flex;
+  gap: clamp(1.25rem, 2.5vw, 2.25rem);
+  margin-left: auto;
+}
+.site-nav a,
+.footer-nav a {
+  font: 500 1.15rem/1 var(--cond);
+  text-decoration: none;
+  padding-block: 0.4rem;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover,
+.footer-nav a:hover { border-bottom-color: var(--cedar); }
+
+.menu-toggle {
+  display: none;
+  margin-left: auto;
+  padding: 0.6rem 1rem 0.55rem;
+  background: none;
+  border: 2px solid var(--galv);
+  font: 700 1.05rem/1 var(--cond);
+  cursor: pointer;
+}
+.menu {
+  inset: auto;
+  top: 4.75rem;
+  right: var(--gutter);
+  margin: 0;
+  padding: 0.5rem 0;
+  min-width: 12rem;
+  border: 0;
+  background: var(--sand);
+  color: var(--ink);
+  box-shadow: 0 1.5rem 3rem rgb(3 20 18 / 0.45);
+}
+.menu a {
+  display: block;
+  padding: 0.8rem 1.25rem;
+  font: 700 1.25rem/1 var(--cond);
+  text-decoration: none;
+}
+.menu a:hover { background: var(--cedar); }
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: end;
+  gap: clamp(1.5rem, 4vw, 4.5rem);
+  padding-left: var(--gutter);
+  padding-top: clamp(1.5rem, 4vh, 3.5rem);
+}
+.hero-copy { container-type: inline-size; padding-bottom: clamp(2.5rem, 7vh, 5rem); }
+/* Sized from the column so the longest line, "Finished when", always fits. */
+.hero h1 { font-size: clamp(3rem, 19.3cqi, 11rem); }
+.hero h1 span { display: block; white-space: nowrap; }
+.lede {
+  max-width: 32rem;
+  margin-top: clamp(1.25rem, 3vh, 2rem);
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  line-height: 1.5;
+  color: var(--galv);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 2rem;
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
+}
+
+/* The photo, cut into pickets. site.js adds one .picket per board. */
+.fence {
+  --gap: 5px;
+  --ear: 0.7rem;
+  --photo: url("../img/fence-long-run.webp");
+  position: relative;
+  container-type: size;
+  display: flex;
+  gap: var(--gap);
+  height: clamp(24rem, 76svh, 46rem);
+  overflow: hidden;
+}
+.fence > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% center;
+}
+.fence.is-built > img { opacity: 0; }
+
+.picket {
+  position: relative;
+  flex: 1 1 0;
+  overflow: hidden;
+  clip-path: var(--dog-ear);
+  animation: set-picket 0.85s cubic-bezier(0.2, 0.85, 0.25, 1) both;
+  animation-delay: calc(var(--i) * 55ms + 120ms);
+}
+.fence.is-settled .picket { animation: none; }
+.picket i {
+  position: absolute;
+  top: 0;
+  left: calc(var(--i) * (100cqw + var(--gap)) / var(--n) * -1);
+  width: 100cqw;
+  height: 100cqh;
+  background: var(--photo) 62% center / cover no-repeat;
+}
+@keyframes set-picket {
+  from { translate: 0 101%; }
+  to { translate: 0 0; }
+}
+
+/* Top rail under the hero: the ground the pickets stand on. */
+.rail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 3px solid var(--galv);
+  border-bottom: 1px solid color-mix(in srgb, var(--galv) 30%, transparent);
+}
+.rail li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 1.25rem 1.5rem 1.4rem var(--gutter);
+  border-left: 1px solid color-mix(in srgb, var(--galv) 30%, transparent);
+}
+.rail li:first-child { border-left: 0; }
+.rail strong {
+  font: 800 clamp(1.9rem, 3vw, 2.6rem)/1 var(--display);
+  text-transform: uppercase;
+}
+.rail span { color: var(--galv); font-size: 1rem; }
+
+/* Section headings */
+.section-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 1.5rem clamp(2rem, 6vw, 6rem);
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+.section-head h2,
+.contact h2 { font-size: clamp(3.5rem, 7.6vw, 7.25rem); }
+.section-head p { max-width: 30rem; font-size: 1.2rem; }
+.services .section-head p { color: var(--galv); }
+
+/* Services: six drawings that join into one fence line per row. */
+.runs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: clamp(3rem, 6vw, 5rem);
+}
+.run { width: 100%; height: auto; }
+.run path,
+.run circle,
+.run rect {
+  fill: none;
+  stroke: var(--galv);
+  stroke-width: 1.15;
+  stroke-linejoin: round;
+}
+.run .solid { fill: var(--deep); }
+.run .vinyl { fill: color-mix(in srgb, var(--sand) 9%, transparent); }
+.run .mesh { stroke-width: 0.7; }
+.run .wood {
+  stroke: var(--cedar);
+  fill: color-mix(in srgb, var(--cedar) 16%, transparent);
+}
+.run .new { fill: color-mix(in srgb, var(--cedar) 45%, transparent); stroke-width: 1.5; }
+.run .leaning path { stroke-dasharray: 4 3; }
+.run .accent { stroke: var(--cedar); }
+.run .dots { stroke-width: 1.6; stroke-linecap: round; }
+.run .ground { stroke-width: 2; }
+
+.run-text { padding: 1.5rem var(--gutter) 0; }
+.run-text h3 {
+  font: 700 clamp(1.5rem, 2.1vw, 1.9rem)/1.1 var(--cond);
+  margin-bottom: 0.6rem;
+}
+.run-text p { max-width: 24rem; color: var(--galv); }
+
+/* Work */
+.shots { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+.shot-row { display: flex; gap: clamp(0.75rem, 1.6vw, 1.25rem); }
+.shot { flex: var(--ar) 1 0; min-width: 0; }
+.shot button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--galv);
+  cursor: zoom-in;
+  clip-path: var(--dog-ear);
+  --ear: 0.9rem;
+}
+.shot img {
+  width: 100%;
+  aspect-ratio: var(--ar);
+  object-fit: cover;
+  transition: scale 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.shot button:hover img { scale: 1.03; }
+.shot button:focus-visible { outline-color: var(--cedar-dark); outline-offset: -6px; }
+.shot figcaption {
+  margin-top: 0.7rem;
+  font: 500 1.1rem/1.3 var(--cond);
+}
+
+/* Reviews */
+.pull blockquote p {
+  max-width: 24em;
+  font: 700 clamp(1.9rem, 4.4vw, 4rem)/1.08 var(--cond);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.pull figcaption { margin-top: 1.75rem; font-size: 1.15rem; }
+
+.reviews-full { padding-top: clamp(3.5rem, 7vw, 6rem); }
+.reviews {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 3rem clamp(2.5rem, 7vw, 7rem);
+  align-items: start;
+}
+.stars svg { width: 6.5rem; fill: var(--cedar-dark); }
+.review blockquote { margin-top: 1rem; }
+.review blockquote p { max-width: 38rem; }
+.review-by { margin-top: 1.25rem; }
+
+/* Contact */
+.contact .section-head { margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+.contact .section-head p { color: var(--galv); }
+.phone-line { container-type: inline-size; }
+/* The number is the widest thing on the page: sized to fill its line. */
+.phone {
+  display: inline-block;
+  font-size: clamp(4rem, 21.8cqi, 17rem);
+  color: var(--cedar);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.phone:hover { color: var(--sand); }
+.open-status {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+  font: 500 1.25rem/1.3 var(--cond);
+}
+.open-status[hidden] { display: none; }
+.open-status::before {
+  content: "";
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--galv);
+}
+.open-status.is-open::before { background: #4fd1a5; }
+
+.contact-info {
+  display: grid;
+  grid-template-columns: 1.5fr 1.1fr 1.15fr 1.45fr;
+  gap: 0 clamp(1.5rem, 3vw, 3rem);
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+.details { display: contents; }
+.details > div,
+.about {
+  padding-top: 1.1rem;
+  border-top: 1px solid color-mix(in srgb, var(--galv) 35%, transparent);
+}
+.details dt { margin-bottom: 0.35rem; font: 500 1.1rem/1.4 var(--cond); color: var(--galv); }
+.details a { text-decoration-color: var(--cedar); text-underline-offset: 0.25em; overflow-wrap: anywhere; }
+.details a:hover { color: var(--cedar); }
+.about { color: var(--galv); }
+
+/* Footer */
+.site-footer { background: var(--deeper); }
+.footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 3rem;
+  padding-block: 2.5rem;
+}
+.footer-logo { height: 4.5rem; width: auto; }
+.footer-nav { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; }
+.copyright { margin-left: auto; color: var(--galv); font-size: 1rem; }
+
+.credit { background: var(--sand); color: var(--ink); }
+.credit-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 1.1rem var(--gutter);
+  font: 500 1.2rem/1.3 var(--cond);
+  text-decoration: none;
+}
+.credit-link img { width: 4.25rem; height: auto; flex: none; }
+.credit-link:hover span { text-decoration: underline; text-underline-offset: 0.25em; }
+.credit-link:focus-visible { outline-color: var(--cedar-dark); outline-offset: -4px; }
+
+/* Phone-only call bar */
+.callbar {
+  display: none;
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 30;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  background: var(--cedar);
+  color: var(--ink);
+  font: 700 1.3rem/1 var(--cond);
+  text-decoration: none;
+}
+
+/* Photo viewer */
+.lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgb(4 22 20 / 0.96);
+  color: var(--sand);
+}
+.lightbox[open] { display: grid; place-items: center; }
+.lightbox::backdrop { background: rgb(4 22 20 / 0.6); }
+.lightbox figure { display: grid; gap: 0.9rem; justify-items: center; padding: 1rem; }
+.lightbox img {
+  max-width: min(92vw, 84rem);
+  max-height: 80dvh;
+  width: auto;
+  height: auto;
+}
+.lightbox figcaption { font: 500 1.2rem/1.3 var(--cond); text-align: center; }
+.lb-btn {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 0;
+  background: var(--sand);
+  color: var(--ink);
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+.lb-btn:hover { background: var(--cedar); }
+.lb-close { top: 1rem; right: 1rem; }
+.lb-prev { left: 1rem; top: 50%; translate: 0 -50%; }
+.lb-next { right: 1rem; top: 50%; translate: 0 -50%; }
+
+/* Tablet */
+@media (max-width: 1000px) {
+  .runs { grid-template-columns: repeat(2, 1fr); }
+  .rail { grid-template-columns: repeat(2, 1fr); }
+  .rail li:nth-child(odd) { border-left: 0; }
+  .rail li:nth-child(n + 3) { border-top: 1px solid color-mix(in srgb, var(--galv) 30%, transparent); }
+  .section-head,
+  .reviews { grid-template-columns: 1fr; align-items: start; }
+  .contact-info { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+}
+
+/* Phone */
+@media (max-width: 760px) {
+  body { padding-bottom: 3.6rem; }
+  .site-nav,
+  .header-call { display: none; }
+  .menu-toggle { display: block; }
+  .brand img { height: 2.7rem; }
+  .callbar { display: flex; }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+    gap: 0;
+  }
+  .hero-copy { padding: 0.5rem var(--gutter) 2.5rem; }
+  .fence {
+    --photo: url("../img/fence-long-run-900.webp");
+    --ear: 0.55rem;
+    --gap: 4px;
+    height: 58vw;
+    min-height: 14rem;
+  }
+
+  .runs { grid-template-columns: 1fr; }
+  .shot-row { flex-direction: column; gap: 1.5rem; }
+  .shot { flex: none; }
+  .contact-info { grid-template-columns: 1fr; }
+  .copyright { margin-left: 0; }
+  .credit-link { justify-content: flex-start; }
+  .lb-prev,
+  .lb-next { top: auto; bottom: 1rem; translate: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .picket { animation: none; }
+  .shot img { transition: none; }
+}

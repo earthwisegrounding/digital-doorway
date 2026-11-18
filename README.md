@@ -85,3 +85,7 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 - **Add or remove an admin:** edit `CRM_ADMINS` in `api/wrangler.toml`, then `cd api && npx wrangler deploy`. Removing an address ends that person's sessions right away.
 - **Backups:** `cd api && npx wrangler d1 export digital-doorway-crm --remote --output crm-backup.sql` (keep the file out of the repo), or use Export CSV in the app.
 - **Local development:** `api/.dev.vars` (git-ignored) holds a local `CRM_SESSION_SECRET` and `ALLOWED_ORIGINS=http://localhost:8767`. Apply the schema locally with `npx wrangler d1 execute digital-doorway-crm --local --file schema.sql`, run `npx wrangler dev --config api/wrangler.toml --port 8787` from the repo root (launch config "crm-api"), and serve `docs/` on 8767. On localhost the CRM page talks to `http://localhost:8787` automatically.
+
+## Client work: Capstone Fence
+
+- `docs/capstone/` is the redesigned Capstone Fence concept (Panama City Beach fence contractor), live at https://digitaldoorwaymarketing.com/capstone/. Static page: `index.html`, `assets/css/site.css`, `assets/js/site.js`, photos and logos in `assets/img/`. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
