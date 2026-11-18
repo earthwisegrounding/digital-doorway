@@ -93,3 +93,7 @@ Commit and push to `main`; GitHub Pages rebuilds from `docs/` in about a minute.
 ## Client work: Rapid Neighborhood Plumbing
 
 - `docs/rapid/` is the redesigned Rapid Neighborhood Plumbing concept (Colorado Springs plumber), live at https://digitaldoorwaymarketing.com/rapid/. Static page: `index.html`, `styles.css`, `script.js`, the job photo and Digital Doorway logos in `assets/`. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
+
+## Client work: Mach 1 Coatings and Detail
+
+- `docs/mach1/` is the redesigned Mach 1 Coatings and Detail concept (Navarre, FL car detailer), live at https://digitaldoorwaymarketing.com/mach1/. Static page: `index.html`, `css/site.css`, `js/site.js`, the job photos and Digital Doorway logo in `assets/`. It carries `noindex, nofollow` like the other client demos and is not in `sitemap.xml`.
